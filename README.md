@@ -18,6 +18,15 @@ Made in 48h with java without a game engine for the GMTK Game jam 2022.
 # Install instuctions
 Please visit https://github.com/OrangoMango/FoodDice/releases/latest
 
+# Compile it yourself
+* Install the javafx-sdk from https://www.openjfx.io
+* Be sure to have JDK 11+
+* Create the directory `bin`
+* Compile and run the entire game with the command:
+```
+./run.sh <path-to-javafx-lib>
+```
+
 # Screenshots
 ![s1](s1.png)
 ![s2](s2.png)
