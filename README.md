@@ -3,6 +3,8 @@ Game made for the GMTK Game jam 2022. Food Dice is a food platformer where you a
 
 <a href="https://orangomango.itch.io/food-dice" /><img src="https://user-images.githubusercontent.com/61402409/179972759-30aadb11-c17a-485a-9e4f-6330f8dd8d2f.png" /></a>
 
+Youtube: https://youtu.be/NKm-SZMfd1k
+
 # Keys to use
 * A-D / Arrows to move
 * Space to jump
