@@ -3,6 +3,8 @@ package com.orangomango.food.ui;
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.animation.*;
 import javafx.util.Duration;
 import java.util.*;
@@ -30,6 +32,7 @@ public class HomeScreen{
 		layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 25));
 		
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
@@ -58,15 +61,18 @@ public class HomeScreen{
 	
 	private void update(GraphicsContext gc){
 		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-		//gc.setFill(Color.web("#409B85"));
-		//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.drawImage(this.logo, 165, 50);
 		
 		gc.save();
 		gc.translate(0, this.extraY);
+		String[] texts = new String[]{"Levels", "Help", "Credits"};
+		int c = 0;
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);
+			gc.setFill(Color.BLACK);
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText(texts[c++], mb.getX(), mb.getY()+30);
 		}
 		gc.restore();
 		

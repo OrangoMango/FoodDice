@@ -87,7 +87,7 @@ public class HelpScreen{
 		
 		gc.setFill(Color.BLACK);
 		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 20));
-		gc.fillText("Use A-D or arrow keys to move", 187, 100);
+		gc.fillText("Use A/D or arrow keys to move", 187, 100);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);
 		gc.fillText("Use L to reload the level", 550, 130);

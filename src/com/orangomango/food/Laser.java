@@ -64,7 +64,7 @@ public class Laser extends GameObject{
 			double height = ((found == null ? GameScreen.getInstance().getLevelHeight() : found.getY())-(this.y+this.h))*this.drawAmount;
 			gc.fillRect(this.x+this.w/2-1.5, this.y+this.h, 3, height);
 			if (GameScreen.getInstance().getPlayer().collided(this.x+this.w/2-1.5, this.y+this.h, 3, height)){
-				GameScreen.getInstance().getPlayer().die();
+				GameScreen.getInstance().getPlayer().die(false);
 			}
 		}
 	}

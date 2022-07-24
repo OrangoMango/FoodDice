@@ -22,7 +22,7 @@ public abstract class GameObject{
 	protected double respawnX, respawnY;
 	protected double angle;
 	protected boolean loadEffect = false;
-	private volatile long lastTimeEffect;
+	protected volatile long lastTimeEffect;
 	private boolean soundAllowed = true;
 	protected volatile boolean stopThread;
 	private Timeline an, gr;
@@ -152,7 +152,7 @@ public abstract class GameObject{
 			if (this.y+this.h+this.gravity*1.07 >= GameScreen.getInstance().getLevelHeight() || collided){
 				this.falling = false;
 				if (this.gravity > 20 && this instanceof Player){
-					((Player)this).die();
+					((Player)this).die(false);
 					this.gravity = 1.5;
 					return; // Don't need to fix object's position
 				}

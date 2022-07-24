@@ -20,6 +20,14 @@ public class MenuButton{
 		this.onClick = o;
 	}
 	
+	public double getX(){
+		return this.x+this.w/2;
+	}
+	
+	public double getY(){
+		return this.y+this.h;
+	}
+	
 	public void render(GraphicsContext gc){
 		gc.drawImage(this.image, this.x, this.y, this.w, this.h);
 	}

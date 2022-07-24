@@ -13,7 +13,7 @@ import com.orangomango.food.*;
 import java.util.*;
 
 public class GameScreen{
-	private volatile List<GameObject> sprites = new ArrayList<>(); // New items must be added in maximum 1sec otherwise thread loops will not run
+	private volatile List<GameObject> sprites = new ArrayList<>();
 	private List<CollectableObject> collectables = new ArrayList<>();
 	private List<Particle> effects = new ArrayList<>();
 	private Map<KeyCode, Boolean> keys = new HashMap<>();
@@ -40,6 +40,7 @@ public class GameScreen{
 	private Notification notification = new Notification();
 	private double cameraShakeX, cameraShakeY;
 	private boolean shaking;
+	public int deaths;
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 20);
 	
@@ -134,6 +135,7 @@ public class GameScreen{
 		this.levelStart = System.currentTimeMillis();
 		this.pausedTime = 0;
 		this.coinsCollected = 0;
+		this.deaths = 0;
 		this.specialEffect = new SpecialEffect();
 		switch (level){
 			case 0:
@@ -253,7 +255,7 @@ public class GameScreen{
 				sprites.add(new Laser(gc, 165, 645, 30, 30));
 				sprites.add(new Laser(gc, 285, 645, 30, 30));
 				sprites.add(new Laser(gc, 405, 645, 30, 30));
-				sprites.add(new Platform(gc, 495, 725, 35, 75, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 495, 700, 35, 100, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
 				sprites.add(new JumpPad(gc, 465, 780));
 				sprites.add(new Laser(gc, 575, 645, 30, 30));
 				
@@ -460,6 +462,8 @@ public class GameScreen{
 		});
 		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		
+		//MainApplication.sizeOnResize(canvas);
+		
 		layout.getChildren().add(canvas);
 		return layout;
 	}
@@ -517,7 +521,16 @@ public class GameScreen{
 			return;
 		}
 		
+		if (keys.getOrDefault(KeyCode.F5, false)){
+			gc.scale(MainApplication.stage.widthProperty().get()/MainApplication.WIDTH, MainApplication.stage.heightProperty().get()/MainApplication.HEIGHT);
+			keys.put(KeyCode.F5, false);
+		}
+		
 		gc.save();
+		if (this.specialEffect.screenRotated){
+			gc.translate(MainApplication.WIDTH, MainApplication.HEIGHT);
+			gc.rotate(180);
+		}
 		if (this.showCamera){
 			gc.translate(this.player.getRespawnX()-this.player.getX()+200-this.cameraShakeX, this.player.getRespawnY()-this.player.getY()+50-this.cameraShakeY);
 		} else {
@@ -557,7 +570,7 @@ public class GameScreen{
 			go.render();
 			if (go instanceof Spike || go instanceof Liquid){
 				if (go.collided(this.player)){
-					this.player.die();
+					this.player.die(false);
 				}
 			}
 		}
@@ -605,7 +618,7 @@ public class GameScreen{
 			this.player.moveUp(this.specialEffect.specialJump ? Player.Y_SPEED+50 : Player.Y_SPEED);
 		}
 		if (keys.getOrDefault(KeyCode.K, false)){
-			this.player.die();
+			this.player.die(true);
 			keys.put(KeyCode.K, false);
 		}
 		if (keys.getOrDefault(KeyCode.L, false)){
@@ -667,25 +680,17 @@ public class GameScreen{
 			gc.strokeRect(this.minimap[0], this.minimap[1], this.minimap[2], this.minimap[3]);
 			gc.setFill(Color.WHITE);
 			gc.fillText(String.format("Player at X:%.2f Y:%.2f", this.player.getX(), this.player.getY())+"\nCamera available: "+this.showCamera+String.format("\nFPS: %s\nGravity: %.2f\nLevel: %s\nRunning threads: %s", this.currentFPS, this.player.getGravity(), this.currentLevel, Thread.getAllStackTraces().keySet().size()), 450, 30);
-			//gc.setFont(new Font("sans-serif", 10));
-			//gc.fillText(threads.toString(), 450, 110);
-		}
-		if (keys.getOrDefault(KeyCode.F5, false)){
-			StringBuilder threads = new StringBuilder();
-			Thread.getAllStackTraces().keySet().stream().forEach(t -> threads.append(t.getName()+"\n"));
-			System.out.println(threads+"\n\n");
-			keys.put(KeyCode.F5, false);
 		}
 		if (this.showMinimap){
 			gc.save();
 			gc.setGlobalAlpha(0.6);
 			gc.setFill(Color.BLACK);
-			gc.fillRect(690, 10, 90, 55);
+			gc.fillRect(690, 10, 90, 75);
 			gc.setGlobalAlpha(1);
 			gc.setFill(Color.WHITE);
 			gc.setFont(FONT_20);
 			long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
-			gc.fillText(String.format("%s:%s\nCoins: %s", difference/60000, difference/1000%60, this.coinsCollected), 695, 30);
+			gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
 			gc.restore();
 			this.notification.render(gc);
 		}

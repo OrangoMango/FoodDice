@@ -79,7 +79,7 @@ public class Shooter extends GameObject{
 			if (b.getX() >= GameScreen.getInstance().getLevelWidth() || b.getX()+Bullet.SIZE <= 0) col = true;
 			for (GameObject go : GameScreen.getInstance().getSprites()){
 				if (go.collided(b.getX(), b.getY(), Bullet.SIZE, Bullet.SIZE) && go != this && go.isSolid()){
-					if (go instanceof Player) GameScreen.getInstance().getPlayer().die();
+					if (go instanceof Player) GameScreen.getInstance().getPlayer().die(false);
 					col = true;
 					break;
 				}

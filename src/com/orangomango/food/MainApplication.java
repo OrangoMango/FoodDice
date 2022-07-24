@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.*;
+import javafx.scene.canvas.Canvas;
 import javafx.animation.Animation;
 
 import com.orangomango.food.ui.*;
@@ -42,6 +43,17 @@ public class MainApplication extends Application{
 		stage.show();
 	}
 	
+	public static void sizeOnResize(Canvas canvas){
+		stage.widthProperty().addListener((o, ol, ne) ->  {
+			canvas.setWidth((double)ne);
+			//canvas.setScaleX((double)ne/WIDTH);
+		});
+		stage.heightProperty().addListener((o, ol, ne) -> {
+			canvas.setHeight((double)ne);
+			//canvas.setScaleY((double)ne/HEIGHT);
+		});
+	}
+	
 	private static void loadSounds(){
 		BACKGROUND_MUSIC = new Media(MainApplication.class.getClassLoader().getResource("background.mp3").toExternalForm());
 		DIE_SOUND = new Media(MainApplication.class.getClassLoader().getResource("die.wav").toExternalForm());
@@ -55,11 +67,11 @@ public class MainApplication extends Application{
 	}
 	
 	public static void playSound(Media media, boolean rep){
-		new Thread(() -> {
+//		new Thread(() -> {
 			MediaPlayer player = new MediaPlayer(media);
 			if (rep) player.setCycleCount(Animation.INDEFINITE);
 			else player.setOnEndOfMedia(() -> player.dispose());
 			player.play();
-		}, "sound-thread").start();
+//		}, "sound-thread").start();
 	}
 }

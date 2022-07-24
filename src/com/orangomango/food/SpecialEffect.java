@@ -7,6 +7,7 @@ public class SpecialEffect{
 	public boolean slowFall;
 	public boolean invulnerability;
 	public boolean noCheckpoints;
+	public boolean screenRotated;
 	
 	public void makeEffect(){
 		Random random = new Random();
@@ -14,7 +15,8 @@ public class SpecialEffect{
 		slowFall = false;
 		invulnerability = false;
 		noCheckpoints = false;
-		switch (random.nextInt(100)/25){
+		screenRotated = false;
+		switch (random.nextInt(100)/20){
 			case 0:
 				specialJump = true;
 				break;
@@ -27,34 +29,29 @@ public class SpecialEffect{
 			case 3:
 				noCheckpoints = true;
 				break;
+			case 4:
+				screenRotated = true;
+				break;
 		}
 	}
 	
-	public String getStringEffect(){
-		if (specialJump){
-			return "Super jump";
-		} else if (slowFall){
-			return "Slow fall";
-		} else if (invulnerability){
-			return "Invulnerable";
-		} else if (noCheckpoints){
-			return "No Checkpoints";
-		} else {
-			return "----";
-		}
+	public boolean areAllFalse(){
+		return !specialJump && !slowFall && !invulnerability && !noCheckpoints && !screenRotated;
 	}
 	
 	@Override
 	public String toString(){
 		String output = "The dice landed on ";
 		if (specialJump){
-			output += " 1:\nYOu have Super jump";
+			output += " 1:\nYou have Super jump";
 		} else if (slowFall){
-			output += " 3:\nYou can glide";
+			output += " 2:\nYou can glide";
 		} else if (invulnerability){
-			output += " 4:\nYou are invulnerable";
+			output += " 3:\nYou are invulnerable";
 		} else if (noCheckpoints){
-			output += " 5:\nCheckpoints disabled";
+			output += " 4:\nCheckpoints disabled";
+		} else if (screenRotated){
+			output += " 5:\nScreen rotated";
 		}
 		return output;
 	}
