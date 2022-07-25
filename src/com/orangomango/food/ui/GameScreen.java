@@ -10,6 +10,7 @@ import javafx.scene.image.*;
 import javafx.scene.text.Font;
 
 import com.orangomango.food.*;
+import com.orangomango.food.ui.controls.JoyStick;
 import java.util.*;
 
 public class GameScreen{
@@ -41,6 +42,8 @@ public class GameScreen{
 	private double cameraShakeX, cameraShakeY;
 	private boolean shaking;
 	public int deaths;
+	
+	private JoyStick joystick;
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 20);
 	
@@ -355,6 +358,10 @@ public class GameScreen{
 				sprites.add(new ActivatorPad(gc, 450, 630, () -> door_l4.open(), () -> door_l4.close()));
 				sprites.add(new Spike(gc, 575, 703, "fire"));
 				sprites.add(new Spike(gc, 615, 703, "cactus"));
+				sprites.add(new Spike(gc, 655, 703, "cactus"));
+				sprites.add(new Spike(gc, 695, 703, "cactus"));
+				sprites.add(new Spike(gc, 735, 703, "cactus"));
+				sprites.add(new Spike(gc, 775, 703, "cactus"));
 				sprites.add(new MovablePlatform(gc, 530, 650, Platform.PlatformType.SMALL, 2, 0, 100, 0, 50));
 				sprites.add(new Platform(gc, 700, 615, Platform.PlatformType.MEDIUM));
 				sprites.add(new CheckPoint(gc, 730, 565));
@@ -406,12 +413,17 @@ public class GameScreen{
 		this.gc = canvas.getGraphicsContext2D();
 		
 		loadLevel(gc, this.currentLevel);
+		this.joystick = new JoyStick(gc);
 		
 		canvas.setFocusTraversable(true);
 		canvas.setOnMousePressed(e -> {
 			for (int i = 0; i < this.buttons.size(); i++){
 				MenuButton mb = this.buttons.get(i);
 				mb.click(e.getX(), e.getY());
+			}
+			KeyCode k = this.joystick.clicked(e.getX(), e.getY());
+			if (k != null){
+				handlePress(k, canvas);
 			}
 		});
 		
@@ -434,38 +446,47 @@ public class GameScreen{
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
 		
-		canvas.setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.P || e.getCode() == KeyCode.ESCAPE){
-				this.paused = !this.paused;
-				if (this.paused){
-					this.pausedStart = System.currentTimeMillis();
-					this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
-					this.buttons.add(new MenuButton(() -> {
-						clearEverything();
-						HomeScreen hs = new HomeScreen();
-						MainApplication.stage.getScene().setRoot(hs.getLayout());
-					}, 300, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png"))));
-					this.buttons.add(new MenuButton(() -> {
-						loadLevel(gc, this.currentLevel);
-						this.paused = false;
-						this.pausedImage = null;
-						this.buttons.clear();
-					}, 400, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_restart.png"))));
-				} else {
-					this.pausedImage = null;
-					this.pausedTime += System.currentTimeMillis()-this.pausedStart;
-					this.buttons.clear();
-				}
-			} else {
-				keys.put(e.getCode(), true);
+		canvas.setOnKeyPressed(e -> handlePress(e.getCode(), canvas));
+		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
+		canvas.setOnMouseReleased(e -> {
+			KeyCode k = this.joystick.clicked(e.getX(), e.getY());
+			if (k != null){
+				keys.put(k, false);
 			}
 		});
-		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		
 		//MainApplication.sizeOnResize(canvas);
 		
 		layout.getChildren().add(canvas);
 		return layout;
+	}
+	
+	private void handlePress(KeyCode key, Canvas canvas){
+		if (key == KeyCode.P || key == KeyCode.ESCAPE){
+			this.paused = !this.paused;
+			if (this.paused){
+				this.pausedStart = System.currentTimeMillis();
+				this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
+				this.buttons.add(new MenuButton(() -> {
+					clearEverything();
+					HomeScreen hs = new HomeScreen();
+					MainApplication.stage.getScene().setRoot(hs.getLayout());
+				}, 250, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png"))));
+				this.buttons.add(new MenuButton(() -> {
+					loadLevel(gc, this.currentLevel);
+					this.paused = false;
+					this.pausedImage = null;
+					this.buttons.clear();
+				}, 350, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_restart.png"))));
+				this.buttons.add(new MenuButton(() -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_continue.png"))));
+			} else {
+				this.pausedImage = null;
+				this.pausedTime += System.currentTimeMillis()-this.pausedStart;
+				this.buttons.clear();
+			}
+		} else {
+			keys.put(key, true);
+		}
 	}
 	
 	private void clearEverything(){
@@ -694,5 +715,8 @@ public class GameScreen{
 			gc.restore();
 			this.notification.render(gc);
 		}
+		
+		// For mobile
+		//if (this.showMinimap) this.joystick.render();
 	}
 }
