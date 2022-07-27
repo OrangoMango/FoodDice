@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 
 import com.orangomango.food.ui.GameScreen;
 
-public class MovablePlatform extends Platform{
+public class MovablePlatform extends Platform implements Turnable{
 	private double xSpeed, ySpeed, xMax, yMax;
 	private boolean forward = true;
 	private double startX, startY;
@@ -57,6 +57,7 @@ public class MovablePlatform extends Platform{
 					double xMove = this.forward ? this.xSpeed : -this.xSpeed;
 					double yMove = this.forward ? this.ySpeed : -this.ySpeed;
 					Player player = GameScreen.getInstance().getPlayer();
+					if (player == null) continue;
 					if (player.collided(this.x, this.y-4, this.w, 4)){
 						player.setX(player.getX()+xMove);
 						player.setY(player.getY()+yMove);
@@ -78,11 +79,13 @@ public class MovablePlatform extends Platform{
 		loop.start();
 	}
 	
+	@Override
 	public void turnOn(){
-		this.on = true;
+		this.on = false;
 	}
 	
+	@Override
 	public void turnOff(){
-		this.on = false;
+		this.on = true;
 	}
 }

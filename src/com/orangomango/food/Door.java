@@ -3,7 +3,7 @@ package com.orangomango.food;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 
-public class Door extends GameObject{
+public class Door extends GameObject implements Turnable{
 	private boolean opened;
 	private Image[] images = new Image[8];
 	private boolean animating;
@@ -20,6 +20,16 @@ public class Door extends GameObject{
 	public void render(){
 		this.solid = !this.opened;
 		gc.drawImage(this.images[this.imageIndex], this.x, this.y, this.w, this.h);
+	}
+	
+	@Override
+	public void turnOn(){
+		this.open();
+	}
+	
+	@Override
+	public void turnOff(){
+		this.close();
 	}
 	
 	public void open(){

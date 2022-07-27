@@ -42,13 +42,20 @@ public class GameScreen{
 	private double cameraShakeX, cameraShakeY;
 	private boolean shaking;
 	public int deaths;
+	private String loadString;
+	private Map<Integer, Integer> spritesID = new HashMap<>();
 	
 	private JoyStick joystick;
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 20);
 	
 	public GameScreen(int l){
+		this(l, null);
+	}
+	
+	public GameScreen(int l, String ll){
 		this.currentLevel = l;
+		this.loadString = ll;
 		GameScreen.instance = this;
 		
 		Thread frameCounter = new Thread(() -> {
@@ -125,12 +132,16 @@ public class GameScreen{
 	}
 	
 	private void loadLevel(GraphicsContext gc, int level){
+		loadLevel(gc, level, null);
+	}
+	private void loadLevel(GraphicsContext gc, int levelN, String[] level){
 		for (GameObject go : sprites){
 			go.destroy();
 		}
 		sprites.clear();
 		collectables.clear();
 		effects.clear();
+		spritesID.clear();
 		this.player = null;
 		this.exit = null;
 		this.levelWidth = 0;
@@ -140,7 +151,106 @@ public class GameScreen{
 		this.coinsCollected = 0;
 		this.deaths = 0;
 		this.specialEffect = new SpecialEffect();
-		switch (level){
+		switch (levelN){
+			case -1;
+				this.levelWidth = Double.parseDouble(level[0].split("x")[0]);
+				this.levelHeight = Double.parseDouble(level[0].split("x")[1]);
+				this.showCamera = Boolean.parseBoolean(level[0].split("x")[2]);
+				
+				for (int i = 1; i < level.length; i++){
+					String line = level[i];
+					int type = Integer.parseInt(line.split(",")[0].split(";")[0]);
+					double px = Double.parseDouble(line.split(",")[1]);
+					double py = Double.parseDouble(line.split(",")[2]);
+					double pw = Double.parseDouble(line.split(",")[3]);
+					double ph = Double.parseDouble(line.split(",")[4]);
+					switch (type){
+						case 0:
+							sprites.add(new Platform(gc, px, py, Platform.PlatformType.SMALL));
+							break;
+						case 1:
+							sprites.add(new Platform(gc, px, py, Platform.PlatformType.MEDIUM));
+							break;
+						case 2:
+							sprites.add(new Platform(gc, px, py, pw, ph, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+							break;
+						case 3:
+							sprites.add(new Platform(gc, px, py, pw, ph, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+							break;
+						case 4:
+							sprites.add(new Spike(gc, px, py, "fire"));
+							break;
+						case 5:
+							sprites.add(new Spike(gc, px, py, "cactus"));
+							break;
+						case 6:
+							sprites.add(new Laser(gc, px, py, pw, ph));
+							break;
+						case 7:
+							sprites.add(new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5])));
+							break;
+						case 8:
+							sprites.add(new Box(gc, px, py));
+							break;
+						case 9:
+							sprites.add(new JumpPad(gc, px, py));
+							break;
+						case 10:
+							if (line.split(",").length == 6){
+								String txt = line.split(",")[5];
+								sprites.add(new ActivatorPad(gc, px, py, () -> {
+									for (String part : txt.split("-")){
+										int n = Integer.parseInt(part);
+										((Turnable)sprites.get(spritesID.get(n))).turnOn();
+									}
+								}, () -> {
+									for (String part : txt.split("-")){
+										int n = Integer.parseInt(part);
+										((Turnable)sprites.get(spritesID.get(n))).turnOff();
+									}
+								}));
+							} else {
+								sprites.add(new ActivatorPad(gc, px, py, () -> System.out.println("On"), () -> System.out.println("Off"));
+							}
+							break;
+						case 11:
+							sprites.add(new Door(gc, px, py));
+							break;
+						case 12:
+							collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, px, py));
+							break;
+						case 13:
+							sprites.add(new CheckPoint(gc, px, py));
+							break;
+						case 14:
+							this.player = new Player(gc, px, py, Player.SIZE, Player.SIZE);
+							sprites.add(player);
+							break;
+						case 15:
+							this.exit = new Exit(gc, px, py);
+							break;
+						case 16:
+						case 17:
+							double moveX = 0;
+							double moveY = 0;
+							double maxX = 0;
+							double maxY = 0;
+							int moveTime = 0;
+							if (line.split(",").length == 6){
+								String[] data = line.split(",")[5].split("-");
+								moveX = Double.parseDouble(data[0]);
+								moveY = Double.parseDouble(data[1]);
+								maxX = Double.parseDouble(data[2]);
+								maxY = Double.parseDouble(data[3]);
+								moveTime = Integer.parseInt(data[4]);
+							}
+							sprites.add(new MovablePlatform(gc, px, py, type == 16 ? Platform.PlatformType.SMALL : Platform.PlatformType.MEDIUM, moveX, moveY, maxX, maxY, moveTime));
+							break;
+					}
+					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
+				}
+				
+				break;
 			case 0:
 				this.levelWidth = 800;
 				this.levelHeight = 800;
@@ -412,7 +522,14 @@ public class GameScreen{
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 		
-		loadLevel(gc, this.currentLevel);
+		//String testString = "800x800\n1;0,44.00,116.00,100.00,20.00\n1;1,169.00,141.00,100.00,20.00\n15;2,229.00,102.00,35.00,40.00\n14;3,52.00,93.00,16.00,16.00\n1;4,20.00,228.00,100.00,20.00\n8;5,77.00,202.00,25.00,25.00";
+		
+		//loadLevel(gc, -1, testString.split("\n"));
+		if (this.loadString != null){
+			loadLevel(gc, -1, this.loadString.split("\n"));
+		} else {
+			loadLevel(gc, this.currentLevel);
+		}
 		this.joystick = new JoyStick(gc);
 		
 		canvas.setFocusTraversable(true);
@@ -469,11 +586,20 @@ public class GameScreen{
 				this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
 				this.buttons.add(new MenuButton(() -> {
 					clearEverything();
-					HomeScreen hs = new HomeScreen();
-					MainApplication.stage.getScene().setRoot(hs.getLayout());
+					if (this.currentLevel < 0){
+						Editor ed = new Editor(Editor.lastFile);
+						MainApplication.stage.getScene().setRoot(ed.getLayout());
+					} else {
+						HomeScreen hs = new HomeScreen();
+						MainApplication.stage.getScene().setRoot(hs.getLayout());
+					}
 				}, 250, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png"))));
 				this.buttons.add(new MenuButton(() -> {
-					loadLevel(gc, this.currentLevel);
+					if (this.currentLevel < 0){
+						loadLevel(gc, -1, this.loadString.split("\n"));
+					} else {
+						loadLevel(gc, this.currentLevel);
+					}
 					this.paused = false;
 					this.pausedImage = null;
 					this.buttons.clear();
@@ -495,6 +621,7 @@ public class GameScreen{
 			go.destroy();
 		}
 		sprites.clear();
+		spritesID.clear();
 		collectables.clear();
 		effects.clear();
 		this.player = null;
@@ -625,6 +752,11 @@ public class GameScreen{
 				WinScreen ws = new WinScreen();
 				MainApplication.stage.getScene().setRoot(ws.getLayout());
 				return;
+			} else if (this.currentLevel < 0){
+				clearEverything();
+				Editor ed = new Editor(Editor.lastFile);
+				MainApplication.stage.getScene().setRoot(ed.getLayout());
+				return;
 			} else {
 				loadLevel(gc, ++this.currentLevel);
 			}
@@ -643,7 +775,11 @@ public class GameScreen{
 			keys.put(KeyCode.K, false);
 		}
 		if (keys.getOrDefault(KeyCode.L, false)){
-			loadLevel(gc, this.currentLevel);
+			if (this.currentLevel < 0){
+				loadLevel(gc, -1, this.loadString.split("\n"));
+			} else {
+				loadLevel(gc, this.currentLevel);
+			}
 			keys.put(KeyCode.L, false);
 		}
 		if (keys.getOrDefault(KeyCode.F1, false)){

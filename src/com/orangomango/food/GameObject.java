@@ -151,7 +151,7 @@ public abstract class GameObject{
 			boolean collided = checkCollision(this.x, this.y+this.h, this.w, this.gravity*1.07);
 			if (this.y+this.h+this.gravity*1.07 >= GameScreen.getInstance().getLevelHeight() || collided){
 				this.falling = false;
-				if (this.gravity > 20 && this instanceof Player){
+				if (this.gravity > 15 && this instanceof Player){
 					((Player)this).die(false);
 					this.gravity = 1.5;
 					return; // Don't need to fix object's position
