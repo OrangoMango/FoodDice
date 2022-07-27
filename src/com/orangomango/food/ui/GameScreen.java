@@ -152,7 +152,7 @@ public class GameScreen{
 		this.deaths = 0;
 		this.specialEffect = new SpecialEffect();
 		switch (levelN){
-			case -1;
+			case -1:
 				this.levelWidth = Double.parseDouble(level[0].split("x")[0]);
 				this.levelHeight = Double.parseDouble(level[0].split("x")[1]);
 				this.showCamera = Boolean.parseBoolean(level[0].split("x")[2]);

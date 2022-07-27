@@ -541,7 +541,7 @@ public class Editor{
 			Label idL = new Label("Block id: "+Integer.parseInt(this.clickSelected.split(";")[1]));
 			Spinner<Double> xpos = new Spinner<>(0, this.levelWidth, item.x);
 			xpos.setEditable(true);
-			Spinner<Double> ypos = new Spinner<>(0, this.levelHeight, item.y;
+			Spinner<Double> ypos = new Spinner<>(0, this.levelHeight, item.y);
 			ypos.setEditable(true);
 			Spinner<Double> width = new Spinner<>(0, this.levelWidth, item.w);
 			width.setEditable(true);
@@ -642,7 +642,7 @@ public class Editor{
 					this.props.add(maxY, 1, 9);
 					this.props.add(moveTime, 1, 10);
 					this.props.add(savePr3, 1, 11);
-					break:
+					break;
 			}
 		}
 	}
@@ -652,7 +652,7 @@ public class Editor{
 		builder.append(this.levelWidth+"x"+this.levelHeight+"x"+this.showCamera).append("\n");
 		int c = 0;
 		for (LevelItem li : this.items){
-			builder.append(li.toString())
+			builder.append(li.toString());
 			if (c < this.items.size()-1){
 				builder.append("\n");
 			}
