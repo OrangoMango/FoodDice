@@ -107,7 +107,7 @@ public class Editor{
 		
 		@Override
 		public String toString(){
-			String out = String.format("%s,%.2f,%.2f,%.2f,%.2f", this.id, this.x, this.y, this.w, this.h);
+			String out = String.format(Locale.US, "%s,%.2f,%.2f,%.2f,%.2f", this.id, this.x, this.y, this.w, this.h);
 			if (this.extra != null){
 				out += this.extra;
 			}
@@ -762,7 +762,7 @@ public class Editor{
 						levelitem.extra = ","+line.split(",")[5];
 					}
 					this.items.add(levelitem);
-					this.blockID = c-1;
+					this.blockID = c;
 				}
 				c++;
 			} while (line != null);
