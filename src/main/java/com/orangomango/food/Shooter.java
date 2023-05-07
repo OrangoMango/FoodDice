@@ -40,6 +40,7 @@ public class Shooter extends GameObject{
 	private Image[] images = new Image[2];
 	private boolean left;
 	private List<Bullet> bullets = new ArrayList<>();
+	private int timeOff = 1300;
 	
 	public Shooter(GraphicsContext gc, double x, double y, boolean left){
 		super(gc, x, y, SIZE, SIZE);
@@ -52,7 +53,7 @@ public class Shooter extends GameObject{
 				if (GameScreen.getInstance().isPaused()) continue;
 				try {
 					this.imageIndex = 0;
-					Thread.sleep(1300);
+					Thread.sleep(this.timeOff);
 					this.imageIndex = 1;
 					this.bullets.add(new Bullet(this.left ? this.x : this.x+this.w, this.y, this.left));
 					Thread.sleep(200);
@@ -63,6 +64,10 @@ public class Shooter extends GameObject{
 		}, "shooter");
 		anim.setDaemon(true);
 		anim.start();
+	}
+	
+	public void setTimeOff(int time){
+		this.timeOff = time;
 	}
 	
 	@Override

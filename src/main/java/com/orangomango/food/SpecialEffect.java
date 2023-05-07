@@ -14,7 +14,7 @@ public class SpecialEffect{
 		slowFall = false;
 		invulnerability = false;
 		noCheckpoints = false;
-		switch (random.nextInt(100)/20){
+		switch (random.nextInt(4)){
 			case 0:
 				specialJump = true;
 				break;

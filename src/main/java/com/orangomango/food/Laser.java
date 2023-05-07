@@ -7,11 +7,11 @@ import javafx.scene.paint.Color;
 import com.orangomango.food.ui.GameScreen;
 
 public class Laser extends GameObject implements Turnable{
-	private boolean shooting = false;
+	private volatile boolean shooting = false;
 	private Image image = new Image(getClass().getClassLoader().getResourceAsStream("laser.png"));
 	private double drawAmount;
 	private volatile boolean on = true;
-	private volatile int timeOff = 1400;
+	private int timeOff = 1400;
 	
 	public Laser(GraphicsContext gc, double x, double y, double w, double h){
 		super(gc, x, y, w, h);

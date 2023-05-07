@@ -67,11 +67,9 @@ public class MainApplication extends Application{
 	}
 	
 	public static void playSound(Media media, boolean rep){
-//		new Thread(() -> {
-			MediaPlayer player = new MediaPlayer(media);
-			if (rep) player.setCycleCount(Animation.INDEFINITE);
-			else player.setOnEndOfMedia(() -> player.dispose());
-			player.play();
-//		}, "sound-thread").start();
+		MediaPlayer player = new MediaPlayer(media);
+		if (rep) player.setCycleCount(Animation.INDEFINITE);
+		else player.setOnEndOfMedia(() -> player.dispose());
+		player.play();
 	}
 }

@@ -91,14 +91,6 @@ public abstract class GameObject{
 		return this.gravity;
 	}
 	
-	public double getRespawnX(){
-		return this.respawnX;
-	}
-	
-	public double getRespawnY(){
-		return this.respawnY;
-	}
-	
 	public void setX(double value){
 		this.x = value;
 	}

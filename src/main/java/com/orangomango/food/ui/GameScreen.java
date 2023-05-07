@@ -29,8 +29,6 @@ public class GameScreen{
 	private volatile boolean paused;
 	private Image pausedImage;
 	private boolean showCamera = true;
-	private final double[] minimap = new double[]{20, 20, 350, 350/2};
-	private boolean showMinimap = true;
 	private int[][] angles;
 	private int currentFPS = 0;
 	private volatile int framesDone = 0;
@@ -48,6 +46,7 @@ public class GameScreen{
 	private JoyStick joystick;
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 20);
+	private static Font FONT_55 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 55);
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -184,10 +183,20 @@ public class GameScreen{
 							sprites.add(new Spike(gc, px, py, "cactus"));
 							break;
 						case 6:
-							sprites.add(new Laser(gc, px, py, pw, ph));
+							Laser laser = new Laser(gc, px, py, pw, ph);
+							if (line.split(",").length == 6){
+								String txt = line.split(",")[5];
+								laser.setTimeOff(Integer.parseInt(txt));
+							}
+							sprites.add(laser);
 							break;
 						case 7:
-							sprites.add(new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5])));
+							Shooter shooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5]));
+							if (line.split(",").length == 7){
+								String txt = line.split(",")[8];
+								shooter.setTimeOff(Integer.parseInt(txt));
+							}
+							sprites.add(shooter);
 							break;
 						case 8:
 							sprites.add(new Box(gc, px, py));
@@ -514,7 +523,6 @@ public class GameScreen{
 				break;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
-		this.minimap[3] = this.minimap[2]*(this.levelHeight/this.levelWidth);
 	}
 	
 	public StackPane getLayout(){
@@ -544,22 +552,7 @@ public class GameScreen{
 			}
 		});
 		
-		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> {
-			update(gc);
-			this.framesDone++;
-			if (!this.paused && keys.getOrDefault(KeyCode.M, false)){
-				gc.save();
-				gc.translate(this.minimap[0], this.minimap[1]);
-				gc.scale(this.minimap[2]/800, this.minimap[3]/400);
-				final boolean showCam = this.showCamera;
-				this.showCamera = false;
-				this.showMinimap = false;
-				update(gc);
-				this.showCamera = showCam;
-				this.showMinimap = true;
-				gc.restore();
-			}
-		}));
+		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
 		
@@ -571,6 +564,14 @@ public class GameScreen{
 				keys.put(k, false);
 			}
 		});
+		
+		AnimationTimer fTimer = new AnimationTimer(){
+			@Override
+			public void handle(long time){
+				GameScreen.this.framesDone++;
+			}
+		};
+		fTimer.start();
 		
 		//MainApplication.sizeOnResize(canvas);
 		
@@ -660,7 +661,7 @@ public class GameScreen{
 			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.setGlobalAlpha(1);
 			gc.setFill(Color.WHITE);
-			gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 55));
+			gc.setFont(FONT_55);
 			gc.fillText("PAUSED", 310, 150);
 			for (MenuButton mb : this.buttons){
 				mb.render(gc);
@@ -669,17 +670,14 @@ public class GameScreen{
 			return;
 		}
 		
-		if (keys.getOrDefault(KeyCode.F5, false)){
-			gc.scale(MainApplication.stage.widthProperty().get()/MainApplication.WIDTH, MainApplication.stage.heightProperty().get()/MainApplication.HEIGHT);
-			keys.put(KeyCode.F5, false);
-		}
-		
 		gc.save();
 		if (this.showCamera){
-			gc.translate(this.player.getRespawnX()-this.player.getX()+200-this.cameraShakeX, this.player.getRespawnY()-this.player.getY()+50-this.cameraShakeY);
+			gc.translate(-this.player.getX()+200-this.cameraShakeX, -this.player.getY()+125-this.cameraShakeY);
 		} else {
 			gc.scale(MainApplication.WIDTH/this.levelWidth, MainApplication.HEIGHT/this.levelHeight);
 		}
+		
+		// Make background
 		for (int x = 0; x < this.levelWidth; x += 25){
 			for (int y = 0; y < this.levelHeight; y += 25){
 				gc.save();
@@ -705,11 +703,7 @@ public class GameScreen{
 				gc.restore();
 			}
 		}
-		if (this.showMinimap){
-			gc.setStroke(Color.BLACK);
-			gc.setLineWidth(2);
-			gc.strokeRect(0, 0, this.levelWidth, this.levelHeight);
-		}
+		
 		for (GameObject go : sprites){
 			go.render();
 			if (go instanceof Spike || go instanceof Liquid){
@@ -717,10 +711,6 @@ public class GameScreen{
 					this.player.die(false);
 				}
 			}
-		}
-		if (!this.showMinimap){
-			gc.setFill(Color.RED);
-			gc.fillOval(this.player.getX()-(30-Player.SIZE)/2, this.player.getY()-(30-Player.SIZE)/2, 30, 30);
 		}
 		for (int i = 0; i < collectables.size(); i++){
 			CollectableObject co = collectables.get(i);
@@ -743,7 +733,7 @@ public class GameScreen{
 		}
 		if (this.player.collided(this.exit.x, this.exit.y, Exit.WIDTH, Exit.HEIGHT)){
 			MainApplication.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
-			if (this.currentLevel == 4){
+			if (this.currentLevel == 4){ // Final level
 				clearEverything();
 				WinScreen ws = new WinScreen();
 				MainApplication.stage.getScene().setRoot(ws.getLayout());
@@ -796,13 +786,6 @@ public class GameScreen{
 			keys.put(KeyCode.F4, false);
 		}
 
-		//gc.setFill(Color.RED);
-		/*gc.fillText(String.format("X:%.2f Y:%.2f\nColliding: %s\ntop:%s left:%s right:%s", this.player.getX(), this.player.getY(), 
-			this.player.checkCollision(this.player.getX(), this.player.getY(), this.player.getWidth(), this.player.getHeight()),
-			this.player.checkCollision(this.player.getX(), this.player.getY()-Player.Y_SPEED, this.player.getWidth(), this.player.getHeight()+Player.Y_SPEED),
-			this.player.checkCollision(this.player.getX()-Player.X_SPEED, this.player.getY(), this.player.getWidth()+Player.X_SPEED, this.player.getHeight()),
-			this.player.checkCollision(this.player.getX(), this.player.getY(), this.player.getWidth()+Player.X_SPEED, this.player.getHeight())), 10, 20);
-		*/
 		if (keys.getOrDefault(KeyCode.F2, false)){
 			// Display nearest objects to the player
 			gc.save();
@@ -810,43 +793,26 @@ public class GameScreen{
 			GameObject red = this.player.getNearestBottomObject(this.player);
 			gc.setLineWidth(4);
 			if (red != null) gc.strokeRect(red.getX(), red.getY(), red.getWidth(), red.getHeight());
-			/*gc.setStroke(Color.YELLOW);
-			GameObject yellow = this.player.getNearestLeftObject();
-			if (yellow != null) gc.strokeRect(yellow.getX(), yellow.getY(), yellow.getWidth(), yellow.getHeight());
-			gc.setStroke(Color.LIME);
-			GameObject lime = this.player.getNearestRightObject();
-			if (lime != null) gc.strokeRect(lime.getX(), lime.getY(), lime.getWidth(), lime.getHeight());
-			gc.setStroke(Color.ORANGE);
-			GameObject orange = this.player.getNearestTopObject();
-			if (orange != null) gc.strokeRect(orange.getX(), orange.getY(), orange.getWidth(), orange.getHeight());
-			*/
 			gc.restore();
 		}
 		gc.restore();
-		if (this.showMinimap && keys.getOrDefault(KeyCode.M, false)){
-			gc.setGlobalAlpha(0.6);
-			gc.setFill(Color.BLACK);
-			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.setGlobalAlpha(1);
-			gc.setStroke(Color.BLACK);
-			gc.setLineWidth(3);
-			gc.strokeRect(this.minimap[0], this.minimap[1], this.minimap[2], this.minimap[3]);
+
+		if (keys.getOrDefault(KeyCode.M, false)){
 			gc.setFill(Color.WHITE);
-			gc.fillText(String.format("Player at X:%.2f Y:%.2f", this.player.getX(), this.player.getY())+"\nCamera available: "+this.showCamera+String.format("\nFPS: %s\nGravity: %.2f\nLevel: %s\nRunning threads: %s", this.currentFPS, this.player.getGravity(), this.currentLevel, Thread.getAllStackTraces().keySet().size()), 450, 30);
+			gc.fillText(String.format("Player at X:%.2f Y:%.2f", this.player.getX(), this.player.getY())+"\nCamera available: "+this.showCamera+String.format("\nFPS: %s\nGravity: %.2f\nLevel: %s\nRunning threads: %s", this.currentFPS, this.player.getGravity(), this.currentLevel, Thread.getAllStackTraces().keySet().size()), 50, 30);
 		}
-		if (this.showMinimap){
-			gc.save();
-			gc.setGlobalAlpha(0.6);
-			gc.setFill(Color.BLACK);
-			gc.fillRect(690, 10, 90, 75);
-			gc.setGlobalAlpha(1);
-			gc.setFill(Color.WHITE);
-			gc.setFont(FONT_20);
-			long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
-			gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
-			gc.restore();
-			this.notification.render(gc);
-		}
+
+		gc.save();
+		gc.setGlobalAlpha(0.6);
+		gc.setFill(Color.BLACK);
+		gc.fillRect(690, 10, 90, 75);
+		gc.setGlobalAlpha(1);
+		gc.setFill(Color.WHITE);
+		gc.setFont(FONT_20);
+		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
+		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
+		gc.restore();
+		this.notification.render(gc);
 		
 		// For mobile
 		//if (this.showMinimap) this.joystick.render();

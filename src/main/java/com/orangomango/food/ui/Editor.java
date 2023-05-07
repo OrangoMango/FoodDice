@@ -18,8 +18,13 @@ import com.orangomango.food.MainApplication;
 import com.orangomango.food.Platform;
 
 public class Editor{
-	private static final String saveDirectory = System.getProperty("user.dir");
+	private static final String saveDirectory = System.getProperty("user.home")+File.separator+".food-dice";
 	public static String lastFile;
+	
+	static {
+		File f = new File(saveDirectory);
+		if (!f.exists()) f.mkdir();
+	}
 	
 	private static class SelectedImage{
 		public double x, y;
@@ -66,7 +71,7 @@ public class Editor{
 			this.image = image;
 			this.id = id;
 			if (Integer.parseInt(this.id.split(";")[0]) == 7){
-				this.extra = ",true";
+				this.extra = ",true-1300";
 			}
 		}
 		
@@ -116,8 +121,8 @@ public class Editor{
 	}
 
 	private int selectedBlock = -1;
-	private int levelWidth = 800; //500;
-	private int levelHeight = 800; //350;
+	private int levelWidth = 800;
+	private int levelHeight = 800;
 	private Timeline loop;
 	private Image background = loadImage("background.png");
 	private int[][] angles;
@@ -208,6 +213,7 @@ public class Editor{
 				this.selectedImage.setImage(null);
 			}
 		});
+		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Accordion accordion = new Accordion();
 		accordion.setMaxWidth(250);
@@ -450,12 +456,7 @@ public class Editor{
 			}
 		});
 		Button exit = new Button("Exit");
-		exit.setOnAction(e -> {
-			lastFile = null;
-			this.loop.stop();
-			HomeScreen hs = new HomeScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		});
+		exit.setOnAction(e -> quit());
 		Button run = new Button("Run");
 		run.setOnAction(e -> {
 			if (containsItem(14) && containsItem(15)){
@@ -473,7 +474,7 @@ public class Editor{
 		Button delete = new Button("Delete");
 		delete.setOnAction(e -> {
 			if (this.clickSelected != null){
-				this.loop.stop();
+				this.loop.pause();
 				this.items.remove(getByID(Integer.parseInt(this.clickSelected.split(";")[1])));
 				this.loop.play();
 				this.clickSelected = null;
@@ -490,6 +491,18 @@ public class Editor{
 		loop.play();
 		
 		return layout;
+	}
+	
+	private void quit(){
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setHeaderText("Do you really want to quit?");
+		alert.setContentText("Be sure to save the file");
+		alert.showAndWait().filter(r -> r == ButtonType.OK).ifPresent(r -> {
+			lastFile = null;
+			this.loop.stop();
+			HomeScreen hs = new HomeScreen();
+			MainApplication.stage.getScene().setRoot(hs.getLayout());
+		});
 	}
 	
 	private void updatePropsLayout(){
@@ -579,7 +592,7 @@ public class Editor{
 							int id = Integer.parseInt(txt);
 							LevelItem lock = getByID(id);
 							if (lock != null){
-								if (Integer.parseInt(lock.getID().split(";")[0]) == 0 || Integer.parseInt(lock.getID().split(";")[0]) == 1 || Integer.parseInt(lock.getID().split(";")[0]) == 6 || Integer.parseInt(lock.getID().split(";")[0]) == 11 || Integer.parseInt(lock.getID().split(";")[0]) == 16 || Integer.parseInt(lock.getID().split(";")[0]) == 17){
+								if (Arrays.asList(0, 1, 6, 11, 16, 17).contains(Integer.parseInt(lock.getID().split(";")[0]))){
 									ok = true;
 								} else {
 									ok = false;
@@ -609,11 +622,15 @@ public class Editor{
 				case 7:
 					CheckBox toRight = new CheckBox("To right");
 					toRight.setSelected(item.extra.equals(",false"));
+					Label timeOffSL = new Label("Millis: ");
+					TextField timeOffS = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr2 = new Button("Save");
-					savePr2.setOnAction(e -> item.extra = ","+(!toRight.isSelected()));
+					savePr2.setOnAction(e -> item.extra = ","+(!toRight.isSelected())+","+timeOffS.getText());
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(toRight, 0, 6, 2, 1);
-					this.props.add(savePr2, 1, 7);
+					this.props.add(timeOffSL, 0, 7);
+					this.props.add(timeOffS, 1, 7);
+					this.props.add(savePr2, 1, 8);
 					break;
 				// Movable platform
 				case 16:
@@ -642,6 +659,17 @@ public class Editor{
 					this.props.add(maxY, 1, 9);
 					this.props.add(moveTime, 1, 10);
 					this.props.add(savePr3, 1, 11);
+					break;
+				// Laser
+				case 6:
+					Label timeOffL = new Label("Millis: ");
+					TextField timeOff = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()) : "");
+					Button savePr4 = new Button("Save");
+					savePr4.setOnAction(e -> item.extra = ","+timeOff.getText());
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(timeOffL, 0, 6);
+					this.props.add(timeOff, 1, 6);
+					this.props.add(savePr4, 1, 7);
 					break;
 			}
 		}
