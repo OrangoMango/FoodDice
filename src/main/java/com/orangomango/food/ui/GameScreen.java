@@ -210,7 +210,7 @@ public class GameScreen{
 									}
 								}));
 							} else {
-								sprites.add(new ActivatorPad(gc, px, py, () -> System.out.println("On"), () -> System.out.println("Off"));
+								sprites.add(new ActivatorPad(gc, px, py, () -> System.out.println("On"), () -> System.out.println("Off")));
 							}
 							break;
 						case 11:
@@ -675,10 +675,6 @@ public class GameScreen{
 		}
 		
 		gc.save();
-		if (this.specialEffect.screenRotated){
-			gc.translate(MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.rotate(180);
-		}
 		if (this.showCamera){
 			gc.translate(this.player.getRespawnX()-this.player.getX()+200-this.cameraShakeX, this.player.getRespawnY()-this.player.getY()+50-this.cameraShakeY);
 		} else {

@@ -38,7 +38,7 @@ public class MainApplication extends Application{
 		HomeScreen gs = new HomeScreen();
 		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT));
 		stage.setResizable(false);
-		stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon.ico")));
+		stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon.png")));
 		stage.setTitle("Food Dice");
 		stage.show();
 	}

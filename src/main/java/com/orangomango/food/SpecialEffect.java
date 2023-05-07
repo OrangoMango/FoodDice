@@ -7,7 +7,6 @@ public class SpecialEffect{
 	public boolean slowFall;
 	public boolean invulnerability;
 	public boolean noCheckpoints;
-	public boolean screenRotated;
 	
 	public void makeEffect(){
 		Random random = new Random();
@@ -15,7 +14,6 @@ public class SpecialEffect{
 		slowFall = false;
 		invulnerability = false;
 		noCheckpoints = false;
-		screenRotated = false;
 		switch (random.nextInt(100)/20){
 			case 0:
 				specialJump = true;
@@ -29,14 +27,11 @@ public class SpecialEffect{
 			case 3:
 				noCheckpoints = true;
 				break;
-			case 4:
-				screenRotated = true;
-				break;
 		}
 	}
 	
 	public boolean areAllFalse(){
-		return !specialJump && !slowFall && !invulnerability && !noCheckpoints && !screenRotated;
+		return !specialJump && !slowFall && !invulnerability && !noCheckpoints;
 	}
 	
 	@Override
@@ -50,8 +45,6 @@ public class SpecialEffect{
 			output += " 3:\nYou are invulnerable";
 		} else if (noCheckpoints){
 			output += " 4:\nCheckpoints disabled";
-		} else if (screenRotated){
-			output += " 5:\nScreen rotated";
 		}
 		return output;
 	}
