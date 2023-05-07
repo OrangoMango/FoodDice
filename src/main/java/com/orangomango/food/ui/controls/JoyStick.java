@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.Image;
 
+import com.orangomango.food.MainApplication;
 import static com.orangomango.food.MainApplication.WIDTH;
 import static com.orangomango.food.MainApplication.HEIGHT;
 
@@ -14,12 +15,12 @@ public class JoyStick{
 	
 	public JoyStick(GraphicsContext gc){
 		this.gc = gc;
-		this.images[0] = new Image(getClass().getClassLoader().getResourceAsStream("control_left.png"));
-		this.images[1] = new Image(getClass().getClassLoader().getResourceAsStream("control_right.png"));
-		this.images[2] = new Image(getClass().getClassLoader().getResourceAsStream("control_jump.png"));
-		this.images[3] = new Image(getClass().getClassLoader().getResourceAsStream("control_pause.png"));
-		this.images[4] = new Image(getClass().getClassLoader().getResourceAsStream("control_minimap.png"));
-		this.images[5] = new Image(getClass().getClassLoader().getResourceAsStream("control_kill.png"));
+		this.images[0] = MainApplication.loadImage("control_left.png");
+		this.images[1] = MainApplication.loadImage("control_right.png");
+		this.images[2] = MainApplication.loadImage("control_jump.png");
+		this.images[3] = MainApplication.loadImage("control_pause.png");
+		this.images[4] = MainApplication.loadImage("control_minimap.png");
+		this.images[5] = MainApplication.loadImage("control_kill.png");
 	}
 	
 	public void render(){

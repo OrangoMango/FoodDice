@@ -12,7 +12,7 @@ public class Door extends GameObject implements Turnable{
 	public Door(GraphicsContext gc, double x, double y){
 		super(gc, x, y, 20, 50);
 		for (int i = 0; i < 8; i++){
-			this.images[i] = new Image(getClass().getClassLoader().getResourceAsStream("door_"+i+".png"));
+			this.images[i] = MainApplication.loadImage("door_"+i+".png");
 		}
 	}
 	

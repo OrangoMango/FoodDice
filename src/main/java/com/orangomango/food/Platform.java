@@ -17,7 +17,7 @@ public class Platform extends GameObject{
 		private PlatformType(double w, double h, String imageName){
 			this.width = w;
 			this.height = h;
-			this.image = new Image(getClass().getClassLoader().getResourceAsStream(imageName));
+			this.image = MainApplication.loadImage(imageName);
 		}
 		
 		public double getHeight(){

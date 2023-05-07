@@ -20,7 +20,7 @@ public class CollectableObject{
 		private CollectableType(double w, double h, String imageName){
 			this.width = w;
 			this.height = h;
-			this.image = new Image(getClass().getClassLoader().getResourceAsStream(imageName));
+			this.image = MainApplication.loadImage(imageName);
 		}
 		
 		public double getHeight(){

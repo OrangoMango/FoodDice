@@ -14,7 +14,7 @@ public class Shooter extends GameObject{
 		private boolean left;
 		private static final double speed = 1.5;
 		public static final double SIZE = 12;
-		private static Image image = new Image(Shooter.class.getClassLoader().getResourceAsStream("shooter_bullet.png"));
+		private static Image image = MainApplication.loadImage("shooter_bullet.png");
 		
 		public Bullet(double x, double y, boolean l){
 			this.x = x;
@@ -44,8 +44,8 @@ public class Shooter extends GameObject{
 	
 	public Shooter(GraphicsContext gc, double x, double y, boolean left){
 		super(gc, x, y, SIZE, SIZE);
-		this.images[0] = new Image(getClass().getClassLoader().getResourceAsStream("shooter.png"));
-		this.images[1] = new Image(getClass().getClassLoader().getResourceAsStream("shooter_1.png"));
+		this.images[0] = MainApplication.loadImage("shooter.png");
+		this.images[1] = MainApplication.loadImage("shooter_1.png");
 		this.solid = true;
 		this.left = left;
 		Thread anim = new Thread(() -> {

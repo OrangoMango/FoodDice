@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 import com.orangomango.food.MainApplication;
 
 public class CreditsScreen{
-	private Image background = new Image(getClass().getClassLoader().getResourceAsStream("background_home.jpg"));
+	private Image background = MainApplication.loadImage("background_home.jpg");
 
 	public StackPane getLayout(){
 		StackPane layout = new StackPane();
@@ -23,12 +23,13 @@ public class CreditsScreen{
 		MenuButton home = new MenuButton(() -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		}, 50, 300, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png")));
-		canvas.setOnMousePressed(e -> home.click(e.getX(), e.getY()));
+		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
+		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 		
 		//gc.setFill(Color.web("#409B85"));
 		//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		home.render(gc);
 		gc.setFill(Color.BLACK);
 		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 30));

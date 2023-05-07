@@ -16,22 +16,22 @@ public class HelpScreen{
 	private Image[] images = new Image[13];
 	private boolean forward = true;
 	private double extraY = 1;
-	private Image background = new Image(getClass().getClassLoader().getResourceAsStream("background_home.jpg"));
+	private Image background = MainApplication.loadImage("background_home.jpg");
 	
 	public HelpScreen(){
-		this.images[0] = new Image(getClass().getClassLoader().getResourceAsStream("key_a.png"));
-		this.images[1] = new Image(getClass().getClassLoader().getResourceAsStream("key_d.png"));
-		this.images[2] = new Image(getClass().getClassLoader().getResourceAsStream("key_left.png"));
-		this.images[3] = new Image(getClass().getClassLoader().getResourceAsStream("key_right.png"));
-		this.images[4] = new Image(getClass().getClassLoader().getResourceAsStream("key_esc.png"));
-		this.images[5] = new Image(getClass().getClassLoader().getResourceAsStream("key_p.png"));
-		this.images[6] = new Image(getClass().getClassLoader().getResourceAsStream("key_k.png"));
-		this.images[7] = new Image(getClass().getClassLoader().getResourceAsStream("key_l.png"));
-		this.images[8] = new Image(getClass().getClassLoader().getResourceAsStream("key_f1.png"));
-		this.images[9] = new Image(getClass().getClassLoader().getResourceAsStream("key_f2.png"));
-		this.images[10] = new Image(getClass().getClassLoader().getResourceAsStream("key_f3.png"));
-		this.images[11] = new Image(getClass().getClassLoader().getResourceAsStream("key_f4.png"));
-		this.images[12] = new Image(getClass().getClassLoader().getResourceAsStream("key_m.png"));
+		this.images[0] = MainApplication.loadImage("key_a.png");
+		this.images[1] = MainApplication.loadImage("key_d.png");
+		this.images[2] = MainApplication.loadImage("key_left.png");
+		this.images[3] = MainApplication.loadImage("key_right.png");
+		this.images[4] = MainApplication.loadImage("key_esc.png");
+		this.images[5] = MainApplication.loadImage("key_p.png");
+		this.images[6] = MainApplication.loadImage("key_k.png");
+		this.images[7] = MainApplication.loadImage("key_l.png");
+		this.images[8] = MainApplication.loadImage("key_f1.png");
+		this.images[9] = MainApplication.loadImage("key_f2.png");
+		this.images[10] = MainApplication.loadImage("key_f3.png");
+		this.images[11] = MainApplication.loadImage("key_f4.png");
+		this.images[12] = MainApplication.loadImage("key_m.png");
 	}
 
 	public StackPane getLayout(){
@@ -45,8 +45,8 @@ public class HelpScreen{
 		this.home = new MenuButton(() -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		}, 50, 300, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png")));
-		canvas.setOnMousePressed(e -> home.click(e.getX(), e.getY()));
+		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
+		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 		
 		update(gc);
 		
@@ -62,6 +62,8 @@ public class HelpScreen{
 		//gc.setFill(Color.web("#409B85"));
 		//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.save();
+		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		this.home.render(gc);
 		
 		gc.drawImage(this.images[0], 75, 55+this.extraY);
@@ -91,12 +93,13 @@ public class HelpScreen{
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);
 		gc.fillText("Use L to reload the level", 550, 130);
-		gc.fillText("Use M to toggle the minimap", 227, 330);
+		gc.fillText("Use M to toggle game info", 227, 330);
 		gc.fillText("Load the test level", 550, 240);
 		gc.fillText("View nearest bottom object", 550, 290);
 		gc.fillText("View player hitboxes", 550, 335);
 		gc.fillText("Turn on/off camera", 550, 380);
 		gc.setFill(Color.RED);
 		gc.fillText("Debug keys", 460, 190);
+		gc.restore();
 	}
 }

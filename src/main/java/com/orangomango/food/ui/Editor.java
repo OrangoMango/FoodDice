@@ -846,6 +846,6 @@ public class Editor{
 	}
 	
 	private Image loadImage(String name){
-		return new Image(getClass().getClassLoader().getResourceAsStream(name));
+		return MainApplication.loadImage(name);
 	}
 }

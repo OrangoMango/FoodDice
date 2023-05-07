@@ -13,6 +13,7 @@ import com.orangomango.food.ui.*;
 public class MainApplication extends Application{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 400;
+	public static final double SCALE = 1;
 	public static final int FPS = 40;
 	public static Stage stage;
 	
@@ -38,20 +39,9 @@ public class MainApplication extends Application{
 		HomeScreen gs = new HomeScreen();
 		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT));
 		stage.setResizable(false);
-		stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon.png")));
+		stage.getIcons().add(loadImage("icon.png"));
 		stage.setTitle("Food Dice");
 		stage.show();
-	}
-	
-	public static void sizeOnResize(Canvas canvas){
-		stage.widthProperty().addListener((o, ol, ne) ->  {
-			canvas.setWidth((double)ne);
-			//canvas.setScaleX((double)ne/WIDTH);
-		});
-		stage.heightProperty().addListener((o, ol, ne) -> {
-			canvas.setHeight((double)ne);
-			//canvas.setScaleY((double)ne/HEIGHT);
-		});
 	}
 	
 	private static void loadSounds(){
@@ -64,6 +54,10 @@ public class MainApplication extends Application{
 		CHECKPOINT_SOUND = new Media(MainApplication.class.getClassLoader().getResource("checkpoint.wav").toExternalForm());
 		MOVE_SOUND = new Media(MainApplication.class.getClassLoader().getResource("move.wav").toExternalForm());
 		COIN_SOUND = new Media(MainApplication.class.getClassLoader().getResource("coin.wav").toExternalForm());
+	}
+	
+	public static Image loadImage(String name){
+		return new Image(MainApplication.class.getResourceAsStream("/"+name));
 	}
 	
 	public static void playSound(Media media, boolean rep){

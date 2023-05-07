@@ -13,8 +13,8 @@ public class ActivatorPad extends GameObject{
 
 	public ActivatorPad(GraphicsContext gc, double x, double y, Runnable on, Runnable off){
 		super(gc, x, y, 35, 13);
-		this.image = new Image(getClass().getClassLoader().getResourceAsStream("activatorpad.png"));
-		this.image2 = new Image(getClass().getClassLoader().getResourceAsStream("activatorpad_1.png"));
+		this.image = MainApplication.loadImage("activatorpad.png");
+		this.image2 = MainApplication.loadImage("activatorpad_1.png");
 		this.solid = true;
 		makeGravity();
 		this.activated.addListener((ob, oldV, newV) -> {

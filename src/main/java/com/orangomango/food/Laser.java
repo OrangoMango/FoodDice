@@ -8,7 +8,7 @@ import com.orangomango.food.ui.GameScreen;
 
 public class Laser extends GameObject implements Turnable{
 	private volatile boolean shooting = false;
-	private Image image = new Image(getClass().getClassLoader().getResourceAsStream("laser.png"));
+	private Image image = MainApplication.loadImage("laser.png");
 	private double drawAmount;
 	private volatile boolean on = true;
 	private int timeOff = 1400;

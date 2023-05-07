@@ -8,7 +8,7 @@ public class Box extends GameObject{
 
 	public Box(GraphicsContext gc, double x, double y){
 		super(gc, x, y, 25, 25);
-		this.image = new Image(getClass().getClassLoader().getResourceAsStream("box.png"));
+		this.image = MainApplication.loadImage("box.png");
 		this.movable = true;
 		this.solid = true;
 		makeGravity();

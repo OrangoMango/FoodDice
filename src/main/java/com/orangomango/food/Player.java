@@ -13,7 +13,7 @@ public class Player extends GameObject{
 	public static final double X_SPEED = 10;
 	public static final int SIZE = 16;
 	private Image[] images = new Image[6];
-	private Image diedImage = new Image(getClass().getClassLoader().getResourceAsStream("player_died.png"));
+	private Image diedImage = MainApplication.loadImage("player_died.png");
 	private double onDieX, onDieY;
 	private volatile boolean blinking, blink;
 	
@@ -25,7 +25,7 @@ public class Player extends GameObject{
 		startEffectLoop();
 		this.solid = true;
 		for (int i = 1; i <= 6; i++){
-			this.images[i-1] = new Image(getClass().getClassLoader().getResourceAsStream("player_"+i+".png"));
+			this.images[i-1] = MainApplication.loadImage("player_"+i+".png");
 		}
 	}
 	

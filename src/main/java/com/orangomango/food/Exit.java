@@ -8,7 +8,7 @@ public class Exit{
 	public double x, y;
 	public static final double WIDTH = 35;
 	public static final double HEIGHT = 40;
-	private Image image = new Image(getClass().getClassLoader().getResourceAsStream("exit.png"));
+	private Image image = MainApplication.loadImage("exit.png");
 	
 	public Exit(GraphicsContext gc, double x, double y){
 		this.gc = gc;

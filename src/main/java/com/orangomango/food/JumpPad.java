@@ -7,7 +7,7 @@ import com.orangomango.food.ui.GameScreen;
 
 public class JumpPad extends GameObject{
 	private static final double SIZE = 18;
-	private Image image = new Image(getClass().getClassLoader().getResourceAsStream("jumppad.png"));
+	private Image image = MainApplication.loadImage("jumppad.png");
 	
 	public JumpPad(GraphicsContext gc, double x, double y){
 		super(gc, x, y, SIZE, SIZE);

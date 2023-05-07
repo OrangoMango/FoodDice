@@ -24,7 +24,7 @@ public class GameScreen{
 	public Timeline loop;
 	private Exit exit;
 	private int currentLevel;
-	private Image backgroundTile = new Image(getClass().getClassLoader().getResourceAsStream("background.png"));
+	private Image backgroundTile = MainApplication.loadImage("background.png");
 	private double levelWidth, levelHeight;
 	private volatile boolean paused;
 	private Image pausedImage;
@@ -171,10 +171,10 @@ public class GameScreen{
 							sprites.add(new Platform(gc, px, py, Platform.PlatformType.MEDIUM));
 							break;
 						case 2:
-							sprites.add(new Platform(gc, px, py, pw, ph, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+							sprites.add(new Platform(gc, px, py, pw, ph, MainApplication.loadImage("ground.png")));
 							break;
 						case 3:
-							sprites.add(new Platform(gc, px, py, pw, ph, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+							sprites.add(new Platform(gc, px, py, pw, ph, MainApplication.loadImage("wood.png")));
 							break;
 						case 4:
 							sprites.add(new Spike(gc, px, py, "fire"));
@@ -268,7 +268,7 @@ public class GameScreen{
 				this.player = new Player(gc, 40, 240, Player.SIZE, Player.SIZE);
 				sprites.add(player);
 				
-				sprites.add(new Platform(gc, 0, 256, 96, this.levelHeight-256-150, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 256, 96, this.levelHeight-256-150, MainApplication.loadImage("ground.png")));
 				sprites.add(new Box(gc, 65, 30));
 				sprites.add(new Box(gc, 65, 0));
 				Door door = new Door(gc, 385, 206);
@@ -283,7 +283,7 @@ public class GameScreen{
 					mob.turnOn();
 				}));
 				sprites.add(new ActivatorPad(gc, 420, 180, () -> laser.turnOff(), () -> laser.turnOn()));
-				sprites.add(new Platform(gc, 385, 256, 224, this.levelHeight-256-150, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 385, 256, 224, this.levelHeight-256-150, MainApplication.loadImage("wood.png")));
 				sprites.add(mob);
 				sprites.add(new Platform(gc, 260, 270, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 150, 150, Platform.PlatformType.MEDIUM));
@@ -318,10 +318,10 @@ public class GameScreen{
 				this.player = new Player(gc, 20, 240, Player.SIZE, Player.SIZE);
 				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice's position"));
 				sprites.add(this.player);
-				sprites.add(new Platform(gc, 0, 256, 192, 400-256, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 348, 256, 192, 400-256, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 348, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
 				sprites.add(new Liquid(gc, 348+192, 350, 800-348-192, 50));
-				sprites.add(new Platform(gc, 0, 0, 200, 125, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 0, 200, 125, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 220, 256, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 700, 175, Platform.PlatformType.SMALL));
 				sprites.add(new Platform(gc, 600, 115, Platform.PlatformType.SMALL));
@@ -347,9 +347,9 @@ public class GameScreen{
 				sprites.add(this.player);
 				
 				// Grounds
-				sprites.add(new Platform(gc, 0, 0, 800, 72, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 0, 220, 650, 145, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 145, 500, 650, 145, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 0, 220, 650, 145, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 145, 500, 650, 145, MainApplication.loadImage("ground.png")));
 				
 				// Part 1
 				sprites.add(new Platform(gc, 0, 110, Platform.PlatformType.MEDIUM));
@@ -365,7 +365,7 @@ public class GameScreen{
 				// Part 2
 				sprites.add(new Laser(gc, 595, 365, 30, 30));
 				sprites.add(new Laser(gc, 400, 365, 30, 30));
-				sprites.add(new Platform(gc, 400, 425, 35, 75, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 400, 425, 35, 75, MainApplication.loadImage("wood.png")));
 				sprites.add(new JumpPad(gc, 470, 475));
 				sprites.add(new GameText(gc, 460, 435, 300, 20, "JumpPads can be pushed"));
 				sprites.add(new Shooter(gc, 180, 480, false));
@@ -377,7 +377,7 @@ public class GameScreen{
 				sprites.add(new Laser(gc, 165, 645, 30, 30));
 				sprites.add(new Laser(gc, 285, 645, 30, 30));
 				sprites.add(new Laser(gc, 405, 645, 30, 30));
-				sprites.add(new Platform(gc, 495, 700, 35, 100, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 495, 700, 35, 100, MainApplication.loadImage("wood.png")));
 				sprites.add(new JumpPad(gc, 465, 780));
 				sprites.add(new Laser(gc, 575, 645, 30, 30));
 				
@@ -398,9 +398,9 @@ public class GameScreen{
 				sprites.add(this.player);
 				
 				// Grounds
-				sprites.add(new Platform(gc, 0, 0, 800, 72, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 0, 220, 670, 145, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 145, 500, 655, 145, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 0, 220, 670, 145, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 145, 500, 655, 145, MainApplication.loadImage("ground.png")));
 				
 				// Part 1
 				sprites.add(new Laser(gc, 115, 72, 30, 30));
@@ -419,7 +419,7 @@ public class GameScreen{
 				sprites.add(new GameText(gc, 400, 390, 300, 25, "Boxes can be pushed"));
 				Door door_l3 = new Door(gc, 365, 450);
 				sprites.add(door_l3);
-				sprites.add(new Platform(gc, 357, 365, 30, 85, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 357, 365, 30, 85, MainApplication.loadImage("wood.png")));
 				sprites.add(new ActivatorPad(gc, 475, 487, () -> door_l3.open(), () -> door_l3.close()));
 				Laser laser_l3 = new Laser(gc, 235, 365, 30, 30);
 				laser_l3.setTimeOff(850);
@@ -439,7 +439,7 @@ public class GameScreen{
 				sprites.add(laser3_l3);
 				sprites.add(laser4_l3);
 				sprites.add(new Shooter(gc, 675, 780, true));
-				sprites.add(new Platform(gc, 400, 700, 30, 100, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 400, 700, 30, 100, MainApplication.loadImage("wood.png")));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 60, 445));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 670, 740));
@@ -460,9 +460,9 @@ public class GameScreen{
 				sprites.add(this.player);
 				
 				// Grounds
-				sprites.add(new Platform(gc, 0, 0, 800, 72, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 0, 728, 800, 72, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
-				sprites.add(new Platform(gc, 0, 512, 290, 72, new Image(getClass().getClassLoader().getResourceAsStream("ground.png"))));
+				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 0, 728, 800, 72, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(gc, 0, 512, 290, 72, MainApplication.loadImage("ground.png")));
 				
 				sprites.add(new Laser(gc, 20, 584, 30, 30));
 				sprites.add(new Laser(gc, 120, 584, 30, 30));
@@ -488,7 +488,7 @@ public class GameScreen{
 				sprites.add(new Shooter(gc, 570, 565, false));
 				sprites.add(new Platform(gc, 700, 537, Platform.PlatformType.MEDIUM));
 				sprites.add(new MovablePlatform(gc, 470, 510, Platform.PlatformType.SMALL, 2, 0, 144, 0, 50));
-				sprites.add(new Platform(gc, 300, 490, 143, 40, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 300, 490, 143, 40, MainApplication.loadImage("wood.png")));
 				for (int i = 0; i < 11; i++){
 					sprites.add(new Spike(gc, i*25, 487, "fire"));
 				}
@@ -497,7 +497,7 @@ public class GameScreen{
 				sprites.add(new MovablePlatform(gc, 110, 315, Platform.PlatformType.SMALL, 0, 2, 0, 120, 50));
 				sprites.add(new Platform(gc, 5, 290, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 180, 290, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(gc, 300, 290, 140, 40, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 300, 290, 140, 40, MainApplication.loadImage("wood.png")));
 				sprites.add(new Laser(gc, 300, 330, 30, 30));
 				sprites.add(new Laser(gc, 390, 330, 30, 30));
 				sprites.add(new Laser(gc, 300, 72, 30, 30));
@@ -506,7 +506,7 @@ public class GameScreen{
 				sprites.add(new Laser(gc, 235, 72, 30, 30));
 				sprites.add(new Platform(gc, 475, 270, Platform.PlatformType.SMALL));
 				sprites.add(new Box(gc, 480, 235));
-				sprites.add(new Platform(gc, 547, 220, 33, 150, new Image(getClass().getClassLoader().getResourceAsStream("wood.png"))));
+				sprites.add(new Platform(gc, 547, 220, 33, 150, MainApplication.loadImage("wood.png")));
 				sprites.add(door_l4);
 				sprites.add(new Platform(gc, 580, 328, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 733, 328, Platform.PlatformType.SMALL));
@@ -544,9 +544,9 @@ public class GameScreen{
 		canvas.setOnMousePressed(e -> {
 			for (int i = 0; i < this.buttons.size(); i++){
 				MenuButton mb = this.buttons.get(i);
-				mb.click(e.getX(), e.getY());
+				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			}
-			KeyCode k = this.joystick.clicked(e.getX(), e.getY());
+			KeyCode k = this.joystick.clicked(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			if (k != null){
 				handlePress(k, canvas);
 			}
@@ -594,7 +594,7 @@ public class GameScreen{
 						HomeScreen hs = new HomeScreen();
 						MainApplication.stage.getScene().setRoot(hs.getLayout());
 					}
-				}, 250, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_home.png"))));
+				}, 250, 200, 75, 75, MainApplication.loadImage("button_home.png")));
 				this.buttons.add(new MenuButton(() -> {
 					if (this.currentLevel < 0){
 						loadLevel(gc, -1, this.loadString.split("\n"));
@@ -604,8 +604,8 @@ public class GameScreen{
 					this.paused = false;
 					this.pausedImage = null;
 					this.buttons.clear();
-				}, 350, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_restart.png"))));
-				this.buttons.add(new MenuButton(() -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, new Image(getClass().getClassLoader().getResourceAsStream("button_continue.png"))));
+				}, 350, 200, 75, 75, MainApplication.loadImage("button_restart.png")));
+				this.buttons.add(new MenuButton(() -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, MainApplication.loadImage("button_continue.png")));
 			} else {
 				this.pausedImage = null;
 				this.pausedTime += System.currentTimeMillis()-this.pausedStart;
@@ -661,6 +661,7 @@ public class GameScreen{
 			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.setGlobalAlpha(1);
 			gc.setFill(Color.WHITE);
+			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 			gc.setFont(FONT_55);
 			gc.fillText("PAUSED", 310, 150);
 			for (MenuButton mb : this.buttons){
@@ -672,6 +673,7 @@ public class GameScreen{
 		
 		gc.save();
 		if (this.showCamera){
+			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 			gc.translate(-this.player.getX()+200-this.cameraShakeX, -this.player.getY()+125-this.cameraShakeY);
 		} else {
 			gc.scale(MainApplication.WIDTH/this.levelWidth, MainApplication.HEIGHT/this.levelHeight);
@@ -796,6 +798,9 @@ public class GameScreen{
 			gc.restore();
 		}
 		gc.restore();
+		
+		gc.save();
+		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
 		if (keys.getOrDefault(KeyCode.M, false)){
 			gc.setFill(Color.WHITE);
@@ -812,9 +817,10 @@ public class GameScreen{
 		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
 		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
 		gc.restore();
-		this.notification.render(gc);
 		
+		this.notification.render(gc);
 		// For mobile
 		//if (this.showMinimap) this.joystick.render();
+		gc.restore();
 	}
 }

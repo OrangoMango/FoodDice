@@ -12,14 +12,14 @@ public class Spike extends GameObject{
 		super(gc, x, y, SIZE, SIZE);
 		switch (type){
 			case "fire":
-				this.images[0] = new Image(getClass().getClassLoader().getResourceAsStream("spike_1.png"));
-				this.images[1] = new Image(getClass().getClassLoader().getResourceAsStream("spike.png"));
-				this.images[2] = new Image(getClass().getClassLoader().getResourceAsStream("spike_2.png"));
+				this.images[0] = MainApplication.loadImage("spike_1.png");
+				this.images[1] = MainApplication.loadImage("spike.png");
+				this.images[2] = MainApplication.loadImage("spike_2.png");
 				startImageAnimation(200, 2, true);
 				break;
 			case "cactus":
 				for (int i = 0; i < 4; i++){
-					this.images[i] = new Image(getClass().getClassLoader().getResourceAsStream("cactus_"+i+".png"));
+					this.images[i] = MainApplication.loadImage("cactus_"+i+".png");
 				}
 				Random random = new Random();
 				this.imageIndex = random.nextInt(4);
