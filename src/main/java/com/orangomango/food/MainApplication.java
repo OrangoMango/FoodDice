@@ -45,19 +45,19 @@ public class MainApplication extends Application{
 	}
 	
 	private static void loadSounds(){
-		BACKGROUND_MUSIC = new Media(MainApplication.class.getClassLoader().getResource("background.mp3").toExternalForm());
-		DIE_SOUND = new Media(MainApplication.class.getClassLoader().getResource("die.wav").toExternalForm());
-		JUMP_SOUND = new Media(MainApplication.class.getClassLoader().getResource("jump.wav").toExternalForm());
-		NOTIFICATION_SOUND = new Media(MainApplication.class.getClassLoader().getResource("notification.wav").toExternalForm());
-		LEVEL_COMPLETE_SOUND = new Media(MainApplication.class.getClassLoader().getResource("level_complete.wav").toExternalForm());
-		CLICK_SOUND = new Media(MainApplication.class.getClassLoader().getResource("click.wav").toExternalForm());
-		CHECKPOINT_SOUND = new Media(MainApplication.class.getClassLoader().getResource("checkpoint.wav").toExternalForm());
-		MOVE_SOUND = new Media(MainApplication.class.getClassLoader().getResource("move.wav").toExternalForm());
-		COIN_SOUND = new Media(MainApplication.class.getClassLoader().getResource("coin.wav").toExternalForm());
+		BACKGROUND_MUSIC = new Media(MainApplication.class.getResource("/audio/background.mp3").toExternalForm());
+		DIE_SOUND = new Media(MainApplication.class.getResource("/audio/die.wav").toExternalForm());
+		JUMP_SOUND = new Media(MainApplication.class.getResource("/audio/jump.wav").toExternalForm());
+		NOTIFICATION_SOUND = new Media(MainApplication.class.getResource("/audio/notification.wav").toExternalForm());
+		LEVEL_COMPLETE_SOUND = new Media(MainApplication.class.getResource("/audio/level_complete.wav").toExternalForm());
+		CLICK_SOUND = new Media(MainApplication.class.getResource("/audio/click.wav").toExternalForm());
+		CHECKPOINT_SOUND = new Media(MainApplication.class.getResource("/audio/checkpoint.wav").toExternalForm());
+		MOVE_SOUND = new Media(MainApplication.class.getResource("/audio/move.wav").toExternalForm());
+		COIN_SOUND = new Media(MainApplication.class.getResource("/audio/coin.wav").toExternalForm());
 	}
 	
 	public static Image loadImage(String name){
-		return new Image(MainApplication.class.getResourceAsStream("/"+name));
+		return new Image(MainApplication.class.getResourceAsStream("/images/"+name));
 	}
 	
 	public static void playSound(Media media, boolean rep){

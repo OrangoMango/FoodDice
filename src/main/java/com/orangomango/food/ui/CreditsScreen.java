@@ -32,7 +32,7 @@ public class CreditsScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		home.render(gc);
 		gc.setFill(Color.BLACK);
-		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 30));
+		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 30));
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText("Game written in Java\nFramework used: JavaFX\nCode and images made by OrangoMango\nSounds from freesound.org\nGMTK Game Jam 2022\nPost-Jam update v3.0\n...\nhttps://github.com/OrangoMango", 400, 50);
 		

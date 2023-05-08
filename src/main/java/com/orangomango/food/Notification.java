@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 public class Notification{
 	private String text = "";
 	private boolean mustShow;
-	private static Font font = Font.loadFont(Notification.class.getClassLoader().getResourceAsStream("font.ttf"), 30);
+	private static Font font = Font.loadFont(Notification.class.getResourceAsStream("/font.ttf"), 30);
 	
 	public void setText(String t, int millis){
 		this.text = t;

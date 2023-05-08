@@ -9,9 +9,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.image.*;
 import javafx.scene.text.Font;
 
+import java.util.*;
+import java.io.*;
+
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
-import java.util.*;
 
 public class GameScreen{
 	private volatile List<GameObject> sprites = new ArrayList<>();
@@ -45,8 +47,8 @@ public class GameScreen{
 	
 	private JoyStick joystick;
 	
-	private static Font FONT_20 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 20);
-	private static Font FONT_55 = Font.loadFont(GameScreen.class.getClassLoader().getResourceAsStream("font.ttf"), 55);
+	private static Font FONT_20 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 20);
+	private static Font FONT_55 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 55);
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -191,11 +193,8 @@ public class GameScreen{
 							sprites.add(laser);
 							break;
 						case 7:
-							Shooter shooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5]));
-							if (line.split(",").length == 7){
-								String txt = line.split(",")[8];
-								shooter.setTimeOff(Integer.parseInt(txt));
-							}
+							Shooter shooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5].split("-")[0]));
+							shooter.setTimeOff(Integer.parseInt(line.split(",")[5].split("-")[1]));
 							sprites.add(shooter);
 							break;
 						case 8:
@@ -339,116 +338,13 @@ public class GameScreen{
 				this.exit = new Exit(gc, 270, 40);
 				break;
 			case 2:
-				this.levelWidth = 800;
-				this.levelHeight = 800;
-				this.showCamera = true;
-
-				this.player = new Player(gc, 10, 90, Player.SIZE, Player.SIZE);
-				sprites.add(this.player);
-				
-				// Grounds
-				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(gc, 0, 220, 650, 145, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(gc, 145, 500, 650, 145, MainApplication.loadImage("ground.png")));
-				
-				// Part 1
-				sprites.add(new Platform(gc, 0, 110, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(gc, 160, 180, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(gc, 280, 150, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(gc, 400, 120, Platform.PlatformType.MEDIUM));
-				sprites.add(new Laser(gc, 540, 72, 30, 30));
-				sprites.add(new Shooter(gc, 230, 200, true));
-				sprites.add(new Shooter(gc, 253, 200, false));
-				sprites.add(new CheckPoint(gc, 610, 170));
-				sprites.add(new MovablePlatform(gc, 690, 215, Platform.PlatformType.SMALL, 0, 5, 0, 250, 50));
-				
-				// Part 2
-				sprites.add(new Laser(gc, 595, 365, 30, 30));
-				sprites.add(new Laser(gc, 400, 365, 30, 30));
-				sprites.add(new Platform(gc, 400, 425, 35, 75, MainApplication.loadImage("wood.png")));
-				sprites.add(new JumpPad(gc, 470, 475));
+				loadLevel(gc, -1, getLevelData(2));
 				sprites.add(new GameText(gc, 460, 435, 300, 20, "JumpPads can be pushed"));
-				sprites.add(new Shooter(gc, 180, 480, false));
-				sprites.add(new Platform(gc, 220, 450, Platform.PlatformType.MEDIUM));
-				sprites.add(new CheckPoint(gc, 150, 450));
-				sprites.add(new MovablePlatform(gc, 55, 495, Platform.PlatformType.SMALL, 0, 5, 0, 260, 50));
-				
-				// Part 3
-				sprites.add(new Laser(gc, 165, 645, 30, 30));
-				sprites.add(new Laser(gc, 285, 645, 30, 30));
-				sprites.add(new Laser(gc, 405, 645, 30, 30));
-				sprites.add(new Platform(gc, 495, 700, 35, 100, MainApplication.loadImage("wood.png")));
-				sprites.add(new JumpPad(gc, 465, 780));
-				sprites.add(new Laser(gc, 575, 645, 30, 30));
-				
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 325, 110));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 750, 150));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 570, 370));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 225, 735));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 335, 735));
-				
-				this.exit = new Exit(gc, 730, 760);
-				break;
+				return;
 			case 3:
-				this.levelWidth = 800;
-				this.levelHeight = 800;
-				this.showCamera = true;
-
-				this.player = new Player(gc, 10, 200, Player.SIZE, Player.SIZE);
-				sprites.add(this.player);
-				
-				// Grounds
-				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(gc, 0, 220, 670, 145, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(gc, 145, 500, 655, 145, MainApplication.loadImage("ground.png")));
-				
-				// Part 1
-				sprites.add(new Laser(gc, 115, 72, 30, 30));
-				sprites.add(new Laser(gc, 235, 72, 30, 30));
-				sprites.add(new Laser(gc, 355, 72, 30, 30));
-				sprites.add(new Platform(gc, 460, 200, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(gc, 570, 170, Platform.PlatformType.MEDIUM));
-				sprites.add(new Laser(gc, 680, 72, 30, 30));
-				sprites.add(new MovablePlatform(gc, 715, 170, Platform.PlatformType.SMALL, 0, 5, 0, 290, 50));
-				sprites.add(new CheckPoint(gc, 615, 120));
-				
-				// Part 2
-				sprites.add(new Laser(gc, 615, 365, 30, 30));
-				sprites.add(new Platform(gc, 535, 475, Platform.PlatformType.SMALL));
-				sprites.add(new Box(gc, 540, 445));
+				loadLevel(gc, -1, getLevelData(3));
 				sprites.add(new GameText(gc, 400, 390, 300, 25, "Boxes can be pushed"));
-				Door door_l3 = new Door(gc, 365, 450);
-				sprites.add(door_l3);
-				sprites.add(new Platform(gc, 357, 365, 30, 85, MainApplication.loadImage("wood.png")));
-				sprites.add(new ActivatorPad(gc, 475, 487, () -> door_l3.open(), () -> door_l3.close()));
-				Laser laser_l3 = new Laser(gc, 235, 365, 30, 30);
-				laser_l3.setTimeOff(850);
-				Laser laser2_l3 = new Laser(gc, 305, 365, 30, 30);
-				laser2_l3.setTimeOff(850);
-				sprites.add(laser_l3);
-				sprites.add(laser2_l3);
-				sprites.add(new CheckPoint(gc, 150, 450));
-				sprites.add(new MovablePlatform(gc, 55, 495, Platform.PlatformType.SMALL, 0, 5, 0, 260, 50));
-				sprites.add(new JumpPad(gc, 183, 480));
-
-				// Part 3
-				Laser laser3_l3 = new Laser(gc, 165, 645, 30, 30);
-				Laser laser4_l3 = new Laser(gc, 285, 645, 30, 30);
-				laser3_l3.setTimeOff(500);
-				laser4_l3.setTimeOff(500);
-				sprites.add(laser3_l3);
-				sprites.add(laser4_l3);
-				sprites.add(new Shooter(gc, 675, 780, true));
-				sprites.add(new Platform(gc, 400, 700, 30, 100, MainApplication.loadImage("wood.png")));
-				
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 60, 445));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 670, 740));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 155, 155));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 280, 155));
-				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 760, 115));
-				
-				this.exit = new Exit(gc, 730, 760);
-				break;
+				return;
 			case 4:
 				this.levelWidth = 800;
 				this.levelHeight = 800;
@@ -523,6 +419,19 @@ public class GameScreen{
 				break;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
+	}
+	
+	private String[] getLevelData(int n){
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/levels/level"+n+".lvl")));
+			List<String> lines = new ArrayList<>();
+			reader.lines().forEach(line -> lines.add(line));
+			reader.close();
+			return lines.toArray(new String[lines.size()]);
+		} catch (IOException ex){
+			ex.printStackTrace();
+			return null;
+		}
 	}
 	
 	public StackPane getLayout(){
@@ -674,7 +583,7 @@ public class GameScreen{
 		gc.save();
 		if (this.showCamera){
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
-			gc.translate(-this.player.getX()+200-this.cameraShakeX, -this.player.getY()+125-this.cameraShakeY);
+			gc.translate(-this.player.getX()+200-this.cameraShakeX, -this.player.getY()+175-this.cameraShakeY);
 		} else {
 			gc.scale(MainApplication.WIDTH/this.levelWidth, MainApplication.HEIGHT/this.levelHeight);
 		}

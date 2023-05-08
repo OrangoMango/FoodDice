@@ -81,7 +81,7 @@ public class Editor{
 		
 		public void render(GraphicsContext gc){
 			if (Integer.parseInt(this.id.split(";")[0]) == 7){
-				if (this.extra.equals(",true")){
+				if (this.extra.startsWith(",true")){
 					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
 				} else {
 					gc.drawImage(this.image, this.x+this.w, this.y, -this.w, this.h);
@@ -178,7 +178,10 @@ public class Editor{
 		
 		loadAngles();
 		
-		this.canvas = new Canvas(levelWidth, levelHeight);
+		// Set layouts for buttons
+		ToggleGroup tg = new ToggleGroup();
+		
+		this.canvas = new Canvas(this.levelWidth, this.levelHeight);
 		canvas.setOnMouseMoved(e -> {
 			this.selectedImage.x = e.getX();
 			this.selectedImage.y = e.getY();
@@ -211,6 +214,7 @@ public class Editor{
 				updatePropsLayout();
 			} else if (e.getButton() == MouseButton.SECONDARY){
 				this.selectedImage.setImage(null);
+				tg.selectToggle(null);
 			}
 		});
 		
@@ -218,9 +222,6 @@ public class Editor{
 		Accordion accordion = new Accordion();
 		accordion.setMaxWidth(250);
 		accordion.setMinWidth(250);
-		
-		// Set layouts for buttons
-		ToggleGroup tg = new ToggleGroup();
 		
 		// Blocks
 		TilePane blocksPane = new TilePane();
@@ -625,7 +626,7 @@ public class Editor{
 					Label timeOffSL = new Label("Millis: ");
 					TextField timeOffS = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr2 = new Button("Save");
-					savePr2.setOnAction(e -> item.extra = ","+(!toRight.isSelected())+","+timeOffS.getText());
+					savePr2.setOnAction(e -> item.extra = ","+(!toRight.isSelected())+"-"+timeOffS.getText());
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(toRight, 0, 6, 2, 1);
 					this.props.add(timeOffSL, 0, 7);
@@ -681,9 +682,7 @@ public class Editor{
 		int c = 0;
 		for (LevelItem li : this.items){
 			builder.append(li.toString());
-			if (c < this.items.size()-1){
-				builder.append("\n");
-			}
+			builder.append("\n");
 			c++;
 		}
 		return builder.toString();
@@ -708,6 +707,7 @@ public class Editor{
 	
 	private void loadFile(String name){
 		lastFile = name;
+		this.saveFileName = name;
 		File file = new File(saveDirectory, name);
 		if (this.loop != null) this.loop.pause();
 		this.items.clear();
@@ -715,6 +715,7 @@ public class Editor{
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line = null;
 			int c = 0;
+			List<Integer> ids = new ArrayList<>();
 			do {
 				line = reader.readLine();
 				if (line == null) continue;
@@ -724,6 +725,7 @@ public class Editor{
 					this.showCamera = Boolean.parseBoolean(line.split("x")[2]);
 				} else {
 					int type = Integer.parseInt(line.split(",")[0].split(";")[0]);
+					int id = Integer.parseInt(line.split(",")[0].split(";")[1]);
 					double px = Double.parseDouble(line.split(",")[1]);
 					double py = Double.parseDouble(line.split(",")[2]);
 					double pw = Double.parseDouble(line.split(",")[3]);
@@ -785,15 +787,16 @@ public class Editor{
 							image = loadImage("platform_medium_editor.png");
 							break;
 					}
-					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+(c-1));
+					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
 						levelitem.extra = ","+line.split(",")[5];
 					}
 					this.items.add(levelitem);
-					this.blockID = c;
+					ids.add(id);
 				}
 				c++;
 			} while (line != null);
+			this.blockID = Collections.max(ids)+1;
 			loadAngles();
 			if (this.canvas != null){
 				this.canvas.setWidth(this.levelWidth);

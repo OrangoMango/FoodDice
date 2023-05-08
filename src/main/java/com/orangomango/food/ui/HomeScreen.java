@@ -32,7 +32,7 @@ public class HomeScreen{
 		layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 25));
+		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 25));
 		
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();

@@ -28,11 +28,11 @@ public class WinScreen{
 		
 		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
-		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 50));
+		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 50));
 		gc.setFill(Color.BLACK);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText("YOU WIN!", 400, 100);
-		gc.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("font.ttf"), 35));
+		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 35));
 		gc.fillText("Thanks for playing", 400, 200);
 		home.render(gc);
 		
