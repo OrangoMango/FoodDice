@@ -220,13 +220,15 @@ public class Editor{
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Accordion accordion = new Accordion();
-		accordion.setMaxWidth(250);
-		accordion.setMinWidth(250);
+		accordion.setMaxWidth(250*MainApplication.SCALE);
+		accordion.setMinWidth(250*MainApplication.SCALE);
+		accordion.setMaxHeight(350*MainApplication.SCALE);
+		accordion.setMinHeight(350*MainApplication.SCALE);
 		
 		// Blocks
 		TilePane blocksPane = new TilePane();
-		blocksPane.setHgap(10);
-		blocksPane.setVgap(10);
+		blocksPane.setHgap(10*MainApplication.SCALE);
+		blocksPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b1 = new ToggleButton();
 		b1.setGraphic(new ImageView(loadImage("platform_small.png")));
 		b1.setOnAction(e -> {
@@ -275,8 +277,8 @@ public class Editor{
 		
 		// Damage blocks
 		TilePane damagePane = new TilePane();
-		damagePane.setHgap(10);
-		damagePane.setVgap(10);
+		damagePane.setHgap(10*MainApplication.SCALE);
+		damagePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b5 = new ToggleButton();
 		b5.setGraphic(new ImageView(loadImage("spike.png")));
 		b5.setOnAction(e -> {
@@ -311,8 +313,8 @@ public class Editor{
 		
 		// Pushable blocks
 		TilePane pushablePane = new TilePane();
-		pushablePane.setHgap(10);
-		pushablePane.setVgap(10);
+		pushablePane.setHgap(10*MainApplication.SCALE);
+		pushablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b9 = new ToggleButton();
 		b9.setGraphic(new ImageView(loadImage("box.png")));
 		b9.setOnAction(e -> {
@@ -333,8 +335,8 @@ public class Editor{
 		
 		// Activable blocks
 		TilePane activablePane = new TilePane();
-		activablePane.setHgap(10);
-		activablePane.setVgap(10);
+		activablePane.setHgap(10*MainApplication.SCALE);
+		activablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b11 = new ToggleButton();
 		b11.setGraphic(new ImageView(loadImage("activatorpad.png")));
 		b11.setOnAction(e -> {
@@ -355,8 +357,8 @@ public class Editor{
 		
 		// Collectable objects
 		TilePane collectablePane = new TilePane();
-		collectablePane.setHgap(10);
-		collectablePane.setVgap(10);
+		collectablePane.setHgap(10*MainApplication.SCALE);
+		collectablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b13 = new ToggleButton();
 		b13.setGraphic(new ImageView(loadImage("coin.png")));
 		b13.setOnAction(e -> {
@@ -370,8 +372,8 @@ public class Editor{
 		
 		// Special objects
 		TilePane specialPane = new TilePane();
-		specialPane.setHgap(10);
-		specialPane.setVgap(10);
+		specialPane.setHgap(10*MainApplication.SCALE);
+		specialPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b14 = new ToggleButton();
 		b14.setGraphic(new ImageView(loadImage("checkpoint_off.png")));
 		b14.setOnAction(e -> {
@@ -398,24 +400,24 @@ public class Editor{
 		accordion.getPanes().add(special);
 		
 		ScrollPane canvasPane = new ScrollPane(canvas);
-		canvasPane.setMaxWidth(500);
-		canvasPane.setMaxHeight(350);
-		canvasPane.setMinWidth(500);
-		canvasPane.setMinHeight(350);
+		canvasPane.setMaxWidth(500*MainApplication.SCALE);
+		canvasPane.setMaxHeight(325*MainApplication.SCALE);
+		canvasPane.setMinWidth(500*MainApplication.SCALE);
+		canvasPane.setMinHeight(325*MainApplication.SCALE);
 		
 		TabPane tabs = new TabPane();
 		Tab blk = new Tab("Blocks");
 		blk.setClosable(false);
-		blk.setContent(accordion);
+		blk.setContent(new ScrollPane(accordion));
 		Tab prop = new Tab("Properties");
 		prop.setClosable(false);
 		
 		this.props = new GridPane();
-		this.props.setPadding(new Insets(5, 5, 5, 5));
-		this.props.setHgap(5);
-		this.props.setVgap(5);
+		this.props.setPadding(new Insets(5*MainApplication.SCALE, 5*MainApplication.SCALE, 5*MainApplication.SCALE, 5*MainApplication.SCALE));
+		this.props.setHgap(5*MainApplication.SCALE);
+		this.props.setVgap(5*MainApplication.SCALE);
 		updatePropsLayout();
-		prop.setContent(this.props);
+		prop.setContent(new ScrollPane(this.props));
 		
 		tabs.getTabs().addAll(blk, prop);
 		
@@ -536,6 +538,10 @@ public class Editor{
 			CheckBox cameraAllowed = new CheckBox("Game-Camera");
 			cameraAllowed.setSelected(this.showCamera);
 			cameraAllowed.selectedProperty().addListener((ob, oldV, newV) -> this.showCamera = newV);
+			Image preview = this.canvas.snapshot(null, new WritableImage(this.levelWidth, this.levelHeight));
+			ImageView view = new ImageView(preview);
+			view.setPreserveRatio(true);
+			view.setFitWidth(200*MainApplication.SCALE);
 			this.props.add(wid, 0, 0);
 			this.props.add(hei, 0, 1);
 			this.props.add(nameL, 0, 2);
@@ -544,6 +550,7 @@ public class Editor{
 			this.props.add(name, 1, 2);
 			this.props.add(apply, 1, 3);
 			this.props.add(cameraAllowed, 0, 4, 2, 1);
+			this.props.add(view, 0, 5, 2, 1);
 		} else {
 			// Block settings
 			LevelItem item = getByID(Integer.parseInt(this.clickSelected.split(";")[1]));
