@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.orangomango'
-version '3.0'
+version '2.1'
 
 repositories {
     mavenCentral()
