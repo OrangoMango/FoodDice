@@ -315,7 +315,7 @@ public class GameScreen{
 				this.showCamera = false;
 				
 				this.player = new Player(gc, 20, 240, Player.SIZE, Player.SIZE);
-				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice's position"));
+				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice position"));
 				sprites.add(this.player);
 				sprites.add(new Platform(gc, 0, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 348, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
@@ -711,7 +711,7 @@ public class GameScreen{
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
-		if (keys.getOrDefault(KeyCode.M, false)){
+		if (keys.getOrDefault(KeyCode.I, false)){
 			gc.setFill(Color.WHITE);
 			gc.fillText(String.format("Player at X:%.2f Y:%.2f", this.player.getX(), this.player.getY())+"\nCamera available: "+this.showCamera+String.format("\nFPS: %s\nGravity: %.2f\nLevel: %s\nRunning threads: %s", this.currentFPS, this.player.getGravity(), this.currentLevel, Thread.getAllStackTraces().keySet().size()), 50, 30);
 		}

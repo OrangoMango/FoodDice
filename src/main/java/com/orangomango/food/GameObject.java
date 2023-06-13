@@ -4,7 +4,6 @@ import javafx.scene.canvas.*;
 import javafx.animation.*;
 import javafx.util.Duration;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.input.KeyCode;
 
 import com.orangomango.food.ui.GameScreen;
 
@@ -39,10 +38,6 @@ public abstract class GameObject{
 	}
 	
 	public abstract void render();
-	
-	public boolean isEffectAvailable(){
-		return this.loadEffect;
-	}
 	
 	public void destroy(){
 		this.stopThread = true;
@@ -153,7 +148,7 @@ public abstract class GameObject{
 				if (foundNearest != null){
 					this.y = foundNearest.getY()-this.h;
 				} else {
-					//this.y = GameScreen.getInstance().getLevelHeight()-this.h;
+					this.y = GameScreen.getInstance().getLevelHeight()-this.h;
 				}
 			} else {
 				if (this instanceof Player && GameScreen.getInstance().getSpecialEffect().slowFall){
@@ -169,82 +164,31 @@ public abstract class GameObject{
 		gr.play();
 	}
 	
-	/*public GameObject getNearestTopObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x-10, this.y-Player.Y_SPEED, this.w+20, this.h+Player.X_SPEED);
-			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getY()+go.getHeight() < this.y && thisColl.intersects(otherColl)){
-				if (found == null || go.getY() > found.getY()){
-					found = go;
-				}
-			}
-		}
-		return found;
-	}*/
-	
 	public GameObject getNearestBottomObject(GameObject exclude){
 		GameObject found = null;
 		for (GameObject go : GameScreen.getInstance().getSprites()){
 			if (go == exclude || !go.isSolid()) continue;
-			try {
-				Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w, this.h+GameScreen.getInstance().getLevelHeight());
-				Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-				if (go.getY() >= this.y+this.h && thisColl.intersects(otherColl)){
-					if (found == null || go.getY() < found.getY()){
-						found = go;
-					}
-				}
-			} catch (IllegalArgumentException ex){
-			}
-		}
-		return found;
-	}
-	
-	/*public GameObject getNearestLeftObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x-Player.X_SPEED, this.y, this.w+Player.X_SPEED, this.h);
+			Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w, this.h+GameScreen.getInstance().getLevelHeight());
 			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getX()+go.getWidth() < this.x+this.w && thisColl.intersects(otherColl)){
-				if (found == null || go.getX() > found.getX()){
+			if (go.getY() >= this.y+this.h && thisColl.intersects(otherColl)){
+				if (found == null || go.getY() < found.getY()){
 					found = go;
 				}
 			}
 		}
 		return found;
 	}
-	
-	public GameObject getNearestRightObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w+Player.X_SPEED, this.h);
-			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getX() > this.x && thisColl.intersects(otherColl)){
-				if (found == null || go.getX() < found.getX()){
-					found = go;
-				}
-			}
-		}
-		return found;
-	}*/
 	
 	public boolean collided(double x, double y, double w, double h){
-		Rectangle2D playerCollision = new Rectangle2D(x, y, w, h);
+		Rectangle2D otherCollision = new Rectangle2D(x, y, w, h);
 		Rectangle2D thisCollision = new Rectangle2D(this.x, this.y, this.w, this.h);
-		return playerCollision.intersects(thisCollision);
+		return thisCollision.intersects(otherCollision);
 	}
 	
 	public boolean collided(GameObject go){
 		return collided(go.getX(), go.getY(), go.getWidth(), go.getHeight());
 	}
 	
-	/**
-	 * This method checks collision between solid objects. It's useful to setup the correct gravity
-	 */
 	public boolean checkCollision(double px, double py, double pw, double ph){
 		for (GameObject ob : GameScreen.getInstance().getSprites()){
 			if (ob.isSolid() && ob != this){
@@ -285,7 +229,7 @@ public abstract class GameObject{
 		}, "move-sound-cooldown").start();
 		MainApplication.playSound(MainApplication.MOVE_SOUND, false);
 	}
-	
+
 	public void moveLeft(double speed){
 		if (this.movingLeft || this.movingRight || this.died) return;
 		if (this.x-speed < 0) return;
@@ -312,7 +256,7 @@ public abstract class GameObject{
 		this.motionLeft.setCycleCount(n);
 		this.motionLeft.play();
 	}
-	
+
 	public void moveRight(double speed){
 		if (this.movingRight || this.movingLeft || this.died) return;
 		if (this.x+this.w+speed > GameScreen.getInstance().getLevelWidth()) return;

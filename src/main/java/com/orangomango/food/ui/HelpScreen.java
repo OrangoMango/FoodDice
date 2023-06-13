@@ -13,7 +13,7 @@ import com.orangomango.food.MainApplication;
 public class HelpScreen{
 	private Timeline loop;
 	private MenuButton home;
-	private Image[] images = new Image[13];
+	private Image[] images = new Image[14];
 	private boolean forward = true;
 	private double extraY = 1;
 	private Image background = MainApplication.loadImage("background_home.jpg");
@@ -31,7 +31,8 @@ public class HelpScreen{
 		this.images[9] = MainApplication.loadImage("key_f2.png");
 		this.images[10] = MainApplication.loadImage("key_f3.png");
 		this.images[11] = MainApplication.loadImage("key_f4.png");
-		this.images[12] = MainApplication.loadImage("key_m.png");
+		this.images[12] = MainApplication.loadImage("key_i.png");
+		this.images[13] = MainApplication.loadImage("key_up.png");
 	}
 
 	public StackPane getLayout(){
@@ -65,11 +66,14 @@ public class HelpScreen{
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		this.home.render(gc);
-		
+
+		// TODO add spacebar key image
+
 		gc.drawImage(this.images[0], 75, 55+this.extraY);
 		gc.drawImage(this.images[1], 120, 55+this.extraY);
-		gc.drawImage(this.images[2], 75, 110+this.extraY);
-		gc.drawImage(this.images[3], 120, 110+this.extraY);
+		gc.drawImage(this.images[2], 40, 110+this.extraY);
+		gc.drawImage(this.images[3], 85, 110+this.extraY);
+		gc.drawImage(this.images[13], 130, 110+this.extraY);
 		gc.drawImage(this.images[4], 75, 200+this.extraY);
 		gc.drawImage(this.images[5], 130, 200+this.extraY);
 		gc.drawImage(this.images[6], 500, 55+this.extraY);
@@ -89,11 +93,11 @@ public class HelpScreen{
 		
 		gc.setFill(Color.BLACK);
 		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 20));
-		gc.fillText("Use A/D or arrow keys to move", 187, 100);
+		gc.fillText("Use A/D or arrow keys to move\nSpace or up arrow to jump", 187, 85);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);
 		gc.fillText("Use L to reload the level", 550, 130);
-		gc.fillText("Use M to toggle game info", 227, 330);
+		gc.fillText("Use I to toggle game info", 227, 330);
 		gc.fillText("Load the test level", 550, 240);
 		gc.fillText("View nearest bottom object", 550, 290);
 		gc.fillText("View player hitboxes", 550, 335);
