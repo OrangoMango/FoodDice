@@ -81,9 +81,6 @@ public class Player extends GameObject{
 	
 	public void die(boolean force){
 		GameScreen.getInstance().shakeCamera();
-		
-		if (true) return; // GOD MODE
-		
 		if ((this.died || GameScreen.getInstance().getSpecialEffect().invulnerability) && !force) return;
 		this.died = true;
 		MainApplication.playSound(MainApplication.DIE_SOUND, false);
