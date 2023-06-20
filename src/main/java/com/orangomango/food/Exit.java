@@ -17,8 +17,6 @@ public class Exit{
 	}
 	
 	public void render(){
-		//gc.setFill(Color.BLUE);
-		//gc.fillRect(this.x, this.y, WIDTH, HEIGHT);
 		gc.drawImage(this.image, this.x, this.y, WIDTH, HEIGHT);
 	}
 }

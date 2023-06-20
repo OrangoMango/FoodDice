@@ -36,16 +36,13 @@ public class Shooter extends GameObject{
 		}
 	}
 	
-	private static final double SIZE = 20;
-	private Image[] images = new Image[2];
+	private static Image[] IMAGES = new Image[]{MainApplication.loadImage("shooter.png"), MainApplication.loadImage("shooter_1.png")};
 	private boolean left;
 	private List<Bullet> bullets = new ArrayList<>();
 	private int timeOff = 1300;
 	
 	public Shooter(GraphicsContext gc, double x, double y, boolean left){
-		super(gc, x, y, SIZE, SIZE);
-		this.images[0] = MainApplication.loadImage("shooter.png");
-		this.images[1] = MainApplication.loadImage("shooter_1.png");
+		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 		this.solid = true;
 		this.left = left;
 		Thread anim = new Thread(() -> {
@@ -73,9 +70,9 @@ public class Shooter extends GameObject{
 	@Override
 	public void render(){
 		if (this.left){
-			gc.drawImage(this.images[this.imageIndex], this.x, this.y, SIZE, SIZE);
+			gc.drawImage(IMAGES[this.imageIndex], this.x, this.y, this.w, this.h);
 		} else {
-			gc.drawImage(this.images[this.imageIndex], this.x+SIZE, this.y, -SIZE, SIZE);
+			gc.drawImage(IMAGES[this.imageIndex], this.x+this.w, this.y, -this.w, this.h);
 		}
 		for (int i = 0; i < this.bullets.size(); i++){
 			Bullet b = this.bullets.get(i);

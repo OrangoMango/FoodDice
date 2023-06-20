@@ -349,9 +349,16 @@ public class Editor{
 			selectedBlock = 11;
 			this.selectedImage.setImage(loadImage("door_0.png"));
 		});
+		ToggleButton b19 = new ToggleButton();
+		b19.setGraphic(new ImageView(loadImage("portal.png")));
+		b19.setOnAction(e -> {
+			selectedBlock = 18;
+			this.selectedImage.setImage(loadImage("portal.png"));
+		});
 		b11.setToggleGroup(tg);
 		b12.setToggleGroup(tg);
-		activablePane.getChildren().addAll(b11, b12);
+		b19.setToggleGroup(tg);
+		activablePane.getChildren().addAll(b11, b12, b19);
 		TitledPane activable = new TitledPane("Activable Blocks", activablePane);
 		accordion.getPanes().add(activable);
 		
@@ -629,7 +636,7 @@ public class Editor{
 				// Shooter
 				case 7:
 					CheckBox toRight = new CheckBox("To right");
-					toRight.setSelected(item.extra.equals(",false"));
+					toRight.setSelected(item.extra.startsWith(",false"));
 					Label timeOffSL = new Label("Millis: ");
 					TextField timeOffS = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr2 = new Button("Save");
@@ -678,6 +685,21 @@ public class Editor{
 					this.props.add(timeOffL, 0, 6);
 					this.props.add(timeOff, 1, 6);
 					this.props.add(savePr4, 1, 7);
+					break;
+				// Portal
+				case 18:
+					Label tpXL = new Label("TP X: ");
+					Label tpYL = new Label("TP Y: ");
+					TextField tpX = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[0] : "");
+					TextField tpY = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
+					Button savePr5 = new Button("Save");
+					savePr5.setOnAction(e -> item.extra = ","+tpX.getText()+"-"+tpY.getText());
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(tpXL, 0, 6);
+					this.props.add(tpYL, 0, 7);
+					this.props.add(tpX, 1, 6);
+					this.props.add(tpY, 1, 7);
+					this.props.add(savePr5, 1, 8);
 					break;
 			}
 		}
@@ -739,60 +761,25 @@ public class Editor{
 					double ph = Double.parseDouble(line.split(",")[4]);
 					Image image = null;
 					switch (type){
-						case 0:
-							image = loadImage("platform_small.png");
-							break;
-						case 1:
-							image = loadImage("platform_medium.png");
-							break;
-						case 2:
-							image = loadImage("ground.png");
-							break;
-						case 3:
-							image = loadImage("wood.png");
-							break;
-						case 4:
-							image = loadImage("spike.png");
-							break;
-						case 5:
-							image = loadImage("cactus_0.png");
-							break;
-						case 6:
-							image = loadImage("laser.png");
-							break;
-						case 7:
-							image = loadImage("shooter.png");
-							break;
-						case 8:
-							image = loadImage("box.png");
-							break;
-						case 9:
-							image = loadImage("jumppad.png");
-							break;
-						case 10:
-							image = loadImage("activatorpad.png");
-							break;
-						case 11:
-							image = loadImage("door_0.png");
-							break;
-						case 12:
-							image = loadImage("coin.png");
-							break;
-						case 13:
-							image = loadImage("checkpoint_off.png");
-							break;
-						case 14:
-							image = loadImage("player_3.png");
-							break;
-						case 15:
-							image = loadImage("exit.png");
-							break;
-						case 16:
-							image = loadImage("platform_small_editor.png");
-							break;
-						case 17:
-							image = loadImage("platform_medium_editor.png");
-							break;
+						case 0 -> image = loadImage("platform_small.png");
+						case 1 -> image = loadImage("platform_medium.png");
+						case 2 -> image = loadImage("ground.png");
+						case 3 -> image = loadImage("wood.png");
+						case 4 -> image = loadImage("spike.png");
+						case 5 -> image = loadImage("cactus_0.png");
+						case 6 -> image = loadImage("laser.png");
+						case 7 -> image = loadImage("shooter.png");
+						case 8 -> image = loadImage("box.png");
+						case 9 -> image = loadImage("jumppad.png");
+						case 10 -> image = loadImage("activatorpad.png");
+						case 11 -> image = loadImage("door_0.png");
+						case 12 -> image = loadImage("coin.png");
+						case 13 -> image = loadImage("checkpoint_off.png");
+						case 14 -> image = loadImage("player_3.png");
+						case 15 -> image = loadImage("exit.png");
+						case 16 -> image = loadImage("platform_small_editor.png");
+						case 17 -> image = loadImage("platform_medium_editor.png");
+						case 18 -> image = loadImage("portal.png");
 					}
 					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){

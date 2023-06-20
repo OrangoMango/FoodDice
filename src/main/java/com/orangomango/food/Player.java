@@ -11,22 +11,24 @@ import com.orangomango.food.ui.GameScreen;
 public class Player extends GameObject{
 	public static final double Y_SPEED = 95; // Jump height
 	public static final double X_SPEED = 10;
-	public static final int SIZE = 16;
-	private Image[] images = new Image[6];
-	private Image diedImage = MainApplication.loadImage("player_died.png");
+	private static Image[] IMAGES = new Image[6];
+	private static Image DIED_IMAGE = MainApplication.loadImage("player_died.png");
 	private double onDieX, onDieY;
 	private volatile boolean blinking, blink;
 	
-	public Player(GraphicsContext gc, double x, double y, double w, double h){
-		super(gc, x, y, w, h);
+	static {
+		for (int i = 1; i <= 6; i++){
+			IMAGES[i-1] = MainApplication.loadImage("player_"+i+".png");
+		}
+	}
+	
+	public Player(GraphicsContext gc, double x, double y){
+		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 		this.onDieX = this.respawnX;
 		this.onDieY = this.respawnY;
 		makeGravity();
 		startEffectLoop();
 		this.solid = true;
-		for (int i = 1; i <= 6; i++){
-			this.images[i-1] = MainApplication.loadImage("player_"+i+".png");
-		}
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public class Player extends GameObject{
 		gc.save();
 		gc.translate(this.x+this.w/2, this.y+this.h/2);
 		gc.rotate(this.angle);
-		gc.drawImage(this.died ? this.diedImage : this.images[this.imageIndex], -this.w/2, -this.h/2, this.w, this.h);
+		gc.drawImage(this.died ? DIED_IMAGE : IMAGES[this.imageIndex], -this.w/2, -this.h/2, this.w, this.h);
 		if (System.currentTimeMillis() >= this.lastTimeEffect+12000 && !GameScreen.getInstance().getSpecialEffect().areAllFalse()){
 			if (!this.blinking){
 				this.blinking = true;
@@ -79,6 +81,9 @@ public class Player extends GameObject{
 	
 	public void die(boolean force){
 		GameScreen.getInstance().shakeCamera();
+		
+		if (true) return; // GOD MODE
+		
 		if ((this.died || GameScreen.getInstance().getSpecialEffect().invulnerability) && !force) return;
 		this.died = true;
 		MainApplication.playSound(MainApplication.DIE_SOUND, false);

@@ -4,11 +4,10 @@ import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 
 public class Box extends GameObject{
-	private Image image;
+	private static Image IMAGE = MainApplication.loadImage("box.png");
 
 	public Box(GraphicsContext gc, double x, double y){
-		super(gc, x, y, 25, 25);
-		this.image = MainApplication.loadImage("box.png");
+		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.movable = true;
 		this.solid = true;
 		makeGravity();
@@ -16,6 +15,6 @@ public class Box extends GameObject{
 	
 	@Override
 	public void render(){
-		gc.drawImage(this.image, this.x, this.y, this.w, this.h);
+		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 	}
 }

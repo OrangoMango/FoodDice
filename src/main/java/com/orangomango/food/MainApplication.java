@@ -25,6 +25,7 @@ public class MainApplication extends Application{
 	public static Media CHECKPOINT_SOUND;
 	public static Media MOVE_SOUND;
 	public static Media COIN_SOUND;
+	public static Media PORTAL_SOUND;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -53,6 +54,7 @@ public class MainApplication extends Application{
 		CHECKPOINT_SOUND = new Media(MainApplication.class.getResource("/audio/checkpoint.wav").toExternalForm());
 		MOVE_SOUND = new Media(MainApplication.class.getResource("/audio/move.wav").toExternalForm());
 		COIN_SOUND = new Media(MainApplication.class.getResource("/audio/coin.wav").toExternalForm());
+		PORTAL_SOUND = new Media(MainApplication.class.getResource("/audio/portal.wav").toExternalForm());
 	}
 	
 	public static Image loadImage(String name){

@@ -185,7 +185,7 @@ public class GameScreen{
 							sprites.add(new Spike(gc, px, py, "cactus"));
 							break;
 						case 6:
-							Laser laser = new Laser(gc, px, py, pw, ph);
+							Laser laser = new Laser(gc, px, py);
 							if (line.split(",").length == 6){
 								String txt = line.split(",")[5];
 								laser.setTimeOff(Integer.parseInt(txt));
@@ -231,7 +231,7 @@ public class GameScreen{
 							sprites.add(new CheckPoint(gc, px, py));
 							break;
 						case 14:
-							this.player = new Player(gc, px, py, Player.SIZE, Player.SIZE);
+							this.player = new Player(gc, px, py);
 							sprites.add(player);
 							break;
 						case 15:
@@ -254,6 +254,14 @@ public class GameScreen{
 							}
 							sprites.add(new MovablePlatform(gc, px, py, type == 16 ? Platform.PlatformType.SMALL : Platform.PlatformType.MEDIUM, moveX, moveY, maxX, maxY, moveTime));
 							break;
+						case 18:
+							Portal portal = new Portal(gc, px, py);
+							if (line.split(",").length == 6){
+								String txt = line.split(",")[5];
+								portal.setTeleport(Double.parseDouble(txt.split("-")[0]), Double.parseDouble(txt.split("-")[1]));
+							}
+							sprites.add(portal);
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}
@@ -264,14 +272,14 @@ public class GameScreen{
 				this.levelHeight = 800;
 				this.showCamera = true;
 			
-				this.player = new Player(gc, 40, 240, Player.SIZE, Player.SIZE);
+				this.player = new Player(gc, 40, 240);
 				sprites.add(player);
 				
 				sprites.add(new Platform(gc, 0, 256, 96, this.levelHeight-256-150, MainApplication.loadImage("ground.png")));
 				sprites.add(new Box(gc, 65, 30));
 				sprites.add(new Box(gc, 65, 0));
 				Door door = new Door(gc, 385, 206);
-				Laser laser = new Laser(gc, 450, 20, 30, 30);
+				Laser laser = new Laser(gc, 450, 20);
 				MovablePlatform mob = new MovablePlatform(gc, 130, 270, Platform.PlatformType.SMALL, 2, 0, 50, 0, 100);
 				sprites.add(door);
 				sprites.add(new ActivatorPad(gc, 0, -30, () -> {
@@ -296,11 +304,13 @@ public class GameScreen{
 					if (i % 3 == 0 || i > 6) sprites.add(new Spike(gc, 120+i*25, 375, "cactus"));
 				}
 				
-				//sprites.add(new Shooter(gc, 410, 236, true));
 				sprites.add(new Shooter(gc, 460, 236, false));
 				
 				sprites.add(laser);
-				sprites.add(new Laser(gc, 500, 20, 30, 30));
+				sprites.add(new Laser(gc, 500, 20));
+				Portal portal = new Portal(gc, 200, 770);
+				portal.setTeleport(300, 750);
+				sprites.add(portal);
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 320, 235));
@@ -314,7 +324,7 @@ public class GameScreen{
 				this.levelHeight = 400;
 				this.showCamera = false;
 				
-				this.player = new Player(gc, 20, 240, Player.SIZE, Player.SIZE);
+				this.player = new Player(gc, 20, 240);
 				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice position"));
 				sprites.add(this.player);
 				sprites.add(new Platform(gc, 0, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
@@ -350,7 +360,7 @@ public class GameScreen{
 				this.levelHeight = 800;
 				this.showCamera = true;
 				
-				this.player = new Player(gc, 5, 700, Player.SIZE, Player.SIZE);
+				this.player = new Player(gc, 5, 700);
 				this.player.setRespawnX(40);
 				this.player.setRespawnY(240);
 				sprites.add(this.player);
@@ -360,9 +370,9 @@ public class GameScreen{
 				sprites.add(new Platform(gc, 0, 728, 800, 72, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 0, 512, 290, 72, MainApplication.loadImage("ground.png")));
 				
-				sprites.add(new Laser(gc, 20, 584, 30, 30));
-				sprites.add(new Laser(gc, 120, 584, 30, 30));
-				sprites.add(new Laser(gc, 240, 584, 30, 30));
+				sprites.add(new Laser(gc, 20, 584));
+				sprites.add(new Laser(gc, 120, 584));
+				sprites.add(new Laser(gc, 240, 584));
 				sprites.add(new Platform(gc, 300, 700, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 415, 650, Platform.PlatformType.MEDIUM));
 				sprites.add(new Spike(gc, 407, 703, "cactus"));
@@ -394,12 +404,12 @@ public class GameScreen{
 				sprites.add(new Platform(gc, 5, 290, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 180, 290, Platform.PlatformType.MEDIUM));
 				sprites.add(new Platform(gc, 300, 290, 140, 40, MainApplication.loadImage("wood.png")));
-				sprites.add(new Laser(gc, 300, 330, 30, 30));
-				sprites.add(new Laser(gc, 390, 330, 30, 30));
-				sprites.add(new Laser(gc, 300, 72, 30, 30));
-				sprites.add(new Laser(gc, 390, 72, 30, 30));
-				sprites.add(new Laser(gc, 60, 72, 30, 30));
-				sprites.add(new Laser(gc, 235, 72, 30, 30));
+				sprites.add(new Laser(gc, 300, 330));
+				sprites.add(new Laser(gc, 390, 330));
+				sprites.add(new Laser(gc, 300, 72));
+				sprites.add(new Laser(gc, 390, 72));
+				sprites.add(new Laser(gc, 60, 72));
+				sprites.add(new Laser(gc, 235, 72));
 				sprites.add(new Platform(gc, 475, 270, Platform.PlatformType.SMALL));
 				sprites.add(new Box(gc, 480, 235));
 				sprites.add(new Platform(gc, 547, 220, 33, 150, MainApplication.loadImage("wood.png")));
@@ -408,7 +418,7 @@ public class GameScreen{
 				sprites.add(new Platform(gc, 733, 328, Platform.PlatformType.SMALL));
 				sprites.add(new Shooter(gc, 753, 310, true));
 				sprites.add(new Platform(gc, 580, 268, Platform.PlatformType.SMALL));
-				sprites.add(new Laser(gc, 590, 72, 30, 30));
+				sprites.add(new Laser(gc, 590, 72));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 13, 255));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 193, 255));

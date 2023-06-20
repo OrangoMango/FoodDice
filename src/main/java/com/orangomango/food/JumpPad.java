@@ -6,11 +6,10 @@ import javafx.scene.image.Image;
 import com.orangomango.food.ui.GameScreen;
 
 public class JumpPad extends GameObject{
-	private static final double SIZE = 18;
-	private Image image = MainApplication.loadImage("jumppad.png");
+	private static Image IMAGE = MainApplication.loadImage("jumppad.png");
 	
 	public JumpPad(GraphicsContext gc, double x, double y){
-		super(gc, x, y, SIZE, SIZE);
+		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 		this.movable = true;
 		makeGravity();
@@ -20,9 +19,9 @@ public class JumpPad extends GameObject{
 	public void render(){
 		if (GameScreen.getInstance().getPlayer().collided(this.x, this.y-3, this.w, 3)){
 			GameScreen.getInstance().getPlayer().moveUp(150);
-			gc.drawImage(this.image, this.x, this.y+4, SIZE, SIZE-4);
+			gc.drawImage(IMAGE, this.x, this.y+4, this.w, this.h-4);
 		} else {
-			gc.drawImage(this.image, this.x, this.y, SIZE, SIZE);
+			gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		}
 	}
 }
