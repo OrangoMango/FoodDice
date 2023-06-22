@@ -19,7 +19,7 @@ import com.orangomango.food.MainApplication;
 import com.orangomango.food.Platform;
 
 public class Editor{
-	private static final String saveDirectory = System.getProperty("user.home")+File.separator+".food-dice";
+	public static final String saveDirectory = System.getProperty("user.home")+File.separator+".food-dice";
 	public static String lastFile;
 	
 	static {
@@ -170,6 +170,17 @@ public class Editor{
 				this.angles[i][j] = random.nextInt(4);
 			}
 		}
+	}
+	
+	public static List<String> getUserLevels(){
+		List<String> levels = new ArrayList<>();
+		for (File f : new File(saveDirectory).listFiles()){
+			String name = f.getName();
+			if (name.endsWith(".lvl")){
+				levels.add(name);
+			}
+		}
+		return levels;
 	}
 		
 	public GridPane getLayout(){
@@ -464,11 +475,8 @@ public class Editor{
 			alert.setHeaderText("Load level");
 			ListView<String> list = new ListView<>();
 			list.setPrefHeight(150);
-			for (File f : new File(saveDirectory).listFiles()){
-				String name = f.getName();
-				if (name.endsWith(".lvl")){
-					list.getItems().add(name);
-				}
+			for (String f : getUserLevels()){
+				list.getItems().add(f);
 			}
 			alert.getDialogPane().setContent(list);
 			alert.showAndWait();

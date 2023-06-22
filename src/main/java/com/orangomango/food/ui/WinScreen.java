@@ -20,7 +20,7 @@ public class WinScreen{
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		MenuButton home = new MenuButton(() -> {
+		MenuButton home = new MenuButton("", () -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
 		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));

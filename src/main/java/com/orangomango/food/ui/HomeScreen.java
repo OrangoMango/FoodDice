@@ -2,14 +2,12 @@ package com.orangomango.food.ui;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.animation.*;
 import javafx.util.Duration;
-import java.util.*;
 import javafx.scene.image.*;
 
+import java.util.*;
 import com.orangomango.food.MainApplication;
 
 public class HomeScreen{
@@ -34,22 +32,22 @@ public class HomeScreen{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 25));
 		
-		this.buttons.add(new MenuButton(() -> {
+		this.buttons.add(new MenuButton("Levels", () -> {
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.stage.getScene().setRoot(ls.getLayout());
 		}, 160, 230, 75, 75, MainApplication.loadImage("button_play.png")));
-		this.buttons.add(new MenuButton(() -> {
+		this.buttons.add(new MenuButton("Help", () -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
 		}, 290, 230, 75, 75, MainApplication.loadImage("button_help.png")));
-		this.buttons.add(new MenuButton(() -> {
+		this.buttons.add(new MenuButton("Credits", () -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.stage.getScene().setRoot(cs.getLayout());
 		}, 430, 230, 75, 75, MainApplication.loadImage("button_credits.png")));
-		this.buttons.add(new MenuButton(() -> {
+		this.buttons.add(new MenuButton("Editor", () -> {
 			this.loop.stop();
 			Editor ed = new Editor();
 			MainApplication.stage.getScene().setRoot(ed.getLayout());
@@ -72,13 +70,8 @@ public class HomeScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		gc.drawImage(this.logo, 165, 50);
 		gc.translate(0, this.extraY);
-		String[] texts = new String[]{"Levels", "Help", "Credits", "Editor"};
-		int c = 0;
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);
-			gc.setFill(Color.BLACK);
-			gc.setTextAlign(TextAlignment.CENTER);
-			gc.fillText(texts[c++], mb.getX(), mb.getY()+30);
 		}
 		gc.restore();
 		

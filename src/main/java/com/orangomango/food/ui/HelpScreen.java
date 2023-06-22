@@ -43,7 +43,7 @@ public class HelpScreen{
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		this.home = new MenuButton(() -> {
+		this.home = new MenuButton("", () -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
 		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));

@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 
 import java.util.*;
 import java.io.*;
+import org.json.JSONObject;
 
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
@@ -49,7 +50,6 @@ public class GameScreen{
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 20);
 	private static Font FONT_55 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 55);
-	private static final int FINAL_LEVEL = 5;
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -450,7 +450,7 @@ public class GameScreen{
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/levels/level"+n+".lvl")));
 			List<String> lines = new ArrayList<>();
-			reader.lines().forEach(line -> lines.add(line));
+			reader.lines().forEach(lines::add);
 			reader.close();
 			return lines.toArray(new String[lines.size()]);
 		} catch (IOException ex){
@@ -464,9 +464,6 @@ public class GameScreen{
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 		
-		//String testString = "800x800\n1;0,44.00,116.00,100.00,20.00\n1;1,169.00,141.00,100.00,20.00\n15;2,229.00,102.00,35.00,40.00\n14;3,52.00,93.00,16.00,16.00\n1;4,20.00,228.00,100.00,20.00\n8;5,77.00,202.00,25.00,25.00";
-		
-		//loadLevel(gc, -1, testString.split("\n"));
 		if (this.loadString != null){
 			loadLevel(gc, -1, this.loadString.split("\n"));
 		} else {
@@ -507,8 +504,6 @@ public class GameScreen{
 		};
 		fTimer.start();
 		
-		//MainApplication.sizeOnResize(canvas);
-		
 		layout.getChildren().add(canvas);
 		return layout;
 	}
@@ -519,9 +514,9 @@ public class GameScreen{
 			if (this.paused){
 				this.pausedStart = System.currentTimeMillis();
 				this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
-				this.buttons.add(new MenuButton(() -> {
+				this.buttons.add(new MenuButton("", () -> {
 					clearEverything();
-					if (this.currentLevel < 0){
+					if (this.currentLevel < 0 && Editor.lastFile != null){
 						Editor ed = new Editor(Editor.lastFile);
 						MainApplication.stage.getScene().setRoot(ed.getLayout());
 					} else {
@@ -529,7 +524,7 @@ public class GameScreen{
 						MainApplication.stage.getScene().setRoot(hs.getLayout());
 					}
 				}, 250, 200, 75, 75, MainApplication.loadImage("button_home.png")));
-				this.buttons.add(new MenuButton(() -> {
+				this.buttons.add(new MenuButton("", () -> {
 					if (this.currentLevel < 0){
 						loadLevel(gc, -1, this.loadString.split("\n"));
 					} else {
@@ -539,7 +534,7 @@ public class GameScreen{
 					this.pausedImage = null;
 					this.buttons.clear();
 				}, 350, 200, 75, 75, MainApplication.loadImage("button_restart.png")));
-				this.buttons.add(new MenuButton(() -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, MainApplication.loadImage("button_continue.png")));
+				this.buttons.add(new MenuButton("", () -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, MainApplication.loadImage("button_continue.png")));
 			} else {
 				this.pausedImage = null;
 				this.pausedTime += System.currentTimeMillis()-this.pausedStart;
@@ -586,6 +581,7 @@ public class GameScreen{
 		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.setFill(Color.web("#00694F"));
 		gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
 		
 		if (this.paused){
 			gc.drawImage(this.pausedImage, 0, 0);
@@ -669,7 +665,19 @@ public class GameScreen{
 		}
 		if (this.player.collided(this.exit.x, this.exit.y, Exit.WIDTH, Exit.HEIGHT)){
 			MainApplication.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
-			if (this.currentLevel == FINAL_LEVEL){ // Final level
+			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
+			JSONObject level = levelManager.getLevelData(this.currentLevel);
+			if (difference < level.getInt("bestTime") || level.getInt("bestTime") == 0){
+				levelManager.put(this.currentLevel, "bestTime", (int)(difference));
+				if (this.deaths < level.getInt("deaths") || level.getInt("deaths") == 0){
+					levelManager.put(this.currentLevel, "deaths", this.deaths);
+				}
+				if (this.coinsCollected > level.getInt("coins")){
+					levelManager.put(this.currentLevel, "coins", this.coinsCollected);				
+				}
+			}
+			levelManager.save();
+			if (this.currentLevel == LevelsScreen.FINAL_LEVEL){ // Final level
 				clearEverything();
 				WinScreen ws = new WinScreen();
 				MainApplication.stage.getScene().setRoot(ws.getLayout());
@@ -748,7 +756,6 @@ public class GameScreen{
 		gc.setGlobalAlpha(1);
 		gc.setFill(Color.WHITE);
 		gc.setFont(FONT_20);
-		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
 		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
 		gc.restore();
 		
