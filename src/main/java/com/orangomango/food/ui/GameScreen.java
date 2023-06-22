@@ -298,7 +298,7 @@ public class GameScreen{
 				sprites.add(new JumpPad(gc, 350, 50));
 				sprites.add(new MovablePlatform(gc, 625, 250, Platform.PlatformType.SMALL, 0, 5, 0, 500, 50));
 				sprites.add(new JumpPad(gc, 270, 252));
-				sprites.add(new CheckPoint(gc, 50, 750));
+				sprites.add(new CheckPoint(gc, 150, 750));
 				
 				for (int i = 0; i < 9; i++){
 					if (i % 3 == 0 || i > 6) sprites.add(new Spike(gc, 120+i*25, 375, "cactus"));
@@ -311,6 +311,8 @@ public class GameScreen{
 				Portal portal = new Portal(gc, 200, 770);
 				portal.setTeleport(300, 750);
 				sprites.add(portal);
+				
+				sprites.add(new Propeller(gc, 400, 750));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 320, 235));

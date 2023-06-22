@@ -1,6 +1,6 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.animation.*;
 import javafx.util.Duration;
@@ -45,22 +45,17 @@ public class Shooter extends GameObject{
 		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 		this.solid = true;
 		this.left = left;
-		Thread anim = new Thread(() -> {
-			while (!this.stopThread){
-				if (GameScreen.getInstance().isPaused()) continue;
-				try {
-					this.imageIndex = 0;
-					Thread.sleep(this.timeOff);
-					this.imageIndex = 1;
-					this.bullets.add(new Bullet(this.left ? this.x : this.x+this.w, this.y, this.left));
-					Thread.sleep(200);
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
-				}
+		runThread(() -> {
+			try {
+				this.imageIndex = 0;
+				Thread.sleep(this.timeOff);
+				this.imageIndex = 1;
+				this.bullets.add(new Bullet(this.left ? this.x : this.x+this.w, this.y, this.left));
+				Thread.sleep(200);
+			} catch (InterruptedException ex){
+				ex.printStackTrace();
 			}
-		}, "shooter");
-		anim.setDaemon(true);
-		anim.start();
+		});
 	}
 	
 	public void setTimeOff(int time){

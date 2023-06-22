@@ -1,6 +1,6 @@
 package com.orangomango.food.ui.controls;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.Image;

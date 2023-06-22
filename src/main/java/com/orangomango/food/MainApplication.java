@@ -6,8 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.*;
 import javafx.animation.Animation;
+import javafx.geometry.Point2D;
 
-import com.orangomango.food.ui.*;
+import com.orangomango.food.ui.HomeScreen;
 
 public class MainApplication extends Application{
 	public static final int WIDTH = 800;
@@ -59,6 +60,17 @@ public class MainApplication extends Application{
 	
 	public static Image loadImage(String name){
 		return new Image(MainApplication.class.getResourceAsStream("/images/"+name));
+	}
+	
+	public static Point2D rotatePoint(Point2D point, double rot, double px, double py){
+		rot = Math.toRadians(rot);
+		double x = point.getX();
+		double y = point.getY();
+		x -= px;
+		y -= py;
+		double nx = x*Math.cos(rot)-y*Math.sin(rot);
+		double ny = y*Math.cos(rot)+x*Math.sin(rot);
+		return new Point2D(nx+px, ny+py);
 	}
 	
 	public static void playSound(Media media, boolean rep){

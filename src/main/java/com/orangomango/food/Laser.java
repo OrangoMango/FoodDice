@@ -1,6 +1,6 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -9,36 +9,32 @@ import com.orangomango.food.ui.GameScreen;
 public class Laser extends GameObject implements Turnable{
 	private volatile boolean shooting = false;
 	private static Image IMAGE = MainApplication.loadImage("laser.png");
-	private double drawAmount;
+	private volatile double drawAmount;
 	private volatile boolean on = true;
 	private int timeOff = 1400;
 	
 	public Laser(GraphicsContext gc, double x, double y){
 		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
-		Thread shoot = new Thread(() -> {
-			while (!this.stopThread){
-				if (!this.on || GameScreen.getInstance().isPaused()) continue;
-				try {
-					this.shooting = true;
-					for (int i = 0; i < 20; i++){
-						this.drawAmount += 0.05;
-						while (GameScreen.getInstance().isPaused()){
-							Thread.sleep(50);
-						}
-						Thread.sleep(40);
+		runThread(() -> {
+			if (!this.on) return;
+			try {
+				this.shooting = true;
+				for (int i = 0; i < 20; i++){
+					this.drawAmount += 0.05;
+					while (GameScreen.getInstance().isPaused()){
+						Thread.sleep(50);
 					}
-					Thread.sleep(1600);
-					this.shooting = false;
-					Thread.sleep(this.timeOff); // Time off
-					this.drawAmount = 0;
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
+					Thread.sleep(40);
 				}
+				Thread.sleep(1600);
+				this.shooting = false;
+				Thread.sleep(this.timeOff); // Time off
+				this.drawAmount = 0;
+			} catch (InterruptedException ex){
+				ex.printStackTrace();
 			}
-		}, "laser");
-		shoot.setDaemon(true);
-		shoot.start();
+		});
 	}
 	
 	public void setTimeOff(int time){

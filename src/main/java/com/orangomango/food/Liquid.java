@@ -1,6 +1,6 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Liquid extends GameObject{

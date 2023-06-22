@@ -1,10 +1,12 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.animation.*;
 import javafx.util.Duration;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.Point2D;
 
+import java.util.*;
 import com.orangomango.food.ui.GameScreen;
 
 public abstract class GameObject{
@@ -23,7 +25,7 @@ public abstract class GameObject{
 	protected boolean loadEffect = false;
 	protected volatile long lastTimeEffect;
 	private boolean soundAllowed = true;
-	protected volatile boolean stopThread;
+	private volatile boolean stopThread;
 	private Timeline an, gr;
 	
 	public GameObject(GraphicsContext gc, double x, double y, double w, double h){
@@ -179,6 +181,41 @@ public abstract class GameObject{
 		return found;
 	}
 	
+	protected boolean collidedConvex(Point2D[] tv, Point2D[] ov){
+		List<Point2D[]> edges = new ArrayList<>();
+		for (int i = 0; i < tv.length; i++){
+			Point2D a = tv[i];
+			Point2D b = tv[(i+1)%tv.length];
+			edges.add(new Point2D[]{a, b});
+		}
+		for (int i = 0; i < ov.length; i++){
+			Point2D a = ov[i];
+			Point2D b = ov[(i+1)%ov.length];
+			edges.add(new Point2D[]{a, b});
+		}
+
+		for (Point2D[] edge : edges){
+			Point2D vector = edge[1].subtract(edge[0]);
+			Point2D axis = new Point2D(-vector.getY(), vector.getX());
+			List<Double> proj1 = new ArrayList<>();
+			List<Double> proj2 = new ArrayList<>();
+			for (Point2D v : tv){
+				proj1.add(axis.dotProduct(v));
+			}
+			for (Point2D v : ov){
+				proj2.add(axis.dotProduct(v));
+			}
+			double min1 = Collections.min(proj1);
+			double min2 = Collections.min(proj2);
+			double max1 = Collections.max(proj1);
+			double max2 = Collections.max(proj2);
+			if (!(min1 <= max2 && max1 >= min2)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public boolean collided(double x, double y, double w, double h){
 		Rectangle2D otherCollision = new Rectangle2D(x, y, w, h);
 		Rectangle2D thisCollision = new Rectangle2D(this.x, this.y, this.w, this.h);
@@ -189,7 +226,7 @@ public abstract class GameObject{
 		return collided(go.getX(), go.getY(), go.getWidth(), go.getHeight());
 	}
 	
-	public boolean checkCollision(double px, double py, double pw, double ph){
+	private boolean checkCollision(double px, double py, double pw, double ph){
 		for (GameObject ob : GameScreen.getInstance().getSprites()){
 			if (ob.isSolid() && ob != this){
 				if (ob.collided(px, py, pw, ph)){
@@ -214,6 +251,17 @@ public abstract class GameObject{
 	
 	// This method should be overridden by the player class
 	protected void setRandomDiceFace(){
+	}
+
+	protected void runThread(Runnable r){
+		Thread t = new Thread(() -> {
+			while (!this.stopThread){
+				if (GameScreen.getInstance().isPaused()) continue;
+				r.run();
+			}
+		});
+		t.setDaemon(true);
+		t.start();
 	}
 	
 	private void playMoveSound(){

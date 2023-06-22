@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 
 import java.util.*;
 import java.io.*;
+
 import com.orangomango.food.MainApplication;
 import com.orangomango.food.Platform;
 
@@ -174,6 +175,9 @@ public class Editor{
 		
 	public GridPane getLayout(){
 		GridPane layout = new GridPane();
+		layout.setPadding(new Insets(0, 5*MainApplication.SCALE, 5*MainApplication.SCALE, 5*MainApplication.SCALE));
+		layout.setHgap(5*MainApplication.SCALE);
+		layout.setVgap(5*MainApplication.SCALE);
 		SplitPane pane = new SplitPane();
 		
 		loadAngles();
@@ -181,11 +185,15 @@ public class Editor{
 		// Set layouts for buttons
 		ToggleGroup tg = new ToggleGroup();
 		
+		final Label displayLabel = new Label("Loading...");
+		
 		this.canvas = new Canvas(this.levelWidth, this.levelHeight);
 		canvas.setOnMouseMoved(e -> {
 			this.selectedImage.x = e.getX();
 			this.selectedImage.y = e.getY();
+			displayLabel.setText(String.format("Mouse at %.2f %.2f | Selected: %s | File: %s", e.getX(), e.getY(), this.clickSelected, this.saveFileName));
 		});
+
 		canvas.setOnMousePressed(e -> {
 			if (e.getButton() == MouseButton.PRIMARY){
 				if (this.selectedImage.getImage() == null){
@@ -220,10 +228,8 @@ public class Editor{
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Accordion accordion = new Accordion();
-		accordion.setMaxWidth(250*MainApplication.SCALE);
-		accordion.setMinWidth(250*MainApplication.SCALE);
-		accordion.setMaxHeight(350*MainApplication.SCALE);
-		accordion.setMinHeight(350*MainApplication.SCALE);
+		accordion.setMinWidth(MainApplication.WIDTH*0.3);
+		accordion.setMinHeight(MainApplication.HEIGHT*0.8);
 		
 		// Blocks
 		TilePane blocksPane = new TilePane();
@@ -407,10 +413,8 @@ public class Editor{
 		accordion.getPanes().add(special);
 		
 		ScrollPane canvasPane = new ScrollPane(canvas);
-		canvasPane.setMaxWidth(500*MainApplication.SCALE);
-		canvasPane.setMaxHeight(325*MainApplication.SCALE);
-		canvasPane.setMinWidth(500*MainApplication.SCALE);
-		canvasPane.setMinHeight(325*MainApplication.SCALE);
+		canvasPane.setMinWidth(MainApplication.WIDTH*0.7);
+		canvasPane.setMinHeight(MainApplication.HEIGHT*0.8);
 		
 		TabPane tabs = new TabPane();
 		Tab blk = new Tab("Blocks");
@@ -495,6 +499,7 @@ public class Editor{
 		
 		layout.add(tools, 0, 0);
 		layout.add(pane, 0, 1, 2, 1);
+		layout.add(displayLabel, 0, 2);
 		
 		loop = new Timeline(new KeyFrame(Duration.millis(50), e -> update(gc)));
 		loop.setCycleCount(Animation.INDEFINITE);
