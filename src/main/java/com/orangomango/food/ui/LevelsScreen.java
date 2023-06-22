@@ -33,6 +33,7 @@ public class LevelsScreen{
 		buttons.add(new MenuButton(() -> loadLevel(2), 200, 120, 75, 75, MainApplication.loadImage("button_level_2.png")));
 		buttons.add(new MenuButton(() -> loadLevel(3), 300, 120, 75, 75, MainApplication.loadImage("button_level_3.png")));
 		buttons.add(new MenuButton(() -> loadLevel(4), 400, 120, 75, 75, MainApplication.loadImage("button_level_4.png")));
+		buttons.add(new MenuButton(() -> loadLevel(5), 500, 120, 75, 75, MainApplication.loadImage("button_level_5.png")));
 		
 		buttons.add(new MenuButton(() -> {
 			this.loop.stop();

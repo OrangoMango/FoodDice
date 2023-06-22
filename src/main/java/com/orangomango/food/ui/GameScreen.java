@@ -49,6 +49,7 @@ public class GameScreen{
 	
 	private static Font FONT_20 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 20);
 	private static Font FONT_55 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 55);
+	private static final int FINAL_LEVEL = 5;
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -135,6 +136,7 @@ public class GameScreen{
 	private void loadLevel(GraphicsContext gc, int level){
 		loadLevel(gc, level, null);
 	}
+
 	private void loadLevel(GraphicsContext gc, int levelN, String[] level){
 		for (GameObject go : sprites){
 			go.destroy();
@@ -437,6 +439,9 @@ public class GameScreen{
 				
 				this.exit = new Exit(gc, 585, 288);
 				break;
+			case 5:
+				loadLevel(gc, -1, getLevelData(5));
+				return;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
 	}
@@ -664,7 +669,7 @@ public class GameScreen{
 		}
 		if (this.player.collided(this.exit.x, this.exit.y, Exit.WIDTH, Exit.HEIGHT)){
 			MainApplication.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
-			if (this.currentLevel == 4){ // Final level
+			if (this.currentLevel == FINAL_LEVEL){ // Final level
 				clearEverything();
 				WinScreen ws = new WinScreen();
 				MainApplication.stage.getScene().setRoot(ws.getLayout());
