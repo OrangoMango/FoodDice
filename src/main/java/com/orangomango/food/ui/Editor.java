@@ -1,7 +1,7 @@
 package com.orangomango.food.ui;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.control.*;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
@@ -105,7 +105,6 @@ public class Editor{
 		public boolean clicked(double x, double y){
 			Rectangle2D rect = new Rectangle2D(this.x, this.y, this.w, this.h);
 			if (rect.contains(x, y)){
-				//System.out.println(this.id);
 				return true;
 			}
 			return false;
@@ -230,9 +229,11 @@ public class Editor{
 		Accordion accordion = new Accordion();
 		accordion.setMinWidth(MainApplication.WIDTH*0.3);
 		accordion.setMinHeight(MainApplication.HEIGHT*0.8);
+		accordion.setMaxWidth(MainApplication.WIDTH*0.3);
+		accordion.setMaxHeight(MainApplication.HEIGHT*0.8);
 		
 		// Blocks
-		TilePane blocksPane = new TilePane();
+		FlowPane blocksPane = new FlowPane();
 		blocksPane.setHgap(10*MainApplication.SCALE);
 		blocksPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b1 = new ToggleButton();
@@ -282,7 +283,7 @@ public class Editor{
 		accordion.getPanes().add(blocks);
 		
 		// Damage blocks
-		TilePane damagePane = new TilePane();
+		FlowPane damagePane = new FlowPane();
 		damagePane.setHgap(10*MainApplication.SCALE);
 		damagePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b5 = new ToggleButton();
@@ -309,16 +310,23 @@ public class Editor{
 			selectedBlock = 7;
 			this.selectedImage.setImage(loadImage("shooter.png"));
 		});
+		ToggleButton b20 = new ToggleButton();
+		b20.setGraphic(new ImageView(loadImage("propeller.png")));
+		b20.setOnAction(e -> {
+			selectedBlock = 19;
+			this.selectedImage.setImage(loadImage("propeller.png"));
+		});
 		b5.setToggleGroup(tg);
 		b6.setToggleGroup(tg);
 		b7.setToggleGroup(tg);
 		b8.setToggleGroup(tg);
-		damagePane.getChildren().addAll(b5, b6, b7, b8);
+		b20.setToggleGroup(tg);
+		damagePane.getChildren().addAll(b5, b6, b7, b8, b20);
 		TitledPane damage = new TitledPane("Damage Blocks", damagePane);
 		accordion.getPanes().add(damage);
 		
 		// Pushable blocks
-		TilePane pushablePane = new TilePane();
+		FlowPane pushablePane = new FlowPane();
 		pushablePane.setHgap(10*MainApplication.SCALE);
 		pushablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b9 = new ToggleButton();
@@ -340,7 +348,7 @@ public class Editor{
 		accordion.getPanes().add(pushable);
 		
 		// Activable blocks
-		TilePane activablePane = new TilePane();
+		FlowPane activablePane = new FlowPane();
 		activablePane.setHgap(10*MainApplication.SCALE);
 		activablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b11 = new ToggleButton();
@@ -369,7 +377,7 @@ public class Editor{
 		accordion.getPanes().add(activable);
 		
 		// Collectable objects
-		TilePane collectablePane = new TilePane();
+		FlowPane collectablePane = new FlowPane();
 		collectablePane.setHgap(10*MainApplication.SCALE);
 		collectablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b13 = new ToggleButton();
@@ -384,7 +392,7 @@ public class Editor{
 		accordion.getPanes().add(collectable);
 		
 		// Special objects
-		TilePane specialPane = new TilePane();
+		FlowPane specialPane = new FlowPane();
 		specialPane.setHgap(10*MainApplication.SCALE);
 		specialPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b14 = new ToggleButton();
@@ -413,8 +421,10 @@ public class Editor{
 		accordion.getPanes().add(special);
 		
 		ScrollPane canvasPane = new ScrollPane(canvas);
-		canvasPane.setMinWidth(MainApplication.WIDTH*0.7);
+		canvasPane.setMinWidth(MainApplication.WIDTH*0.65);
 		canvasPane.setMinHeight(MainApplication.HEIGHT*0.8);
+		canvasPane.setMaxWidth(MainApplication.WIDTH*0.65);
+		canvasPane.setMaxHeight(MainApplication.HEIGHT*0.8);
 		
 		TabPane tabs = new TabPane();
 		Tab blk = new Tab("Blocks");
@@ -706,6 +716,20 @@ public class Editor{
 					this.props.add(tpY, 1, 7);
 					this.props.add(savePr5, 1, 8);
 					break;
+				// Propeller
+				case 19:
+					Label timeL = new Label("Time: ");
+					CheckBox direction = new CheckBox("Clockwise");
+					TextField time = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[0] : "");
+					direction.setSelected(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1].equals("1") : true);
+					Button savePr6 = new Button("Save");
+					savePr6.setOnAction(e -> item.extra = ","+time.getText()+"-"+direction.isSelected());
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(timeL, 0, 6);
+					this.props.add(time, 1, 6);
+					this.props.add(direction, 0, 7, 2, 1);
+					this.props.add(savePr6, 1, 8);
+					break;
 			}
 		}
 	}
@@ -785,6 +809,7 @@ public class Editor{
 						case 16 -> image = loadImage("platform_small_editor.png");
 						case 17 -> image = loadImage("platform_medium_editor.png");
 						case 18 -> image = loadImage("portal.png");
+						case 19 -> image = loadImage("propeller.png");
 					}
 					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){

@@ -262,6 +262,14 @@ public class GameScreen{
 							}
 							sprites.add(portal);
 							break;
+						case 19:
+							Propeller propeller = new Propeller(gc, px, py);
+							if (line.split(",").length == 6){
+								String txt = line.split(",")[5];
+								propeller.setData(Integer.parseInt(txt.split("-")[0]), Boolean.parseBoolean(txt.split("-")[1]) ? 1 : -1);
+							}
+							sprites.add(propeller);
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}

@@ -9,7 +9,7 @@ import com.orangomango.food.ui.GameScreen;
 public class Propeller extends GameObject{
 	private static Image IMAGE = MainApplication.loadImage("propeller.png");
 	private volatile double angle = 0;
-	private int direction = -1;
+	private int direction = 1;
 	private int time = 50;
 	
 	public Propeller(GraphicsContext gc, double x, double y){
@@ -24,7 +24,7 @@ public class Propeller extends GameObject{
 		});
 	}
 	
-	public void setData(int direction, int time){
+	public void setData(int time, int direction){
 		this.direction = direction;
 		this.time = time;
 	}
