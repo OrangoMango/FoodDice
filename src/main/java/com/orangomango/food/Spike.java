@@ -5,17 +5,19 @@ import javafx.scene.image.Image;
 import java.util.Random;
 
 public class Spike extends GameObject{
-	private static final double SIZE = 25;
 	private Image[] images = new Image[4];
 	
 	public Spike(GraphicsContext gc, double x, double y, String type){
-		super(gc, x, y, SIZE, SIZE);
+		super(gc, x, y, 0, 0);
 		switch (type){
 			case "fire":
-				this.images[0] = MainApplication.loadImage("spike_1.png");
-				this.images[1] = MainApplication.loadImage("spike.png");
-				this.images[2] = MainApplication.loadImage("spike_2.png");
+				this.images[0] = MainApplication.loadImage("fire_1.png");
+				this.images[1] = MainApplication.loadImage("fire.png");
+				this.images[2] = MainApplication.loadImage("fire_2.png");
 				startImageAnimation(200, 2, true);
+				break;
+			case "spike":
+				this.images[0] = MainApplication.loadImage("spike.png");
 				break;
 			case "cactus":
 				for (int i = 0; i < 4; i++){
@@ -27,6 +29,8 @@ public class Spike extends GameObject{
 			default:
 				throw new IllegalArgumentException("Spike type not available");
 		}
+		this.w = this.images[0].getWidth();
+		this.h = this.images[0].getHeight();
 	}
 	
 	@Override

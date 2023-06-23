@@ -39,7 +39,7 @@ public class LevelsScreen{
 		}
 		
 		public JSONObject getLevelData(int level){
-			return this.json.getJSONObject("level"+level);
+			return this.json.optJSONObject("level"+level);
 		}
 		
 		public void put(int level, String key, int value){
@@ -87,7 +87,7 @@ public class LevelsScreen{
 	private double scrollY = 0;
 	private static double MAX_SCROLL;
 	
-	public static final int FINAL_LEVEL = 5;
+	public static final int FINAL_LEVEL = 7;
 
 	public StackPane getLayout(){
 		StackPane layout = new StackPane();
@@ -95,7 +95,7 @@ public class LevelsScreen{
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		canvas.setOnMousePressed(e -> {
 			for (MenuButton mb : this.buttons){
-				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
+				mb.click(e.getX()/MainApplication.SCALE, (e.getY()-this.scrollY)/MainApplication.SCALE);
 			}
 			this.selectButton.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			this.quitButton.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);

@@ -37,7 +37,7 @@ public class Player extends GameObject{
 		gc.translate(this.x+this.w/2, this.y+this.h/2);
 		gc.rotate(this.angle);
 		gc.drawImage(this.died ? DIED_IMAGE : IMAGES[this.imageIndex], -this.w/2, -this.h/2, this.w, this.h);
-		if (System.currentTimeMillis() >= this.lastTimeEffect+12000 && !GameScreen.getInstance().getSpecialEffect().areAllFalse()){
+		if (System.currentTimeMillis() >= this.lastTimeEffect+12000 && GameScreen.getInstance().getSpecialEffect().available()){
 			if (!this.blinking){
 				this.blinking = true;
 				new Thread(() -> {

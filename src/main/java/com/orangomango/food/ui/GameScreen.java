@@ -272,6 +272,9 @@ public class GameScreen{
 							}
 							sprites.add(propeller);
 							break;
+						case 20:
+							sprites.add(new Spike(gc, px, py, "spike"));
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}
@@ -337,7 +340,7 @@ public class GameScreen{
 				this.showCamera = false;
 				
 				this.player = new Player(gc, 20, 240);
-				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice position"));
+				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice face"));
 				sprites.add(this.player);
 				sprites.add(new Platform(gc, 0, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 348, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
@@ -439,8 +442,8 @@ public class GameScreen{
 				
 				this.exit = new Exit(gc, 585, 288);
 				break;
-			case 5:
-				loadLevel(gc, -1, getLevelData(5));
+			default:
+				loadLevel(gc, -1, getLevelData(levelN));
 				return;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
@@ -667,16 +670,18 @@ public class GameScreen{
 			MainApplication.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
 			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
 			JSONObject level = levelManager.getLevelData(this.currentLevel);
-			if (difference < level.getInt("bestTime") || level.getInt("bestTime") == 0){
-				levelManager.put(this.currentLevel, "bestTime", (int)(difference));
-				if (this.deaths < level.getInt("deaths") || level.getInt("deaths") == 0){
-					levelManager.put(this.currentLevel, "deaths", this.deaths);
+			if (level != null){
+				if (difference < level.getInt("bestTime") || level.getInt("bestTime") == 0){
+					levelManager.put(this.currentLevel, "bestTime", (int)(difference));
+					if (this.deaths < level.getInt("deaths") || level.getInt("deaths") == 0){
+						levelManager.put(this.currentLevel, "deaths", this.deaths);
+					}
+					if (this.coinsCollected > level.getInt("coins")){
+						levelManager.put(this.currentLevel, "coins", this.coinsCollected);				
+					}
 				}
-				if (this.coinsCollected > level.getInt("coins")){
-					levelManager.put(this.currentLevel, "coins", this.coinsCollected);				
-				}
+				levelManager.save();
 			}
-			levelManager.save();
 			if (this.currentLevel == LevelsScreen.FINAL_LEVEL){ // Final level
 				clearEverything();
 				WinScreen ws = new WinScreen();
@@ -684,18 +689,23 @@ public class GameScreen{
 				return;
 			} else if (this.currentLevel < 0){
 				clearEverything();
-				Editor ed = new Editor(Editor.lastFile);
-				MainApplication.stage.getScene().setRoot(ed.getLayout());
+				if (Editor.lastFile != null){
+					Editor ed = new Editor(Editor.lastFile);
+					MainApplication.stage.getScene().setRoot(ed.getLayout());
+				} else {
+					HomeScreen hs = new HomeScreen();
+					MainApplication.stage.getScene().setRoot(hs.getLayout());
+				}
 				return;
 			} else {
 				loadLevel(gc, ++this.currentLevel);
 			}
 		}
 		if (keys.getOrDefault(KeyCode.A, false) || keys.getOrDefault(KeyCode.LEFT, false)){
-			this.player.moveLeft(Player.X_SPEED);
+			this.player.moveLeft(Player.X_SPEED*(this.specialEffect.speedBoost ? 2 : 1));
 		}
 		if (keys.getOrDefault(KeyCode.D, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
-			this.player.moveRight(Player.X_SPEED);
+			this.player.moveRight(Player.X_SPEED*(this.specialEffect.speedBoost ? 2 : 1));
 		}
 		if (keys.getOrDefault(KeyCode.SPACE, false)){
 			this.player.moveUp(this.specialEffect.specialJump ? Player.Y_SPEED+50 : Player.Y_SPEED);
@@ -731,7 +741,7 @@ public class GameScreen{
 		}
 
 		if (keys.getOrDefault(KeyCode.F2, false)){
-			// Display nearest objects to the player
+			// Display the nearest objects to the player
 			gc.save();
 			gc.setStroke(Color.RED);
 			GameObject red = this.player.getNearestBottomObject(this.player);
@@ -743,6 +753,20 @@ public class GameScreen{
 		
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+
+		if (this.specialEffect.fog){
+			gc.save();
+			double cx = this.player.getX()+this.player.getWidth()/2;
+			double cy = this.player.getY()+this.player.getHeight()/2;
+			gc.beginPath();
+			gc.rect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+			gc.arc(cx, cy, 100, 100, 0, 360);
+			gc.closePath();
+			gc.clip();
+			gc.setFill(Color.BLACK);
+			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+			gc.restore();
+		}
 
 		if (keys.getOrDefault(KeyCode.I, false)){
 			gc.setFill(Color.WHITE);

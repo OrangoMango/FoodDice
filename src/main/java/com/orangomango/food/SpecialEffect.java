@@ -7,6 +7,8 @@ public class SpecialEffect{
 	public boolean slowFall;
 	public boolean invulnerability;
 	public boolean noCheckpoints;
+	public boolean speedBoost;
+	public boolean fog;
 	
 	public void makeEffect(){
 		Random random = new Random();
@@ -14,24 +16,21 @@ public class SpecialEffect{
 		slowFall = false;
 		invulnerability = false;
 		noCheckpoints = false;
-		switch (random.nextInt(4)){
-			case 0:
-				specialJump = true;
-				break;
-			case 1:
-				slowFall = true;
-				break;
-			case 2:
-				invulnerability = true;
-				break;
-			case 3:
-				noCheckpoints = true;
-				break;
-		}
+		speedBoost = false;
+		fog = false;
+		/*switch (random.nextInt(6)){
+			case 0 -> specialJump = true;
+			case 1 -> slowFall = true;
+			case 2 -> invulnerability = true;
+			case 3 -> noCheckpoints = true;
+			case 4 -> speedBoost = true;
+			case 5 -> fog = true;
+		}*/
+		fog = true;
 	}
 	
-	public boolean areAllFalse(){
-		return !specialJump && !slowFall && !invulnerability && !noCheckpoints;
+	public boolean available(){
+		return specialJump || slowFall || invulnerability || noCheckpoints || speedBoost || fog;
 	}
 	
 	@Override
@@ -45,6 +44,10 @@ public class SpecialEffect{
 			output += " 3:\nYou are invulnerable";
 		} else if (noCheckpoints){
 			output += " 4:\nCheckpoints disabled";
+		} else if (speedBoost){
+			output += " 5:\nSpeed boost activated";
+		} else if (fog){
+			output += " 6:\nFog enabled";
 		}
 		return output;
 	}

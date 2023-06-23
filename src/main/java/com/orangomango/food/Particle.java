@@ -33,10 +33,9 @@ public class Particle{
 				return;
 			}
 			gc.save();
-			gc.setGlobalAlpha(0.6);
 			gc.translate(this.startX, this.startY);
 			gc.rotate(this.angle);
-			gc.setFill(this.color);
+			gc.setFill(this.color.deriveColor(1, 1, 1, 0.6));
 			gc.fillRect(this.x, 0, 7, 7);
 			gc.restore();
 			this.x += 1;

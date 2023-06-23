@@ -298,10 +298,10 @@ public class Editor{
 		damagePane.setHgap(10*MainApplication.SCALE);
 		damagePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b5 = new ToggleButton();
-		b5.setGraphic(new ImageView(loadImage("spike.png")));
+		b5.setGraphic(new ImageView(loadImage("fire.png")));
 		b5.setOnAction(e -> {
 			selectedBlock = 4;
-			this.selectedImage.setImage(loadImage("spike.png"));
+			this.selectedImage.setImage(loadImage("fire.png"));
 		});
 		ToggleButton b6 = new ToggleButton();
 		b6.setGraphic(new ImageView(loadImage("cactus_0.png")));
@@ -327,12 +327,19 @@ public class Editor{
 			selectedBlock = 19;
 			this.selectedImage.setImage(loadImage("propeller.png"));
 		});
+		ToggleButton b21 = new ToggleButton();
+		b21.setGraphic(new ImageView(loadImage("spike.png")));
+		b21.setOnAction(e -> {
+			selectedBlock = 20;
+			this.selectedImage.setImage(loadImage("spike.png"));
+		});
 		b5.setToggleGroup(tg);
 		b6.setToggleGroup(tg);
 		b7.setToggleGroup(tg);
 		b8.setToggleGroup(tg);
 		b20.setToggleGroup(tg);
-		damagePane.getChildren().addAll(b5, b6, b7, b8, b20);
+		b21.setToggleGroup(tg);
+		damagePane.getChildren().addAll(b5, b6, b7, b8, b20, b21);
 		TitledPane damage = new TitledPane("Damage Blocks", damagePane);
 		accordion.getPanes().add(damage);
 		
@@ -802,7 +809,7 @@ public class Editor{
 						case 1 -> image = loadImage("platform_medium.png");
 						case 2 -> image = loadImage("ground.png");
 						case 3 -> image = loadImage("wood.png");
-						case 4 -> image = loadImage("spike.png");
+						case 4 -> image = loadImage("fire.png");
 						case 5 -> image = loadImage("cactus_0.png");
 						case 6 -> image = loadImage("laser.png");
 						case 7 -> image = loadImage("shooter.png");
@@ -818,6 +825,7 @@ public class Editor{
 						case 17 -> image = loadImage("platform_medium_editor.png");
 						case 18 -> image = loadImage("portal.png");
 						case 19 -> image = loadImage("propeller.png");
+						case 20 -> image = loadImage("spike.png");
 					}
 					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
