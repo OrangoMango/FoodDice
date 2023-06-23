@@ -18,15 +18,14 @@ public class SpecialEffect{
 		noCheckpoints = false;
 		speedBoost = false;
 		fog = false;
-		/*switch (random.nextInt(6)){
+		switch (random.nextInt(6)){
 			case 0 -> specialJump = true;
 			case 1 -> slowFall = true;
 			case 2 -> invulnerability = true;
 			case 3 -> noCheckpoints = true;
 			case 4 -> speedBoost = true;
 			case 5 -> fog = true;
-		}*/
-		fog = true;
+		}
 	}
 	
 	public boolean available(){
