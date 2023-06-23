@@ -6,11 +6,12 @@ import javafx.geometry.Point2D;
 
 import com.orangomango.food.ui.GameScreen;
 
-public class Propeller extends GameObject{
+public class Propeller extends GameObject implements Turnable{
 	private static Image IMAGE = MainApplication.loadImage("propeller.png");
 	private volatile double angle = 0;
 	private int direction = 1;
 	private int time = 50;
+	private boolean on = true;
 	
 	public Propeller(GraphicsContext gc, double x, double y){
 		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
@@ -49,5 +50,15 @@ public class Propeller extends GameObject{
 		if (collidedConvex(thisVertices, playerVertices)){
 			player.die(false);
 		}
+	}
+	
+	@Override
+	public void turnOn(){
+		this.on = false;
+	}
+	
+	@Override
+	public void turnOff(){
+		this.on = true;
 	}
 }

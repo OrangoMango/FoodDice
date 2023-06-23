@@ -21,6 +21,7 @@ public class MovablePlatform extends Platform implements Turnable{
 		this.startX = this.x;
 		this.startY = this.y;
 		this.time = time;
+		this.solid = true;
 		
 		startLoop();
 	}
@@ -56,7 +57,6 @@ public class MovablePlatform extends Platform implements Turnable{
 				double xMove = this.forward ? this.xSpeed : -this.xSpeed;
 				double yMove = this.forward ? this.ySpeed : -this.ySpeed;
 				Player player = GameScreen.getInstance().getPlayer();
-				if (player == null) return;
 				if (player.collided(this.x, this.y-4, this.w, 4)){
 					player.setX(player.getX()+xMove);
 					player.setY(player.getY()+yMove);

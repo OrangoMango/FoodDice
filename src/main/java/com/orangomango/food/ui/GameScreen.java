@@ -281,7 +281,7 @@ public class GameScreen{
 				
 				break;
 			case 0:
-				this.levelWidth = 800;
+				this.levelWidth = 1300;
 				this.levelHeight = 800;
 				this.showCamera = true;
 			
@@ -322,10 +322,11 @@ public class GameScreen{
 				sprites.add(laser);
 				sprites.add(new Laser(gc, 500, 20));
 				Portal portal = new Portal(gc, 200, 770);
-				portal.setTeleport(300, 750);
+				portal.setTeleport(700, 750);
 				sprites.add(portal);
 				
 				sprites.add(new Propeller(gc, 400, 750));
+				sprites.add(new RotatingPlatform(gc, 5, 1000, 650));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 320, 235));
@@ -756,8 +757,8 @@ public class GameScreen{
 
 		if (this.specialEffect.fog){
 			gc.save();
-			double cx = this.player.getX()+this.player.getWidth()/2;
-			double cy = this.player.getY()+this.player.getHeight()/2;
+			double cx = 200;
+			double cy = 175;
 			gc.beginPath();
 			gc.rect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.arc(cx, cy, 100, 100, 0, 360);
