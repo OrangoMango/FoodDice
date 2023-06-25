@@ -10,6 +10,7 @@ import javafx.animation.*;
 import javafx.util.Duration;
 import javafx.scene.input.MouseButton;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.Point2D;
 import javafx.geometry.Insets;
 
 import java.util.*;
@@ -73,6 +74,8 @@ public class Editor{
 			this.id = id;
 			if (Integer.parseInt(this.id.split(";")[0]) == 7){
 				this.extra = ",true-1300";
+			} else if (Integer.parseInt(this.id.split(";")[0]) == 21){
+				this.extra = ",5-75";
 			}
 		}
 		
@@ -88,7 +91,25 @@ public class Editor{
 					gc.drawImage(this.image, this.x+this.w, this.y, -this.w, this.h);
 				}
 			} else {
-				if (Integer.parseInt(this.id.split(";")[0]) != 2 && Integer.parseInt(this.id.split(";")[0]) != 3){
+				if (Integer.parseInt(this.id.split(";")[0]) == 21){
+					int n = Integer.parseInt(this.extra.substring(1, this.extra.length()).split("-")[0]);
+					int l = Integer.parseInt(this.extra.substring(1, this.extra.length()).split("-")[1]);
+					gc.save();
+					gc.setStroke(Color.BLACK);
+					gc.setLineWidth(4);
+					List<Point2D> points = new ArrayList<>();
+					for (int i = 0; i < n; i++){
+						Point2D point = new Point2D(this.x+this.w/2, this.y+this.h/2-l);
+						point = MainApplication.rotatePoint(point, 360/n*i, this.x+this.w/2, this.y+this.h/2);
+						gc.strokeLine(this.x+this.w/2, this.y+this.h/2, point.getX(), point.getY());
+						points.add(point);
+					}
+					for (Point2D point : points){
+						gc.drawImage(Platform.PlatformType.SMALL.getImage(), point.getX()-Platform.PlatformType.SMALL.getWidth()/2, point.getY()-Platform.PlatformType.SMALL.getHeight()/2, Platform.PlatformType.SMALL.getWidth(), Platform.PlatformType.SMALL.getHeight());
+					}
+					gc.restore();
+					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
+				} else if (Integer.parseInt(this.id.split(";")[0]) != 2 && Integer.parseInt(this.id.split(";")[0]) != 3){
 					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
 				} else {
 					for (int i = 0; i < this.h/32; i++){
@@ -283,13 +304,20 @@ public class Editor{
 			selectedBlock = 17;
 			this.selectedImage.setImage(loadImage("platform_medium_editor.png"));
 		});
+		ToggleButton b22 = new ToggleButton();
+		b22.setGraphic(new ImageView(loadImage("rotatingPlatform.png")));
+		b22.setOnAction(e -> {
+			selectedBlock = 21;
+			this.selectedImage.setImage(loadImage("rotatingPlatform.png"));
+		});
 		b1.setToggleGroup(tg);
 		b2.setToggleGroup(tg);
 		b3.setToggleGroup(tg);
 		b4.setToggleGroup(tg);
 		b17.setToggleGroup(tg);
 		b18.setToggleGroup(tg);
-		blocksPane.getChildren().addAll(b1, b2, b3, b4, b17, b18);
+		b22.setToggleGroup(tg);
+		blocksPane.getChildren().addAll(b1, b2, b3, b4, b17, b18, b22);
 		TitledPane blocks = new TitledPane("Blocks", blocksPane);
 		accordion.getPanes().add(blocks);
 		
@@ -736,7 +764,7 @@ public class Editor{
 					Label timeL = new Label("Time: ");
 					CheckBox direction = new CheckBox("Clockwise");
 					TextField time = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[0] : "");
-					direction.setSelected(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1].equals("1") : true);
+					direction.setSelected(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1].equals("true") : true);
 					Button savePr6 = new Button("Save");
 					savePr6.setOnAction(e -> item.extra = ","+time.getText()+"-"+direction.isSelected());
 					this.props.add(new Separator(), 0, 5, 2, 1);
@@ -744,6 +772,28 @@ public class Editor{
 					this.props.add(time, 1, 6);
 					this.props.add(direction, 0, 7, 2, 1);
 					this.props.add(savePr6, 1, 8);
+					break;
+				// Rotating platform
+				case 21:
+					Label nL = new Label("Platforms: ");
+					Label rlengthL = new Label("Length: ");
+					Label rptimeL = new Label("Time: ");
+					CheckBox rpdirection = new CheckBox("Clockwise");
+					TextField nP = new TextField(item.extra.substring(1, item.extra.length()).split("-")[0]);
+					TextField lP = new TextField(item.extra.substring(1, item.extra.length()).split("-")[1]);
+					TextField rptime = new TextField(item.extra.substring(1, item.extra.length()).split("-").length > 2 ? item.extra.substring(1, item.extra.length()).split("-")[2] : "");
+					rpdirection.setSelected(item.extra.substring(1, item.extra.length()).split("-").length > 2 ? item.extra.substring(1, item.extra.length()).split("-")[3].equals("true") : true);
+					Button savePr7 = new Button("Save");
+					savePr7.setOnAction(e -> item.extra = ","+nP.getText()+"-"+lP.getText()+"-"+rptime.getText()+"-"+rpdirection.isSelected());
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(nL, 0, 6);
+					this.props.add(rlengthL, 0, 7);
+					this.props.add(rptimeL, 0, 8);
+					this.props.add(nP, 1, 6);
+					this.props.add(lP, 1, 7);
+					this.props.add(rptime, 1, 8);
+					this.props.add(rpdirection, 0, 9, 2, 1);
+					this.props.add(savePr7, 1, 10);
 					break;
 			}
 		}
@@ -826,6 +876,7 @@ public class Editor{
 						case 18 -> image = loadImage("portal.png");
 						case 19 -> image = loadImage("propeller.png");
 						case 20 -> image = loadImage("spike.png");
+						case 21 -> image = loadImage("rotatingPlatform.png");
 					}
 					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){

@@ -56,7 +56,7 @@ public class Laser extends GameObject implements Turnable{
 	public void render(){
 		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		if (this.shooting){
-			GameObject found = getNearestBottomObject(GameScreen.getInstance().getPlayer());
+			GameObject found = getNearestBottomObject(this);
 			gc.setFill(Color.RED);
 			double height = ((found == null ? GameScreen.getInstance().getLevelHeight() : found.getY())-(this.y+this.h))*this.drawAmount;
 			gc.fillRect(this.x+this.w/2-1.5, this.y+this.h, 3, height);

@@ -275,6 +275,15 @@ public class GameScreen{
 						case 20:
 							sprites.add(new Spike(gc, px, py, "spike"));
 							break;
+						case 21:
+							int n = Integer.parseInt(line.split(",")[5].split("-")[0]);
+							int l = Integer.parseInt(line.split(",")[5].split("-")[1]);
+							RotatingPlatform rotatingPlatform = new RotatingPlatform(gc, n, l, px, py);
+							if (line.split(",")[5].split("-").length > 2){
+								rotatingPlatform.setData(Integer.parseInt(line.split(",")[5].split("-")[2]), Boolean.parseBoolean(line.split(",")[5].split("-")[3]) ? 1 : -1);
+							}
+							sprites.add(rotatingPlatform);
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}
@@ -326,7 +335,7 @@ public class GameScreen{
 				sprites.add(portal);
 				
 				sprites.add(new Propeller(gc, 400, 750));
-				sprites.add(new RotatingPlatform(gc, 5, 1000, 650));
+				sprites.add(new RotatingPlatform(gc, 5, 75, 1000, 650));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 320, 235));
@@ -641,7 +650,7 @@ public class GameScreen{
 		}
 		
 		for (GameObject go : sprites){
-			go.render();
+			if (go.isRenderingEnabled()) go.render();
 			if (go instanceof Spike || go instanceof Liquid){
 				if (go.collided(this.player)){
 					this.player.die(false);

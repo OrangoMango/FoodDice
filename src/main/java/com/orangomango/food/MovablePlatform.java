@@ -22,7 +22,6 @@ public class MovablePlatform extends Platform implements Turnable{
 		this.startY = this.y;
 		this.time = time;
 		this.solid = true;
-		
 		startLoop();
 	}
 	

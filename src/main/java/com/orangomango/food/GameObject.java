@@ -27,6 +27,7 @@ public abstract class GameObject{
 	private boolean soundAllowed = true;
 	private volatile boolean stopThread;
 	private Timeline an, gr;
+	private boolean renderingEnabled = true;
 	
 	public GameObject(GraphicsContext gc, double x, double y, double w, double h){
 		this.gc = gc;
@@ -112,6 +113,14 @@ public abstract class GameObject{
 		return this.h;
 	}
 	
+	public void disableRendering(){
+		this.renderingEnabled = false;
+	}
+	
+	public boolean isRenderingEnabled(){
+		return this.renderingEnabled;
+	}
+	
 	protected void startImageAnimation(int millis, int max, boolean rev){
 		this.an = new Timeline(new KeyFrame(Duration.millis(millis), e -> {
 			if (GameScreen.getInstance().isPaused()) return;
@@ -132,7 +141,7 @@ public abstract class GameObject{
 	
 	public void makeGravity(){
 		if (this.gravityActivated){
-			throw new IllegalArgumentException("Gravity already activated");
+			throw new IllegalStateException("Gravity already activated");
 		}
 		this.gravityActivated = true;
 		this.gr = new Timeline(new KeyFrame(Duration.millis(1000.0/60), e -> {
