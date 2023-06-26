@@ -16,6 +16,8 @@ import com.orangomango.food.MainApplication;
 
 public class LevelsScreen{
 	private static LevelManager levelManager;
+	public static final int FINAL_LEVEL = 6;
+	private static final Map<Integer, Integer> LEVELCOINS = new HashMap<>();
 	
 	public static class LevelManager{
 		private JSONObject json;
@@ -74,6 +76,23 @@ public class LevelsScreen{
 	
 	static {
 		levelManager = new LevelManager();
+		for (int i = 1; i <= FINAL_LEVEL; i++){
+			int n = 0;
+			if (i == 1){ // TODO convert the level to a file
+				n = 3;
+			} else if (i == 4){
+				n = 4;
+			} else {
+				try {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(LevelsScreen.class.getResourceAsStream("/levels/level"+i+".lvl")));
+					n = (int)reader.lines().filter(line -> line.split(";")[0].equals("12")).count();
+					reader.close();
+				} catch (IOException ex){
+					ex.printStackTrace();
+				}
+			}
+			LEVELCOINS.put(i, n);
+		}
 	}
 	
 	private Timeline loop;
@@ -86,8 +105,6 @@ public class LevelsScreen{
 	private int selectedLevel;
 	private double scrollY = 0;
 	private static double MAX_SCROLL;
-	
-	public static final int FINAL_LEVEL = 7;
 
 	public StackPane getLayout(){
 		StackPane layout = new StackPane();
@@ -168,7 +185,7 @@ public class LevelsScreen{
 		if (levelManager.getLevelData(l).getInt("bestTime") == 0){
 			builder.append("\n\nComplete the level\nto see your stats");
 		} else {
-			builder.append("\nCoins: "+levelManager.getLevelData(l).getInt("coins"));
+			builder.append("\nCoins: "+levelManager.getLevelData(l).getInt("coins")+"/"+LEVELCOINS.get(l));
 			builder.append("\nDeaths: "+levelManager.getLevelData(l).getInt("deaths"));
 			builder.append("\nBest time: "+String.format("%s:%s", levelManager.getLevelData(l).getInt("bestTime")/60000, levelManager.getLevelData(l).getInt("bestTime")/1000%60));
 		}
