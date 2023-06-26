@@ -10,6 +10,14 @@ import javafx.geometry.Point2D;
 
 import com.orangomango.food.ui.HomeScreen;
 
+/**
+ * FoodDice - GMTK game jam 2022
+ * Game originally made in 48h without a game engine.
+ * This is a post-jam version.
+ * https://orangomango.itch.io/food-dice
+ * 
+ * @author OrangoMango
+ */
 public class MainApplication extends Application{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 400;

@@ -193,7 +193,6 @@ public class LevelsScreen{
 		gc.translate(0, -this.scrollY);
 		this.quitButton.render(gc);
 		this.selectButton.render(gc);
-		gc.restore();
 		
 		gc.save();
 		gc.setFill(Color.BLACK);
@@ -216,5 +215,7 @@ public class LevelsScreen{
 		} else if (this.extraY <= 0){
 			this.forward = true;
 		}
+		
+		gc.restore();
 	}
 }

@@ -50,9 +50,6 @@ public class Platform extends GameObject{
 	
 	@Override
 	public void render(){
-		//gc.setFill(Color.BLUE);
-		//gc.fillRect(this.x, this.y, this.w, this.h);
-		
 		if (this.repeat){
 			for (int i = 0; i < this.h/32; i++){
 				for (int j = 0; j < this.w/32; j++){
