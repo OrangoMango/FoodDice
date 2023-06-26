@@ -284,6 +284,9 @@ public class GameScreen{
 							}
 							sprites.add(rotatingPlatform);
 							break;
+						case 22:
+							sprites.add(new Liquid(gc, px, py, pw, ph));
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}

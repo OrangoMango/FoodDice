@@ -19,9 +19,9 @@ import com.orangomango.food.ui.HomeScreen;
  * @author OrangoMango
  */
 public class MainApplication extends Application{
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 400;
-	public static final double SCALE = 1;
+	public static final int WIDTH = 800; //1250;
+	public static final int HEIGHT = 400; //950;
+	public static final double SCALE = 1; //1250.0/800;
 	public static final int FPS = 40;
 	public static Stage stage;
 	

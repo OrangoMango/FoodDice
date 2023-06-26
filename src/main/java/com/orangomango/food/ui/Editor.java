@@ -109,7 +109,7 @@ public class Editor{
 					}
 					gc.restore();
 					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
-				} else if (Integer.parseInt(this.id.split(";")[0]) != 2 && Integer.parseInt(this.id.split(";")[0]) != 3){
+				} else if (Integer.parseInt(this.id.split(";")[0]) != 2 && Integer.parseInt(this.id.split(";")[0]) != 3 && Integer.parseInt(this.id.split(";")[0]) != 22){
 					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
 				} else {
 					for (int i = 0; i < this.h/32; i++){
@@ -361,13 +361,20 @@ public class Editor{
 			selectedBlock = 20;
 			this.selectedImage.setImage(loadImage("spike.png"));
 		});
+		ToggleButton b23 = new ToggleButton();
+		b23.setGraphic(new ImageView(loadImage("lava.png")));
+		b23.setOnAction(e -> {
+			selectedBlock = 22;
+			this.selectedImage.setImage(loadImage("lava.png"));
+		});
 		b5.setToggleGroup(tg);
 		b6.setToggleGroup(tg);
 		b7.setToggleGroup(tg);
 		b8.setToggleGroup(tg);
 		b20.setToggleGroup(tg);
 		b21.setToggleGroup(tg);
-		damagePane.getChildren().addAll(b5, b6, b7, b8, b20, b21);
+		b23.setToggleGroup(tg);
+		damagePane.getChildren().addAll(b5, b6, b7, b8, b20, b21, b23);
 		TitledPane damage = new TitledPane("Damage Blocks", damagePane);
 		accordion.getPanes().add(damage);
 		
@@ -637,7 +644,7 @@ public class Editor{
 			ypos.valueProperty().addListener((ob, oldV, newV) -> item.y = newV);
 			width.valueProperty().addListener((ob, oldV, newV) -> item.w = newV);
 			height.valueProperty().addListener((ob, oldV, newV) -> item.h = newV);
-			if (type != 2 && type != 3){
+			if (type != 2 && type != 3 && type != 22){
 				wp.setDisable(true);
 				hp.setDisable(true);
 				width.setDisable(true);
@@ -877,6 +884,7 @@ public class Editor{
 						case 19 -> image = loadImage("propeller.png");
 						case 20 -> image = loadImage("spike.png");
 						case 21 -> image = loadImage("rotatingPlatform.png");
+						case 22 -> image = loadImage("lava.png");
 					}
 					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
