@@ -11,13 +11,13 @@ public class Propeller extends GameObject implements Turnable{
 	private volatile double angle = 0;
 	private int direction = 1;
 	private int time = 50;
-	private boolean on = true;
+	private volatile boolean on = true;
 	
 	public Propeller(GraphicsContext gc, double x, double y){
 		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		runThread(() -> {
 			try {
-				this.angle += 10*direction;
+				if (this.on) this.angle += 10*direction;
 				Thread.sleep(this.time);
 			} catch (InterruptedException ex){
 				ex.printStackTrace();

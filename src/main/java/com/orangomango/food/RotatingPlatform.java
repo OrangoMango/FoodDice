@@ -17,7 +17,7 @@ public class RotatingPlatform extends GameObject implements Turnable{
 	private double angle;
 	private volatile int direction = 1;
 	private int time = 50;
-	private boolean on = true;
+	private volatile boolean on = true;
 	
 	public RotatingPlatform(GraphicsContext gc, int n, int length, double x, double y){
 		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
@@ -34,7 +34,7 @@ public class RotatingPlatform extends GameObject implements Turnable{
 		GameScreen.getInstance().getSprites().addAll(this.platforms);
 		runThread(() -> {
 			try {
-				this.angle += this.direction;
+				if (this.on) this.angle += this.direction;
 				Thread.sleep(this.time);
 			} catch (InterruptedException ex){
 				ex.printStackTrace();

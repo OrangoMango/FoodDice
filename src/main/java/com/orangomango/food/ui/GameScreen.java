@@ -45,6 +45,7 @@ public class GameScreen{
 	public int deaths;
 	private String loadString;
 	private Map<Integer, Integer> spritesID = new HashMap<>();
+	private Image fogImage = MainApplication.loadImage("fog.png");
 	
 	private JoyStick joystick;
 	
@@ -684,7 +685,7 @@ public class GameScreen{
 			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
 			JSONObject level = levelManager.getLevelData(this.currentLevel);
 			if (level != null){
-				if (difference < level.getInt("bestTime") || level.getInt("bestTime") == 0){
+				if (difference < level.getInt("bestTime") || level.getInt("bestTime") == 0 || this.coinsCollected > level.getInt("coins")){
 					levelManager.put(this.currentLevel, "bestTime", (int)(difference));
 					if (this.deaths < level.getInt("deaths") || level.getInt("deaths") == 0){
 						levelManager.put(this.currentLevel, "deaths", this.deaths);
@@ -720,7 +721,7 @@ public class GameScreen{
 		if (keys.getOrDefault(KeyCode.D, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
 			this.player.moveRight(Player.X_SPEED*(this.specialEffect.speedBoost ? 2 : 1));
 		}
-		if (keys.getOrDefault(KeyCode.SPACE, false)){
+		if (keys.getOrDefault(KeyCode.SPACE, false) || keys.getOrDefault(KeyCode.UP, false)){
 			this.player.moveUp(this.specialEffect.specialJump ? Player.Y_SPEED+50 : Player.Y_SPEED);
 		}
 		if (keys.getOrDefault(KeyCode.K, false)){
@@ -767,18 +768,8 @@ public class GameScreen{
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
-		if (this.specialEffect.fog){
-			gc.save();
-			double cx = 200;
-			double cy = 175;
-			gc.beginPath();
-			gc.rect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.arc(cx, cy, 100, 100, 0, 360);
-			gc.closePath();
-			gc.clip();
-			gc.setFill(Color.BLACK);
-			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.restore();
+		if (this.specialEffect.fog && this.currentLevel != 1){
+			gc.drawImage(this.fogImage, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		}
 
 		if (keys.getOrDefault(KeyCode.I, false)){
@@ -793,7 +784,7 @@ public class GameScreen{
 		gc.setGlobalAlpha(1);
 		gc.setFill(Color.WHITE);
 		gc.setFont(FONT_20);
-		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
+		gc.fillText(String.format("%d:%02d\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
 		gc.restore();
 		
 		this.notification.render(gc);

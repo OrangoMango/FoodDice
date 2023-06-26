@@ -187,7 +187,7 @@ public class LevelsScreen{
 		} else {
 			builder.append("\nCoins: "+levelManager.getLevelData(l).getInt("coins")+"/"+LEVELCOINS.get(l));
 			builder.append("\nDeaths: "+levelManager.getLevelData(l).getInt("deaths"));
-			builder.append("\nBest time: "+String.format("%s:%s", levelManager.getLevelData(l).getInt("bestTime")/60000, levelManager.getLevelData(l).getInt("bestTime")/1000%60));
+			builder.append("\nBest time: "+String.format("%d:%02d", levelManager.getLevelData(l).getInt("bestTime")/60000, levelManager.getLevelData(l).getInt("bestTime")/1000%60));
 		}
 		this.selectedText = builder.toString();
 	}

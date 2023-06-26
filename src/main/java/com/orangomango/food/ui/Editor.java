@@ -672,7 +672,7 @@ public class Editor{
 							int id = Integer.parseInt(txt);
 							LevelItem lock = getByID(id);
 							if (lock != null){
-								if (Arrays.asList(0, 1, 6, 11, 16, 17).contains(Integer.parseInt(lock.getID().split(";")[0]))){
+								if (Arrays.asList(6, 11, 16, 17, 19, 21).contains(Integer.parseInt(lock.getID().split(";")[0]))){
 									ok = true;
 								} else {
 									ok = false;
