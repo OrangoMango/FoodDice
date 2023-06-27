@@ -217,6 +217,16 @@ public class Editor{
 		
 		loadAngles();
 		
+		if (getUserLevels().size() == 0){
+			Alert disclaimer = new Alert(Alert.AlertType.WARNING);
+			disclaimer.setTitle("Editor disclaimer");
+			disclaimer.setHeaderText("Editor v1.0 disclaimer");
+			disclaimer.setContentText("This editor will be updated in the next release.\n"+
+										"When changing any item's property please fill all the fields and insert only floats/integers.\n"+
+										"Please change the level name and size before any changes.\nTo hide this message create and save a level.");
+			disclaimer.showAndWait();
+		}
+		
 		// Set layouts for buttons
 		ToggleGroup tg = new ToggleGroup();
 		

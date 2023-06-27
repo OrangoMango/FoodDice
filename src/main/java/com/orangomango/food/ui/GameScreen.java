@@ -554,8 +554,8 @@ public class GameScreen{
 						Editor ed = new Editor(Editor.lastFile);
 						MainApplication.stage.getScene().setRoot(ed.getLayout());
 					} else {
-						HomeScreen hs = new HomeScreen();
-						MainApplication.stage.getScene().setRoot(hs.getLayout());
+						LevelsScreen ls = new LevelsScreen();
+						MainApplication.stage.getScene().setRoot(ls.getLayout());
 					}
 				}, 250, 200, 75, 75, MainApplication.loadImage("button_home.png")));
 				this.buttons.add(new MenuButton("", () -> {
@@ -724,8 +724,8 @@ public class GameScreen{
 					Editor ed = new Editor(Editor.lastFile);
 					MainApplication.stage.getScene().setRoot(ed.getLayout());
 				} else {
-					HomeScreen hs = new HomeScreen();
-					MainApplication.stage.getScene().setRoot(hs.getLayout());
+					LevelsScreen ls = new LevelsScreen();
+					MainApplication.stage.getScene().setRoot(ls.getLayout());
 				}
 				return;
 			} else {
