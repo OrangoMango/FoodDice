@@ -197,7 +197,7 @@ public class GameScreen{
 						case 7:
 							Shooter shooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5].split("-")[0]));
 							shooter.setTimeOff(Integer.parseInt(line.split(",")[5].split("-")[1]));
-							shooter.changeImages(Integer.parseInt(line.split(",")[5].split("-")[2]));
+							shooter.changeImages(0);
 							sprites.add(shooter);
 							break;
 						case 8:
@@ -294,6 +294,12 @@ public class GameScreen{
 								fallingBlock.setFallingTime(Integer.parseInt(line.split(",")[5]));
 							}
 							sprites.add(fallingBlock);
+							break;
+						case 24:
+							Shooter vshooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5].split("-")[0]));
+							vshooter.setTimeOff(Integer.parseInt(line.split(",")[5].split("-")[1]));
+							vshooter.changeImages(1);
+							sprites.add(vshooter);
 							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);

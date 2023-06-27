@@ -73,7 +73,7 @@ public class Editor{
 			this.image = image;
 			this.id = id;
 			if (Integer.parseInt(this.id.split(";")[0]) == 7){
-				setExtra(",true-1300-0");
+				setExtra(",true-1300");
 			} else if (Integer.parseInt(this.id.split(";")[0]) == 21){
 				setExtra(",5-75");
 			}
@@ -85,12 +85,6 @@ public class Editor{
 		
 		public void setExtra(String extra){
 			this.extra = extra;
-			if (Integer.parseInt(this.id.split(";")[0]) == 7){
-				switch (Integer.parseInt(this.extra.substring(1, this.extra.length()).split("-")[2])){
-					case 0 -> this.image = MainApplication.loadImage("shooter_0.png");
-					case 1 -> this.image = MainApplication.loadImage("shooter2_0.png");
-				}
-			}
 		}
 		
 		public void render(GraphicsContext gc){
@@ -366,6 +360,12 @@ public class Editor{
 			selectedBlock = 7;
 			this.selectedImage.setImage(MainApplication.loadImage("shooter_0.png"));
 		});
+		ToggleButton b25 = new ToggleButton();
+		b25.setGraphic(new ImageView(MainApplication.loadImage("shooter2_0.png")));
+		b25.setOnAction(e -> {
+			selectedBlock = 24;
+			this.selectedImage.setImage(MainApplication.loadImage("shooter2_0.png"));
+		});
 		ToggleButton b20 = new ToggleButton();
 		b20.setGraphic(new ImageView(MainApplication.loadImage("propeller.png")));
 		b20.setOnAction(e -> {
@@ -388,10 +388,11 @@ public class Editor{
 		b6.setToggleGroup(tg);
 		b7.setToggleGroup(tg);
 		b8.setToggleGroup(tg);
+		b25.setToggleGroup(tg);
 		b20.setToggleGroup(tg);
 		b21.setToggleGroup(tg);
 		b23.setToggleGroup(tg);
-		damagePane.getChildren().addAll(b5, b6, b7, b8, b20, b21, b23);
+		damagePane.getChildren().addAll(b5, b6, b7, b8, b25, b20, b21, b23);
 		TitledPane damage = new TitledPane("Damage Blocks", damagePane);
 		accordion.getPanes().add(damage);
 		
@@ -720,18 +721,14 @@ public class Editor{
 					CheckBox toRight = new CheckBox("To right");
 					toRight.setSelected(item.extra.startsWith(",false"));
 					Label timeOffSL = new Label("Millis: ");
-					Label imageIndexL = new Label("ImgIndex: ");
-					TextField imageIndex = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[2] : "");
 					TextField timeOffS = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr2 = new Button("Save");
-					savePr2.setOnAction(e -> item.setExtra(","+(!toRight.isSelected())+"-"+timeOffS.getText()+"-"+imageIndex.getText()));
+					savePr2.setOnAction(e -> item.setExtra(","+(!toRight.isSelected())+"-"+timeOffS.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(toRight, 0, 6, 2, 1);
 					this.props.add(timeOffSL, 0, 7);
-					this.props.add(imageIndexL, 0, 8);
 					this.props.add(timeOffS, 1, 7);
-					this.props.add(imageIndex, 1, 8);
-					this.props.add(savePr2, 1, 9);
+					this.props.add(savePr2, 1, 8);
 					break;
 				// Movable platform
 				case 16:
@@ -918,6 +915,7 @@ public class Editor{
 						case 21 -> image = MainApplication.loadImage("rotatingPlatform.png");
 						case 22 -> image = MainApplication.loadImage("lava.png");
 						case 23 -> image = MainApplication.loadImage("fallingBlock.png");
+						case 24 -> image = MainApplication.loadImage("shooter2_0.png");
 					}
 					LevelItem levelItem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
