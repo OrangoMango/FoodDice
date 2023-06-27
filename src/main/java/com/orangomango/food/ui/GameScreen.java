@@ -197,6 +197,7 @@ public class GameScreen{
 						case 7:
 							Shooter shooter = new Shooter(gc, px, py, Boolean.parseBoolean(line.split(",")[5].split("-")[0]));
 							shooter.setTimeOff(Integer.parseInt(line.split(",")[5].split("-")[1]));
+							shooter.changeImages(Integer.parseInt(line.split(",")[5].split("-")[2]));
 							sprites.add(shooter);
 							break;
 						case 8:

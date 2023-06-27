@@ -61,7 +61,7 @@ public class Editor{
 	
 	private static class LevelItem{
 		public double x, y, w, h;
-		public String extra;
+		private String extra;
 		private Image image;
 		private String id;
 		
@@ -73,14 +73,24 @@ public class Editor{
 			this.image = image;
 			this.id = id;
 			if (Integer.parseInt(this.id.split(";")[0]) == 7){
-				this.extra = ",true-1300";
+				setExtra(",true-1300-0");
 			} else if (Integer.parseInt(this.id.split(";")[0]) == 21){
-				this.extra = ",5-75";
+				setExtra(",5-75");
 			}
 		}
 		
 		public String getID(){
 			return this.id;
+		}
+		
+		public void setExtra(String extra){
+			this.extra = extra;
+			if (Integer.parseInt(this.id.split(";")[0]) == 7){
+				switch (Integer.parseInt(this.extra.substring(1, this.extra.length()).split("-")[2])){
+					case 0 -> this.image = MainApplication.loadImage("shooter_0.png");
+					case 1 -> this.image = MainApplication.loadImage("shooter2_0.png");
+				}
+			}
 		}
 		
 		public void render(GraphicsContext gc){
@@ -688,7 +698,7 @@ public class Editor{
 							}
 						}
 						if (ok){
-							item.extra = ","+lid.getText();
+							item.setExtra(","+lid.getText());
 							Alert info = new Alert(Alert.AlertType.INFORMATION);
 							info.setHeaderText("Information");
 							info.setContentText("Block attached successfully");
@@ -710,14 +720,18 @@ public class Editor{
 					CheckBox toRight = new CheckBox("To right");
 					toRight.setSelected(item.extra.startsWith(",false"));
 					Label timeOffSL = new Label("Millis: ");
+					Label imageIndexL = new Label("ImgIndex: ");
+					TextField imageIndex = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[2] : "");
 					TextField timeOffS = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr2 = new Button("Save");
-					savePr2.setOnAction(e -> item.extra = ","+(!toRight.isSelected())+"-"+timeOffS.getText());
+					savePr2.setOnAction(e -> item.setExtra(","+(!toRight.isSelected())+"-"+timeOffS.getText()+"-"+imageIndex.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(toRight, 0, 6, 2, 1);
 					this.props.add(timeOffSL, 0, 7);
+					this.props.add(imageIndexL, 0, 8);
 					this.props.add(timeOffS, 1, 7);
-					this.props.add(savePr2, 1, 8);
+					this.props.add(imageIndex, 1, 8);
+					this.props.add(savePr2, 1, 9);
 					break;
 				// Movable platform
 				case 16:
@@ -733,7 +747,7 @@ public class Editor{
 					TextField maxY = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[3] : "");
 					TextField moveTime = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[4] : "");
 					Button savePr3 = new Button("Save");
-					savePr3.setOnAction(e -> item.extra = ","+moveX.getText()+"-"+moveY.getText()+"-"+maxX.getText()+"-"+maxY.getText()+"-"+moveTime.getText());
+					savePr3.setOnAction(e -> item.setExtra(","+moveX.getText()+"-"+moveY.getText()+"-"+maxX.getText()+"-"+maxY.getText()+"-"+moveTime.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(moveXL, 0, 6);
 					this.props.add(moveYL, 0, 7);
@@ -752,7 +766,7 @@ public class Editor{
 					Label timeOffL = new Label("Millis: ");
 					TextField timeOff = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()) : "");
 					Button savePr4 = new Button("Save");
-					savePr4.setOnAction(e -> item.extra = ","+timeOff.getText());
+					savePr4.setOnAction(e -> item.setExtra(","+timeOff.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(timeOffL, 0, 6);
 					this.props.add(timeOff, 1, 6);
@@ -765,7 +779,7 @@ public class Editor{
 					TextField tpX = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[0] : "");
 					TextField tpY = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1] : "");
 					Button savePr5 = new Button("Save");
-					savePr5.setOnAction(e -> item.extra = ","+tpX.getText()+"-"+tpY.getText());
+					savePr5.setOnAction(e -> item.setExtra(","+tpX.getText()+"-"+tpY.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(tpXL, 0, 6);
 					this.props.add(tpYL, 0, 7);
@@ -780,7 +794,7 @@ public class Editor{
 					TextField time = new TextField(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[0] : "");
 					direction.setSelected(item.extra != null ? item.extra.substring(1, item.extra.length()).split("-")[1].equals("true") : true);
 					Button savePr6 = new Button("Save");
-					savePr6.setOnAction(e -> item.extra = ","+time.getText()+"-"+direction.isSelected());
+					savePr6.setOnAction(e -> item.setExtra(","+time.getText()+"-"+direction.isSelected()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(timeL, 0, 6);
 					this.props.add(time, 1, 6);
@@ -798,7 +812,7 @@ public class Editor{
 					TextField rptime = new TextField(item.extra.substring(1, item.extra.length()).split("-").length > 2 ? item.extra.substring(1, item.extra.length()).split("-")[2] : "");
 					rpdirection.setSelected(item.extra.substring(1, item.extra.length()).split("-").length > 2 ? item.extra.substring(1, item.extra.length()).split("-")[3].equals("true") : true);
 					Button savePr7 = new Button("Save");
-					savePr7.setOnAction(e -> item.extra = ","+nP.getText()+"-"+lP.getText()+"-"+rptime.getText()+"-"+rpdirection.isSelected());
+					savePr7.setOnAction(e -> item.setExtra(","+nP.getText()+"-"+lP.getText()+"-"+rptime.getText()+"-"+rpdirection.isSelected()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(nL, 0, 6);
 					this.props.add(rlengthL, 0, 7);
@@ -814,7 +828,7 @@ public class Editor{
 					Label fallTimeL = new Label("FallTime: ");
 					TextField fallTime = new TextField();
 					Button savePr8 = new Button("Save");
-					savePr8.setOnAction(e -> item.extra = ","+fallTime.getText());
+					savePr8.setOnAction(e -> item.setExtra(","+fallTime.getText()));
 					this.props.add(new Separator(), 0, 5, 2, 1);
 					this.props.add(fallTimeL, 0, 6);
 					this.props.add(fallTime, 1, 6);
@@ -907,7 +921,7 @@ public class Editor{
 					}
 					LevelItem levelItem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
-						levelItem.extra = ","+line.split(",")[5];
+						levelItem.setExtra(","+line.split(",")[5]);
 					}
 					this.items.add(levelItem);
 					ids.add(id);
