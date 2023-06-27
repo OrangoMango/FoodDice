@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import com.orangomango.food.ui.GameScreen;
 
 public class ActivatorPad extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("activatorpad.png");
+	private static Image IMAGE = MainApplication.loadImage("activatorpad_0.png");
 	private static Image IMAGE2 = MainApplication.loadImage("activatorpad_1.png");
 	private SimpleBooleanProperty activated = new SimpleBooleanProperty(false);
 

@@ -145,7 +145,7 @@ public class Editor{
 	private int levelWidth = 800;
 	private int levelHeight = 800;
 	private Timeline loop;
-	private Image background = loadImage("background.png");
+	private Image background = MainApplication.loadImage("background.png");
 	private int[][] angles;
 	private SelectedImage selectedImage;
 	private List<LevelItem> items = new ArrayList<>();
@@ -269,46 +269,52 @@ public class Editor{
 		blocksPane.setHgap(10*MainApplication.SCALE);
 		blocksPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b1 = new ToggleButton();
-		b1.setGraphic(new ImageView(loadImage("platform_small.png")));
+		b1.setGraphic(new ImageView(MainApplication.loadImage("platform_small.png")));
 		b1.setOnAction(e -> {
 			selectedBlock = 0;
-			this.selectedImage.setImage(loadImage("platform_small.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("platform_small.png"));
 		});
 		ToggleButton b2 = new ToggleButton();
-		b2.setGraphic(new ImageView(loadImage("platform_medium.png")));
+		b2.setGraphic(new ImageView(MainApplication.loadImage("platform_medium.png")));
 		b2.setOnAction(e -> {
 			selectedBlock = 1;
-			this.selectedImage.setImage(loadImage("platform_medium.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("platform_medium.png"));
 		});
 		ToggleButton b3 = new ToggleButton();
-		b3.setGraphic(new ImageView(loadImage("ground.png")));
+		b3.setGraphic(new ImageView(MainApplication.loadImage("ground.png")));
 		b3.setOnAction(e -> {
 			selectedBlock = 2;
-			this.selectedImage.setImage(loadImage("ground.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("ground.png"));
 		});
 		ToggleButton b4 = new ToggleButton();
-		b4.setGraphic(new ImageView(loadImage("wood.png")));
+		b4.setGraphic(new ImageView(MainApplication.loadImage("wood.png")));
 		b4.setOnAction(e -> {
 			selectedBlock = 3;
-			this.selectedImage.setImage(loadImage("wood.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("wood.png"));
 		});
 		ToggleButton b17 = new ToggleButton();
-		b17.setGraphic(new ImageView(loadImage("platform_small_editor.png")));
+		b17.setGraphic(new ImageView(MainApplication.loadImage("platform_small_editor.png")));
 		b17.setOnAction(e -> {
 			selectedBlock = 16;
-			this.selectedImage.setImage(loadImage("platform_small_editor.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("platform_small_editor.png"));
 		});
 		ToggleButton b18 = new ToggleButton();
-		b18.setGraphic(new ImageView(loadImage("platform_medium_editor.png")));
+		b18.setGraphic(new ImageView(MainApplication.loadImage("platform_medium_editor.png")));
 		b18.setOnAction(e -> {
 			selectedBlock = 17;
-			this.selectedImage.setImage(loadImage("platform_medium_editor.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("platform_medium_editor.png"));
 		});
 		ToggleButton b22 = new ToggleButton();
-		b22.setGraphic(new ImageView(loadImage("rotatingPlatform.png")));
+		b22.setGraphic(new ImageView(MainApplication.loadImage("rotatingPlatform.png")));
 		b22.setOnAction(e -> {
 			selectedBlock = 21;
-			this.selectedImage.setImage(loadImage("rotatingPlatform.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("rotatingPlatform.png"));
+		});
+		ToggleButton b24 = new ToggleButton();
+		b24.setGraphic(new ImageView(MainApplication.loadImage("fallingBlock.png")));
+		b24.setOnAction(e -> {
+			selectedBlock = 23;
+			this.selectedImage.setImage(MainApplication.loadImage("fallingBlock.png"));
 		});
 		b1.setToggleGroup(tg);
 		b2.setToggleGroup(tg);
@@ -317,7 +323,8 @@ public class Editor{
 		b17.setToggleGroup(tg);
 		b18.setToggleGroup(tg);
 		b22.setToggleGroup(tg);
-		blocksPane.getChildren().addAll(b1, b2, b3, b4, b17, b18, b22);
+		b24.setToggleGroup(tg);
+		blocksPane.getChildren().addAll(b1, b2, b3, b4, b17, b18, b22, b24);
 		TitledPane blocks = new TitledPane("Blocks", blocksPane);
 		accordion.getPanes().add(blocks);
 		
@@ -326,46 +333,46 @@ public class Editor{
 		damagePane.setHgap(10*MainApplication.SCALE);
 		damagePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b5 = new ToggleButton();
-		b5.setGraphic(new ImageView(loadImage("fire.png")));
+		b5.setGraphic(new ImageView(MainApplication.loadImage("fire_0.png")));
 		b5.setOnAction(e -> {
 			selectedBlock = 4;
-			this.selectedImage.setImage(loadImage("fire.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("fire_0.png"));
 		});
 		ToggleButton b6 = new ToggleButton();
-		b6.setGraphic(new ImageView(loadImage("cactus_0.png")));
+		b6.setGraphic(new ImageView(MainApplication.loadImage("cactus_0.png")));
 		b6.setOnAction(e -> {
 			selectedBlock = 5;
-			this.selectedImage.setImage(loadImage("cactus_0.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("cactus_0.png"));
 		});
 		ToggleButton b7 = new ToggleButton();
-		b7.setGraphic(new ImageView(loadImage("laser.png")));
+		b7.setGraphic(new ImageView(MainApplication.loadImage("laser.png")));
 		b7.setOnAction(e -> {
 			selectedBlock = 6;
-			this.selectedImage.setImage(loadImage("laser.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("laser.png"));
 		});
 		ToggleButton b8 = new ToggleButton();
-		b8.setGraphic(new ImageView(loadImage("shooter.png")));
+		b8.setGraphic(new ImageView(MainApplication.loadImage("shooter_0.png")));
 		b8.setOnAction(e -> {
 			selectedBlock = 7;
-			this.selectedImage.setImage(loadImage("shooter.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("shooter_0.png"));
 		});
 		ToggleButton b20 = new ToggleButton();
-		b20.setGraphic(new ImageView(loadImage("propeller.png")));
+		b20.setGraphic(new ImageView(MainApplication.loadImage("propeller.png")));
 		b20.setOnAction(e -> {
 			selectedBlock = 19;
-			this.selectedImage.setImage(loadImage("propeller.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("propeller.png"));
 		});
 		ToggleButton b21 = new ToggleButton();
-		b21.setGraphic(new ImageView(loadImage("spike.png")));
+		b21.setGraphic(new ImageView(MainApplication.loadImage("spike.png")));
 		b21.setOnAction(e -> {
 			selectedBlock = 20;
-			this.selectedImage.setImage(loadImage("spike.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("spike.png"));
 		});
 		ToggleButton b23 = new ToggleButton();
-		b23.setGraphic(new ImageView(loadImage("lava.png")));
+		b23.setGraphic(new ImageView(MainApplication.loadImage("lava.png")));
 		b23.setOnAction(e -> {
 			selectedBlock = 22;
-			this.selectedImage.setImage(loadImage("lava.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("lava.png"));
 		});
 		b5.setToggleGroup(tg);
 		b6.setToggleGroup(tg);
@@ -383,16 +390,16 @@ public class Editor{
 		pushablePane.setHgap(10*MainApplication.SCALE);
 		pushablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b9 = new ToggleButton();
-		b9.setGraphic(new ImageView(loadImage("box.png")));
+		b9.setGraphic(new ImageView(MainApplication.loadImage("box.png")));
 		b9.setOnAction(e -> {
 			selectedBlock = 8;
-			this.selectedImage.setImage(loadImage("box.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("box.png"));
 		});
 		ToggleButton b10 = new ToggleButton();
-		b10.setGraphic(new ImageView(loadImage("jumppad.png")));
+		b10.setGraphic(new ImageView(MainApplication.loadImage("jumppad.png")));
 		b10.setOnAction(e -> {
 			selectedBlock = 9;
-			this.selectedImage.setImage(loadImage("jumppad.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("jumppad.png"));
 		});
 		b9.setToggleGroup(tg);
 		b10.setToggleGroup(tg);
@@ -405,22 +412,22 @@ public class Editor{
 		activablePane.setHgap(10*MainApplication.SCALE);
 		activablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b11 = new ToggleButton();
-		b11.setGraphic(new ImageView(loadImage("activatorpad.png")));
+		b11.setGraphic(new ImageView(MainApplication.loadImage("activatorpad_0.png")));
 		b11.setOnAction(e -> {
 			selectedBlock = 10;
-			this.selectedImage.setImage(loadImage("activatorpad.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("activatorpad_0.png"));
 		});
 		ToggleButton b12 = new ToggleButton();
-		b12.setGraphic(new ImageView(loadImage("door_0.png")));
+		b12.setGraphic(new ImageView(MainApplication.loadImage("door_0.png")));
 		b12.setOnAction(e -> {
 			selectedBlock = 11;
-			this.selectedImage.setImage(loadImage("door_0.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("door_0.png"));
 		});
 		ToggleButton b19 = new ToggleButton();
-		b19.setGraphic(new ImageView(loadImage("portal.png")));
+		b19.setGraphic(new ImageView(MainApplication.loadImage("portal.png")));
 		b19.setOnAction(e -> {
 			selectedBlock = 18;
-			this.selectedImage.setImage(loadImage("portal.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("portal.png"));
 		});
 		b11.setToggleGroup(tg);
 		b12.setToggleGroup(tg);
@@ -434,10 +441,10 @@ public class Editor{
 		collectablePane.setHgap(10*MainApplication.SCALE);
 		collectablePane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b13 = new ToggleButton();
-		b13.setGraphic(new ImageView(loadImage("coin.png")));
+		b13.setGraphic(new ImageView(MainApplication.loadImage("coin.png")));
 		b13.setOnAction(e -> {
 			selectedBlock = 12;
-			this.selectedImage.setImage(loadImage("coin.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("coin.png"));
 		});
 		b13.setToggleGroup(tg);
 		collectablePane.getChildren().addAll(b13);
@@ -449,24 +456,24 @@ public class Editor{
 		specialPane.setHgap(10*MainApplication.SCALE);
 		specialPane.setVgap(10*MainApplication.SCALE);
 		ToggleButton b14 = new ToggleButton();
-		b14.setGraphic(new ImageView(loadImage("checkpoint_off.png")));
+		b14.setGraphic(new ImageView(MainApplication.loadImage("checkpoint_off.png")));
 		b14.setOnAction(e -> {
 			selectedBlock = 13;
-			this.selectedImage.setImage(loadImage("checkpoint_off.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("checkpoint_off.png"));
 		});
 		b14.setToggleGroup(tg);
 		ToggleButton b15 = new ToggleButton();
-		b15.setGraphic(new ImageView(loadImage("player_3.png")));
+		b15.setGraphic(new ImageView(MainApplication.loadImage("player_3.png")));
 		b15.setOnAction(e -> {
 			selectedBlock = 14;
-			this.selectedImage.setImage(loadImage("player_3.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("player_3.png"));
 		});
 		b15.setToggleGroup(tg);
 		ToggleButton b16 = new ToggleButton();
-		b16.setGraphic(new ImageView(loadImage("exit.png")));
+		b16.setGraphic(new ImageView(MainApplication.loadImage("exit.png")));
 		b16.setOnAction(e -> {
 			selectedBlock = 15;
-			this.selectedImage.setImage(loadImage("exit.png"));
+			this.selectedImage.setImage(MainApplication.loadImage("exit.png"));
 		});
 		b16.setToggleGroup(tg);
 		specialPane.getChildren().addAll(b14, b15, b16);
@@ -802,6 +809,17 @@ public class Editor{
 					this.props.add(rpdirection, 0, 9, 2, 1);
 					this.props.add(savePr7, 1, 10);
 					break;
+				// Falling block
+				case 23:
+					Label fallTimeL = new Label("FallTime: ");
+					TextField fallTime = new TextField();
+					Button savePr8 = new Button("Save");
+					savePr8.setOnAction(e -> item.extra = ","+fallTime.getText());
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(fallTimeL, 0, 6);
+					this.props.add(fallTime, 1, 6);
+					this.props.add(savePr8, 1, 7);
+					break;
 			}
 		}
 	}
@@ -862,35 +880,36 @@ public class Editor{
 					double ph = Double.parseDouble(line.split(",")[4]);
 					Image image = null;
 					switch (type){
-						case 0 -> image = loadImage("platform_small.png");
-						case 1 -> image = loadImage("platform_medium.png");
-						case 2 -> image = loadImage("ground.png");
-						case 3 -> image = loadImage("wood.png");
-						case 4 -> image = loadImage("fire.png");
-						case 5 -> image = loadImage("cactus_0.png");
-						case 6 -> image = loadImage("laser.png");
-						case 7 -> image = loadImage("shooter.png");
-						case 8 -> image = loadImage("box.png");
-						case 9 -> image = loadImage("jumppad.png");
-						case 10 -> image = loadImage("activatorpad.png");
-						case 11 -> image = loadImage("door_0.png");
-						case 12 -> image = loadImage("coin.png");
-						case 13 -> image = loadImage("checkpoint_off.png");
-						case 14 -> image = loadImage("player_3.png");
-						case 15 -> image = loadImage("exit.png");
-						case 16 -> image = loadImage("platform_small_editor.png");
-						case 17 -> image = loadImage("platform_medium_editor.png");
-						case 18 -> image = loadImage("portal.png");
-						case 19 -> image = loadImage("propeller.png");
-						case 20 -> image = loadImage("spike.png");
-						case 21 -> image = loadImage("rotatingPlatform.png");
-						case 22 -> image = loadImage("lava.png");
+						case 0 -> image = MainApplication.loadImage("platform_small.png");
+						case 1 -> image = MainApplication.loadImage("platform_medium.png");
+						case 2 -> image = MainApplication.loadImage("ground.png");
+						case 3 -> image = MainApplication.loadImage("wood.png");
+						case 4 -> image = MainApplication.loadImage("fire_0.png");
+						case 5 -> image = MainApplication.loadImage("cactus_0.png");
+						case 6 -> image = MainApplication.loadImage("laser.png");
+						case 7 -> image = MainApplication.loadImage("shooter_0.png");
+						case 8 -> image = MainApplication.loadImage("box.png");
+						case 9 -> image = MainApplication.loadImage("jumppad.png");
+						case 10 -> image = MainApplication.loadImage("activatorpad_0.png");
+						case 11 -> image = MainApplication.loadImage("door_0.png");
+						case 12 -> image = MainApplication.loadImage("coin.png");
+						case 13 -> image = MainApplication.loadImage("checkpoint_off.png");
+						case 14 -> image = MainApplication.loadImage("player_3.png");
+						case 15 -> image = MainApplication.loadImage("exit.png");
+						case 16 -> image = MainApplication.loadImage("platform_small_editor.png");
+						case 17 -> image = MainApplication.loadImage("platform_medium_editor.png");
+						case 18 -> image = MainApplication.loadImage("portal.png");
+						case 19 -> image = MainApplication.loadImage("propeller.png");
+						case 20 -> image = MainApplication.loadImage("spike.png");
+						case 21 -> image = MainApplication.loadImage("rotatingPlatform.png");
+						case 22 -> image = MainApplication.loadImage("lava.png");
+						case 23 -> image = MainApplication.loadImage("fallingBlock.png");
 					}
-					LevelItem levelitem = new LevelItem(px, py, pw, ph, image, type+";"+id);
+					LevelItem levelItem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
-						levelitem.extra = ","+line.split(",")[5];
+						levelItem.extra = ","+line.split(",")[5];
 					}
-					this.items.add(levelitem);
+					this.items.add(levelItem);
 					ids.add(id);
 				}
 				c++;
@@ -945,9 +964,5 @@ public class Editor{
 		gc.setGlobalAlpha(0.7);
 		this.selectedImage.render(gc, this.selectedBlock);
 		gc.setGlobalAlpha(1);
-	}
-	
-	private Image loadImage(String name){
-		return MainApplication.loadImage(name);
 	}
 }

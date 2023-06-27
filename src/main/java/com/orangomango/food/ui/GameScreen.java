@@ -190,8 +190,7 @@ public class GameScreen{
 						case 6:
 							Laser laser = new Laser(gc, px, py);
 							if (line.split(",").length == 6){
-								String txt = line.split(",")[5];
-								laser.setTimeOff(Integer.parseInt(txt));
+								laser.setTimeOff(Integer.parseInt(line.split(",")[5]));
 							}
 							sprites.add(laser);
 							break;
@@ -288,6 +287,13 @@ public class GameScreen{
 						case 22:
 							sprites.add(new Liquid(gc, px, py, pw, ph));
 							break;
+						case 23:
+							FallingBlock fallingBlock = new FallingBlock(gc, px, py);
+							if (line.split(",").length == 6){
+								fallingBlock.setFallingTime(Integer.parseInt(line.split(",")[5]));
+							}
+							sprites.add(fallingBlock);
+							break;
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}
@@ -306,14 +312,17 @@ public class GameScreen{
 				sprites.add(new Box(gc, 65, 0));
 				Door door = new Door(gc, 385, 206);
 				Laser laser = new Laser(gc, 450, 20);
+				Shooter shooter = new Shooter(gc, 460, 236, false);
 				MovablePlatform mob = new MovablePlatform(gc, 130, 270, Platform.PlatformType.SMALL, 2, 0, 50, 0, 100);
 				sprites.add(door);
 				sprites.add(new ActivatorPad(gc, 0, -30, () -> {
-					door.open();
+					door.turnOn();
 					mob.turnOff();
+					shooter.turnOff();
 				}, () -> {
-					door.close();
+					door.turnOff();
 					mob.turnOn();
+					shooter.turnOn();
 				}));
 				sprites.add(new ActivatorPad(gc, 420, 180, () -> laser.turnOff(), () -> laser.turnOn()));
 				sprites.add(new Platform(gc, 385, 256, 224, this.levelHeight-256-150, MainApplication.loadImage("wood.png")));
@@ -329,8 +338,9 @@ public class GameScreen{
 				for (int i = 0; i < 9; i++){
 					if (i % 3 == 0 || i > 6) sprites.add(new Spike(gc, 120+i*25, 375, "cactus"));
 				}
-				
-				sprites.add(new Shooter(gc, 460, 236, false));
+
+				//shooter.changeImages(1);
+				sprites.add(shooter);
 				
 				sprites.add(laser);
 				sprites.add(new Laser(gc, 500, 20));
@@ -409,7 +419,7 @@ public class GameScreen{
 				sprites.add(new Spike(gc, 467, 703, "cactus"));
 				Door door_l4 = new Door(gc, 547, 170);
 				sprites.add(new Spike(gc, 530, 703, "fire"));
-				sprites.add(new ActivatorPad(gc, 450, 630, () -> door_l4.open(), () -> door_l4.close()));
+				sprites.add(new ActivatorPad(gc, 450, 630, () -> door_l4.turnOn(), () -> door_l4.turnOff()));
 				sprites.add(new Spike(gc, 575, 703, "fire"));
 				sprites.add(new Spike(gc, 615, 703, "cactus"));
 				sprites.add(new Spike(gc, 655, 703, "cactus"));

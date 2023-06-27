@@ -27,15 +27,6 @@ public class Door extends GameObject implements Turnable{
 	
 	@Override
 	public void turnOn(){
-		this.open();
-	}
-	
-	@Override
-	public void turnOff(){
-		this.close();
-	}
-	
-	public void open(){
 		if (this.animating) this.stopCurrentAnimation = true;
 		this.animating = true;
 		new Thread(() -> {
@@ -48,7 +39,7 @@ public class Door extends GameObject implements Turnable{
 				}
 				if (this.stopCurrentAnimation){
 					this.stopCurrentAnimation = false;
-					return;
+					break;
 				}
 			}
 			this.opened = true;
@@ -56,7 +47,8 @@ public class Door extends GameObject implements Turnable{
 		}, "door-opening").start();
 	}
 	
-	public void close(){
+	@Override
+	public void turnOff(){
 		if (this.animating) this.stopCurrentAnimation = true;
 		this.animating = true;
 		new Thread(() -> {
@@ -69,7 +61,7 @@ public class Door extends GameObject implements Turnable{
 				}
 				if (this.stopCurrentAnimation){
 					this.stopCurrentAnimation = false;
-					return;
+					break;
 				}
 			}
 			this.opened = false;

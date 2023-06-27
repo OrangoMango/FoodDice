@@ -11,8 +11,8 @@ public class Spike extends GameObject{
 		super(gc, x, y, 0, 0);
 		switch (type){
 			case "fire":
-				this.images[0] = MainApplication.loadImage("fire_1.png");
-				this.images[1] = MainApplication.loadImage("fire.png");
+				this.images[0] = MainApplication.loadImage("fire_0.png");
+				this.images[1] = MainApplication.loadImage("fire_1.png");
 				this.images[2] = MainApplication.loadImage("fire_2.png");
 				startImageAnimation(200, 2, true);
 				break;

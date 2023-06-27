@@ -70,6 +70,10 @@ public class MainApplication extends Application{
 		return new Image(MainApplication.class.getResourceAsStream("/images/"+name));
 	}
 	
+	/**
+	 * Clockwise: positive rot
+	 * Counterclockwise: negative rot
+	 */
 	public static Point2D rotatePoint(Point2D point, double rot, double px, double py){
 		rot = Math.toRadians(rot);
 		double x = point.getX();

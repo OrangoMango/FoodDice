@@ -61,8 +61,5 @@ public class Platform extends GameObject{
 		} else {
 			gc.drawImage(this.type, this.x, this.y, this.w, this.h);
 		}
-		
-		//gc.setStroke(Color.BLACK);
-		//gc.strokeText(String.format("%s %s", this.x, this.y), this.x, this.y+this.h+15);
 	}
 }
