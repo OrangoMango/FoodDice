@@ -72,7 +72,7 @@ public class Editor{
 			this.h = h;
 			this.image = image;
 			this.id = id;
-			if (Integer.parseInt(this.id.split(";")[0]) == 7){
+			if (Integer.parseInt(this.id.split(";")[0]) == 7 || Integer.parseInt(this.id.split(";")[0]) == 24){
 				setExtra(",true-1300");
 			} else if (Integer.parseInt(this.id.split(";")[0]) == 21){
 				setExtra(",5-75");
@@ -88,7 +88,7 @@ public class Editor{
 		}
 		
 		public void render(GraphicsContext gc){
-			if (Integer.parseInt(this.id.split(";")[0]) == 7){
+			if (Integer.parseInt(this.id.split(";")[0]) == 7 || Integer.parseInt(this.id.split(";")[0]) == 24){
 				if (this.extra.startsWith(",true")){
 					gc.drawImage(this.image, this.x, this.y, this.w, this.h);
 				} else {
@@ -728,6 +728,7 @@ public class Editor{
 					break;
 				// Shooter
 				case 7:
+				case 24:
 					CheckBox toRight = new CheckBox("To right");
 					toRight.setSelected(item.extra.startsWith(",false"));
 					Label timeOffSL = new Label("Millis: ");

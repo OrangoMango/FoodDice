@@ -16,7 +16,7 @@ import com.orangomango.food.MainApplication;
 
 public class LevelsScreen{
 	private static LevelManager levelManager;
-	public static final int FINAL_LEVEL = 6;
+	public static final int FINAL_LEVEL = 7;
 	private static final Map<Integer, Integer> LEVELCOINS = new HashMap<>();
 	
 	public static class LevelManager{
