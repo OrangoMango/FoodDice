@@ -23,7 +23,7 @@ import com.orangomango.food.Platform;
 import javafxports.android.FXActivity;
 
 public class Editor{
-	private static final String saveDirectory = FXActivity.getInstance().getFilesDir().getAbsolutePath();
+	public static final String saveDirectory = FXActivity.getInstance().getFilesDir().getAbsolutePath();
 
 	public static String lastFile;
 	
@@ -520,7 +520,7 @@ public class Editor{
 			if (this.selectedImage.getImage() != null){
 				e.consume();
 			}
-		})
+		});
 		
 		TabPane tabs = new TabPane();
 		Tab blk = new Tab("Blocks");
@@ -764,10 +764,10 @@ public class Editor{
 							error.showAndWait();
 						}
 					});
-					this.props.add(new Separator(), 0, lastY+2, 2, 1);
-					this.props.add(lockID, 0, lastY+3, 2, 1);
-					this.props.add(lid, 0, lastY+4, 2, 1);
-					this.props.add(savePr, 1, lastY+5);
+					this.props.add(new Separator(), 0, 5, 2, 1);
+					this.props.add(lockID, 0, 6, 2, 1);
+					this.props.add(lid, 0, 7, 2, 1);
+					this.props.add(savePr, 1, 8);
 					break;
 				// Shooter
 				case 7:
