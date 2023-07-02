@@ -19,12 +19,24 @@ public class SpecialEffect{
 		speedBoost = false;
 		fog = false;
 		switch (random.nextInt(6)){
-			case 0 -> specialJump = true;
-			case 1 -> slowFall = true;
-			case 2 -> invulnerability = true;
-			case 3 -> noCheckpoints = true;
-			case 4 -> speedBoost = true;
-			case 5 -> fog = true;
+			case 0:
+				specialJump = true;
+				break;
+			case 1:
+				slowFall = true;
+				break;
+			case 2:
+				invulnerability = true;
+				break;
+			case 3:
+				noCheckpoints = true;
+				break;
+			case 4:
+				speedBoost = true;
+				break;
+			case 5:
+				fog = true;
+				break;
 		}
 	}
 	
