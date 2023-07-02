@@ -943,34 +943,14 @@ public class Editor{
 					double py = Double.parseDouble(line.split(",")[2]);
 					double pw = Double.parseDouble(line.split(",")[3]);
 					double ph = Double.parseDouble(line.split(",")[4]);
-					Image image = null;
-					switch (type){
-						case 0 -> image = MainApplication.loadImage("platform_small.png");
-						case 1 -> image = MainApplication.loadImage("platform_medium.png");
-						case 2 -> image = MainApplication.loadImage("ground.png");
-						case 3 -> image = MainApplication.loadImage("wood.png");
-						case 4 -> image = MainApplication.loadImage("fire_0.png");
-						case 5 -> image = MainApplication.loadImage("cactus_0.png");
-						case 6 -> image = MainApplication.loadImage("laser.png");
-						case 7 -> image = MainApplication.loadImage("shooter_0.png");
-						case 8 -> image = MainApplication.loadImage("box.png");
-						case 9 -> image = MainApplication.loadImage("jumppad.png");
-						case 10 -> image = MainApplication.loadImage("activatorpad_0.png");
-						case 11 -> image = MainApplication.loadImage("door_0.png");
-						case 12 -> image = MainApplication.loadImage("coin.png");
-						case 13 -> image = MainApplication.loadImage("checkpoint_off.png");
-						case 14 -> image = MainApplication.loadImage("player_3.png");
-						case 15 -> image = MainApplication.loadImage("exit.png");
-						case 16 -> image = MainApplication.loadImage("platform_small_editor.png");
-						case 17 -> image = MainApplication.loadImage("platform_medium_editor.png");
-						case 18 -> image = MainApplication.loadImage("portal.png");
-						case 19 -> image = MainApplication.loadImage("propeller.png");
-						case 20 -> image = MainApplication.loadImage("spike.png");
-						case 21 -> image = MainApplication.loadImage("rotatingPlatform.png");
-						case 22 -> image = MainApplication.loadImage("lava.png");
-						case 23 -> image = MainApplication.loadImage("fallingBlock.png");
-						case 24 -> image = MainApplication.loadImage("shooter2_0.png");
-					}
+					
+					String[] imageNames = new String[]{"platform_small.png", "platform_medium.png", "ground.png", "wood.png", "fire_0.png", "cactus_0.png",
+														"laser.png", "shooter_0.png", "box.png", "jumppad.png", "activatorpad_0.png", "door_0.png",
+														"coin.png", "checkpoint_off.png", "player_3.png", "exit.png", "platform_small_editor.png",
+														"platform_medium_editor.png", "portal.png", "propeller.png", "spike.png", "rotatingPlatform.png",
+														"lava.png", "fallingBlock.png", "shooter2_0.png"};
+					
+					Image image = MainApplication.loadImage(imageNames[type]);
 					LevelItem levelItem = new LevelItem(px, py, pw, ph, image, type+";"+id);
 					if (line.split(",").length == 6){
 						levelItem.setExtra(","+line.split(",")[5]);
