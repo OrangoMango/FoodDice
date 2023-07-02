@@ -12,6 +12,10 @@ apply plugin: 'org.javafxports.jfxmobile'
 
 mainClassName = 'com.orangomango.food.MainApplication'
 
+dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+}
+
 repositories {
     jcenter()
 }

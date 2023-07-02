@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 
 import java.util.*;
 import java.io.*;
-import org.json.JSONObject;
+import shadow.org.json.JSONObject;
 
 import com.orangomango.food.MainApplication;
 
