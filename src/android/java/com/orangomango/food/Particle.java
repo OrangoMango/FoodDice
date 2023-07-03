@@ -46,13 +46,11 @@ public class Particle{
 		}
 	}
 	
-	private GraphicsContext gc;
 	private double x, y;
 	private List<ParticlePiece> pieces = new ArrayList<>();
 	private boolean repeat, finished;
 	
-	public Particle(GraphicsContext gc, double x, double y, String type, int size, boolean repeat){
-		this.gc = gc;
+	public Particle(double x, double y, String type, int size, boolean repeat){
 		this.x = x;
 		this.y = y;
 		this.repeat = repeat;
@@ -83,7 +81,7 @@ public class Particle{
 		return this.finished;
 	}
 	
-	public void render(){
+	public void render(GraphicsContext gc){
 		for (int i = 0; i < this.pieces.size(); i++){
 			ParticlePiece p = this.pieces.get(i);
 			p.render(gc);

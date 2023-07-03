@@ -7,8 +7,8 @@ import java.util.Random;
 public class Spike extends GameObject{
 	private Image[] images = new Image[4];
 	
-	public Spike(GraphicsContext gc, double x, double y, String type){
-		super(gc, x, y, 0, 0);
+	public Spike(double x, double y, String type){
+		super(x, y, 0, 0);
 		switch (type){
 			case "fire":
 				this.images[0] = MainApplication.loadImage("fire_0.png");
@@ -34,7 +34,7 @@ public class Spike extends GameObject{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(this.images[this.imageIndex], this.x, this.y, this.w, this.h);
 	}
 }

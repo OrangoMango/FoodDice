@@ -15,12 +15,12 @@ public class Door extends GameObject implements Turnable{
 		}
 	}
 
-	public Door(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
+	public Door(double x, double y){
+		super(x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		this.solid = !this.opened;
 		gc.drawImage(IMAGES[this.imageIndex], this.x, this.y, this.w, this.h);
 	}

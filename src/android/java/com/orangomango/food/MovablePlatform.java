@@ -12,8 +12,8 @@ public class MovablePlatform extends Platform implements Turnable{
 	private int time;
 	private volatile boolean on = true;
 	
-	public MovablePlatform(GraphicsContext gc, double x, double y, Platform.PlatformType type, double xSpeed, double ySpeed, double xMax, double yMax, int time){
-		super(gc, x, y, type);
+	public MovablePlatform(double x, double y, Platform.PlatformType type, double xSpeed, double ySpeed, double xMax, double yMax, int time){
+		super(x, y, type);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 		this.xMax = xMax;
@@ -26,7 +26,7 @@ public class MovablePlatform extends Platform implements Turnable{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.setLineWidth(4);
 		double startX = 0, startY = 0, endX = 0, endY = 0;
 		if (this.xSpeed != 0 && this.ySpeed != 0){

@@ -11,8 +11,8 @@ public class ActivatorPad extends GameObject{
 	private static Image IMAGE2 = MainApplication.loadImage("activatorpad_1.png");
 	private SimpleBooleanProperty activated = new SimpleBooleanProperty(false);
 
-	public ActivatorPad(GraphicsContext gc, double x, double y, Runnable on, Runnable off){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public ActivatorPad(double x, double y, Runnable on, Runnable off){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 		makeGravity();
 		this.activated.addListener((ob, oldV, newV) -> {
@@ -29,7 +29,7 @@ public class ActivatorPad extends GameObject{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(this.activated.get() ? IMAGE2 : IMAGE, this.x, this.y, this.w, this.h);
 		boolean ac = false;
 		for (GameObject go : GameScreen.getInstance().getSprites()){

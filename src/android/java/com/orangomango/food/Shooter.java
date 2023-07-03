@@ -44,8 +44,8 @@ public class Shooter extends GameObject implements Turnable{
 	private Image[] images;
 	private volatile boolean on = true;
 	
-	public Shooter(GraphicsContext gc, double x, double y, boolean left){
-		super(gc, x, y, IMAGES[0][0].getWidth(), IMAGES[0][0].getHeight());
+	public Shooter(double x, double y, boolean left){
+		super(x, y, IMAGES[0][0].getWidth(), IMAGES[0][0].getHeight());
 		this.solid = true;
 		this.images = IMAGES[0];
 		this.left = left;
@@ -83,7 +83,7 @@ public class Shooter extends GameObject implements Turnable{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		if (this.left){
 			gc.drawImage(this.images[this.imageIndex], this.x, this.y, this.w, this.h);
 		} else {

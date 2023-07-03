@@ -37,14 +37,12 @@ public class CollectableObject{
 	}
 	
 	private CollectableType type;
-	private GraphicsContext gc;
 	private double x, y;
 	private double startY;
 	private double moveAmount = 1;
 	
-	public CollectableObject(CollectableType type, GraphicsContext gc, double x, double y){
+	public CollectableObject(CollectableType type, double x, double y){
 		this.type = type;
-		this.gc = gc;
 		this.x = x;
 		this.y = y;
 		this.startY = y;
@@ -65,7 +63,7 @@ public class CollectableObject{
 		return this.type;
 	}
 	
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(this.type.getImage(), this.x, this.y, this.type.getWidth(), this.type.getHeight());
 	}
 	

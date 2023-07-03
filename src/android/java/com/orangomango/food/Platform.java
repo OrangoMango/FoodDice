@@ -36,20 +36,20 @@ public class Platform extends GameObject{
 	protected Image type;
 	private boolean repeat;
 	
-	public Platform(GraphicsContext gc, double x, double y, double w, double h, Image image){
-		super(gc, x, y, w, h);
+	public Platform(double x, double y, double w, double h, Image image){
+		super(x, y, w, h);
 		this.type = image;
 		this.repeat = true;
 		this.solid = true;
 	}
 	
-	public Platform(GraphicsContext gc, double x, double y, PlatformType type){
-		this(gc, x, y, type.getWidth(), type.getHeight(), type.getImage());
+	public Platform(double x, double y, PlatformType type){
+		this(x, y, type.getWidth(), type.getHeight(), type.getImage());
 		this.repeat = false;
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		if (this.repeat){
 			for (int i = 0; i < this.h/32; i++){
 				for (int j = 0; j < this.w/32; j++){
