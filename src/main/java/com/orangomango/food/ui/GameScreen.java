@@ -804,7 +804,7 @@ public class GameScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
 		if (this.specialEffect.fog && this.currentLevel != 1){
-			gc.drawImage(this.fogImage, 0, 0);
+			gc.drawImage(this.fogImage, 0, 0, 800, 400);
 		}
 
 		if (keys.getOrDefault(KeyCode.I, false)){
