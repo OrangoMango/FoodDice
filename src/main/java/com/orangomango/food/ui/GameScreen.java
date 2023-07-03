@@ -8,6 +8,7 @@ import javafx.util.Duration;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.*;
 import javafx.scene.text.Font;
+import javafx.scene.layout.Background;
 
 import java.util.*;
 import java.io.*;
@@ -530,7 +531,7 @@ public class GameScreen{
 			}
 		};
 		fTimer.start();
-		
+		layout.setBackground(Background.EMPTY);
 		layout.getChildren().add(canvas);
 		return layout;
 	}

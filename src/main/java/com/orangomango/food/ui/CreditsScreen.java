@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 
 import com.orangomango.food.MainApplication;
 
@@ -35,7 +36,7 @@ public class CreditsScreen{
 		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 30));
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText("Game written in Java\nFramework used: JavaFX\nCode and images made by OrangoMango\nSounds from freesound.org\nGMTK Game Jam 2022\nPost-Jam update v3.0\n...\nhttps://github.com/OrangoMango/FoodDice", 400, 50);
-		
+		layout.setBackground(Background.EMPTY);
 		return layout;
 	}
 }

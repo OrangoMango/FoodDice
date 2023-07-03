@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.media.*;
 import javafx.animation.Animation;
 import javafx.geometry.Point2D;
@@ -47,6 +48,7 @@ public class MainApplication extends Application{
 		MainApplication.stage = stage;
 		HomeScreen gs = new HomeScreen();
 		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT));
+		MainApplication.stage.getScene().setFill(Color.BLACK);
 		stage.setResizable(false);
 		stage.getIcons().add(loadImage("icon.png"));
 		stage.setTitle("Food Dice");

@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.Background;
 
 import com.orangomango.food.MainApplication;
 
@@ -36,6 +37,7 @@ public class WinScreen{
 		gc.fillText("Thanks for playing", 400, 200);
 		home.render(gc);
 		
+		layout.setBackground(Background.EMPTY);
 		return layout;
 	}
 }

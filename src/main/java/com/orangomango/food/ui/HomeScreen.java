@@ -3,6 +3,7 @@ package com.orangomango.food.ui;
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
 import javafx.scene.text.Font;
+import javafx.scene.layout.Background;
 import javafx.animation.*;
 import javafx.util.Duration;
 import javafx.scene.image.*;
@@ -58,6 +59,8 @@ public class HomeScreen{
 		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 		this.loop.setCycleCount(Animation.INDEFINITE);
 		this.loop.play();
+		
+		layout.setBackground(Background.EMPTY);
 		
 		return layout;
 	}
