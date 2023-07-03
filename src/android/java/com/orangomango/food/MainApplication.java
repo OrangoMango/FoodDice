@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.animation.Animation;
 import javafx.geometry.Point2D;
 
@@ -73,6 +74,7 @@ public class MainApplication extends Application{
 		MainApplication.stage = stage;
 		HomeScreen gs = new HomeScreen();
 		Scene mainScene = new Scene(gs.getLayout(), WIDTH, HEIGHT);
+		mainScene.setFill(Color.BLACK);
 		mainScene.setOnKeyPressed(e -> {
 			AudioManager manager = (AudioManager)FXActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
 			switch (e.getCode()){

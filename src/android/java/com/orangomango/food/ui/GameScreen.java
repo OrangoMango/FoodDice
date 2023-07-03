@@ -46,6 +46,7 @@ public class GameScreen{
 	private Map<Integer, Integer> spritesID = new HashMap<>();
 	private Image fogImage = MainApplication.loadImage("fog.png");
 	private Image levelImage;
+	private Map<Integer, KeyCode> touchID = new HashMap<>();
 	
 	private JoyStick joystick;
 	
@@ -506,6 +507,7 @@ public class GameScreen{
 			}
 			KeyCode k = this.joystick.clicked(e.getTouchPoint().getX()/MainApplication.SCALE, e.getTouchPoint().getY()/MainApplication.SCALE);
 			if (k != null){
+				this.touchID.put(e.getTouchPoint().getId(), k);
 				handlePress(k, canvas);
 			}
 		});
@@ -518,8 +520,12 @@ public class GameScreen{
 		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		canvas.setOnTouchReleased(e -> {
 			KeyCode k = this.joystick.clicked(e.getTouchPoint().getX(), e.getTouchPoint().getY());
-			if (k != null){
-				keys.put(k, false);
+			KeyCode tk = this.touchID.getOrDefault(e.getTouchPoint().getId(), null);
+			if (k != null || tk != null){
+				keys.put(k == null ? tk : k, false);
+				if (tk != null){
+					this.touchID.remove(e.getTouchPoint().getId());
+				}
 			}
 		});
 		

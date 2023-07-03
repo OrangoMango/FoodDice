@@ -46,6 +46,7 @@ public class MenuButton{
 		if (thisRect.contains(x, y)){
 			MainApplication.playSound(MainApplication.CLICK_SOUND, false);
 			this.onClick.run();
+			MainApplication.vibrator.vibrate(150);
 		}
 	}
 }

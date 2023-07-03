@@ -278,9 +278,9 @@ public class Editor{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Accordion accordion = new Accordion();
 		accordion.setMinWidth(MainApplication.WIDTH*0.3);
-		accordion.setMinHeight(MainApplication.HEIGHT*0.8);
+		accordion.setMinHeight(MainApplication.HEIGHT*1.1);
 		accordion.setMaxWidth(MainApplication.WIDTH*0.3);
-		accordion.setMaxHeight(MainApplication.HEIGHT*0.8);
+		accordion.setMaxHeight(MainApplication.HEIGHT*1.1);
 		
 		// Blocks
 		FlowPane blocksPane = new FlowPane();
