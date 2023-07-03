@@ -13,8 +13,8 @@ public class Laser extends GameObject implements Turnable{
 	private volatile boolean on = true;
 	private int timeOff = 1400;
 	
-	public Laser(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public Laser(double x, double y){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 		runThread(() -> {
 			if (!this.on) return;
@@ -53,7 +53,7 @@ public class Laser extends GameObject implements Turnable{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		if (this.shooting){
 			GameObject found = getNearestBottomObject(GameScreen.getInstance().getPlayer());

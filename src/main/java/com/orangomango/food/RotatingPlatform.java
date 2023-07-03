@@ -19,15 +19,15 @@ public class RotatingPlatform extends GameObject implements Turnable{
 	private int time = 50;
 	private volatile boolean on = true;
 	
-	public RotatingPlatform(GraphicsContext gc, int n, int length, double x, double y){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public RotatingPlatform(int n, int length, double x, double y){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 		this.n = n;
 		for (int i = 0; i < n; i++){
 			Point2D point = new Point2D(this.x+this.w/2, this.y+this.h/2-length);
 			point = MainApplication.rotatePoint(point, 360/n*i, this.x+this.w/2, this.y+this.h/2);
 			this.rotatingPoints.add(point);
-			Platform plat = new Platform(this.gc, point.getX()-Platform.PlatformType.SMALL.getWidth()/2, point.getY()-Platform.PlatformType.SMALL.getHeight()/2, Platform.PlatformType.SMALL);
+			Platform plat = new Platform(point.getX()-Platform.PlatformType.SMALL.getWidth()/2, point.getY()-Platform.PlatformType.SMALL.getHeight()/2, Platform.PlatformType.SMALL);
 			plat.disableRendering();
 			this.platforms.add(plat);
 		}
@@ -48,7 +48,7 @@ public class RotatingPlatform extends GameObject implements Turnable{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.setLineWidth(4);
 		for (int i = 0; i < this.n; i++){
 			Point2D rotated = MainApplication.rotatePoint(this.rotatingPoints.get(i), this.angle, this.x+this.w/2, this.y+this.w/2);
@@ -63,7 +63,7 @@ public class RotatingPlatform extends GameObject implements Turnable{
 				player.setX(player.getX()+(pf.getX()-tempX));
 				player.setY(player.getY()+(pf.getY()-tempY));
 			}
-			pf.render();
+			pf.render(gc);
 		}
 		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 	}

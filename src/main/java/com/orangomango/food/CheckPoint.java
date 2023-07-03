@@ -10,12 +10,12 @@ public class CheckPoint extends GameObject{
 	private static Image ON_IMAGE = MainApplication.loadImage("checkpoint_on.png");
 	private static Image OFF_IMAGE = MainApplication.loadImage("checkpoint_off.png");
 	
-	public CheckPoint(GraphicsContext gc, double x, double y){
-		super(gc, x, y, ON_IMAGE.getWidth(), ON_IMAGE.getHeight());
+	public CheckPoint(double x, double y){
+		super(x, y, ON_IMAGE.getWidth(), ON_IMAGE.getHeight());
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.setGlobalAlpha(0.7);
 		gc.drawImage(this.activated ? ON_IMAGE : OFF_IMAGE, this.x, this.y, this.w, this.h);
 		gc.setGlobalAlpha(1);

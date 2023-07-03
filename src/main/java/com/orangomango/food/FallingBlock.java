@@ -10,8 +10,8 @@ public class FallingBlock extends GameObject{
 	private boolean falling = false;
 	private int time = 1000;
 
-	public FallingBlock(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public FallingBlock(double x, double y){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 	}
 	
@@ -20,7 +20,7 @@ public class FallingBlock extends GameObject{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		if (GameScreen.getInstance().getPlayer().collided(this.x, this.y-4, this.w, 4)){
 			startFalling();

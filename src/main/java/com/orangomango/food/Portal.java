@@ -9,8 +9,8 @@ public class Portal extends GameObject{
 	private static Image IMAGE = MainApplication.loadImage("portal.png");
 	private double tpX, tpY;
 
-	public Portal(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public Portal(double x, double y){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 	}
 	
@@ -20,7 +20,7 @@ public class Portal extends GameObject{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		if (GameScreen.getInstance().getPlayer().collided(this.x, this.y-3, this.w, 3)){
 			GameScreen.getInstance().getPlayer().setX(this.tpX);
