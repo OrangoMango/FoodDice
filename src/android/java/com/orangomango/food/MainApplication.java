@@ -1,6 +1,7 @@
 package com.orangomango.food;
 
 import javafx.application.Application;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -24,9 +25,9 @@ import android.view.View;
 import com.orangomango.food.ui.HomeScreen;
 
 public class MainApplication extends Application{
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 400;
-	public static final double SCALE = 1;
+	public static final int HEIGHT = (int)Screen.getPrimary().getVisualBounds().getHeight();
+	public static final int WIDTH = (int)(HEIGHT*2);
+	public static final double SCALE = WIDTH/800.0;
 	public static final int FPS = 40;
 	public static Stage stage;
 	
