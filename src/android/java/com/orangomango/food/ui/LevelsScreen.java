@@ -7,6 +7,7 @@ import javafx.util.Duration;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.layout.Background;
 
 import java.util.*;
 import java.io.*;
@@ -171,6 +172,7 @@ public class LevelsScreen{
 		this.loop.setCycleCount(Animation.INDEFINITE);
 		this.loop.play();
 		
+		layout.setBackground(Background.EMPTY);
 		return layout;
 	}
 	
@@ -223,7 +225,7 @@ public class LevelsScreen{
 		
 		if (MAX_SCROLL != 0){
 			gc.fillRect(770, 0, 30, 400);
-			gc.setFill(Color.BLACK);
+			gc.setFill(Color.BLUE);
 			gc.fillRect(770, -this.scrollY, 30, 400-MAX_SCROLL);
 		}
 		

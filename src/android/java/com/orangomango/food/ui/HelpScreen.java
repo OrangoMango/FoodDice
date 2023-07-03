@@ -7,6 +7,7 @@ import javafx.animation.*;
 import javafx.util.Duration;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
 
 import com.orangomango.food.MainApplication;
 
@@ -55,6 +56,7 @@ public class HelpScreen{
 		this.loop.setCycleCount(Animation.INDEFINITE);
 		this.loop.play();
 
+		layout.setBackground(Background.EMPTY);
 		return layout;
 	}
 	
