@@ -645,6 +645,7 @@ public class Editor{
 			this.loop.stop();
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.stage.getScene().setFill(Color.BLACK);
 		});
 	}
 	

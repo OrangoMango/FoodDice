@@ -219,6 +219,7 @@ public class LevelsScreen{
 		
 		gc.setFill(Color.WHITE);
 		gc.fillText(this.selectedText, 35, 55);
+		gc.translate(0, -this.extraY);
 		
 		if (MAX_SCROLL != 0){
 			gc.fillRect(770, 0, 30, 400);
