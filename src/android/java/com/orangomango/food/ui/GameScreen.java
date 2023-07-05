@@ -5,6 +5,7 @@ import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.animation.*;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.*;
 import javafx.scene.text.Font;
@@ -47,7 +48,7 @@ public class GameScreen{
 	private Map<Integer, Integer> spritesID = new HashMap<>();
 	private Image fogImage = MainApplication.loadImage("fog.png");
 	private Image levelImage;
-	private Map<Integer, KeyCode> touchID = new HashMap<>();
+	private List<Pair<Integer, KeyCode>> touchID = new ArrayList<>();
 	
 	private JoyStick joystick;
 	
@@ -508,7 +509,7 @@ public class GameScreen{
 			}
 			KeyCode k = this.joystick.clicked(e.getTouchPoint().getX()/MainApplication.SCALE, e.getTouchPoint().getY()/MainApplication.SCALE);
 			if (k != null){
-				this.touchID.put(e.getTouchPoint().getId(), k);
+				this.touchID.add(new Pair(e.getTouchPoint().getId(), k));
 				handlePress(k, canvas);
 			}
 		});
@@ -521,11 +522,12 @@ public class GameScreen{
 		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		canvas.setOnTouchReleased(e -> {
 			KeyCode k = this.joystick.clicked(e.getTouchPoint().getX(), e.getTouchPoint().getY());
-			KeyCode tk = this.touchID.getOrDefault(e.getTouchPoint().getId(), null);
-			if (k != null || tk != null){
-				keys.put(k == null ? tk : k, false);
-				if (tk != null){
-					this.touchID.remove(e.getTouchPoint().getId());
+			Iterator<Pair<Integer, KeyCode>> iterator = this.touchID.iterator();
+			while (iterator.hasNext()){
+				Pair<Integer, KeyCode> pair = iterator.next();
+				if (pair.getKey() == e.getTouchPoint().getId()){
+					this.keys.put(pair.getValue(), false);
+					iterator.remove();
 				}
 			}
 		});
