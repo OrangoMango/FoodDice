@@ -1,7 +1,7 @@
 # FoodDice
 Game made for the GMTK Game jam 2022. Food Dice is a food platformer where you are a dice and every 15 seconds, based on which face you land on, you get special effects. You have to reach the end without getting into lasers or shooters.
 
-<a href="https://orangomango.itch.io/food-dice" /><img src="https://user-images.githubusercontent.com/61402409/179972759-30aadb11-c17a-485a-9e4f-6330f8dd8d2f.png" /></a>
+<a href="https://orangomango.itch.io/food-dice" /><img src="https://github.com/OrangoMango/FoodDice/assets/61402409/64497e06-673a-4a8f-9b1b-bf8b1b2ca288" /></a>
 
 Youtube: https://youtu.be/NKm-SZMfd1k
 
